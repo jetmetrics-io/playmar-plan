@@ -1,17 +1,17 @@
 {
  "version": 1,
  "updated": "2026-10-21",
- "title": "Playmar reels · wave 1",
+ "title": "Ролики Playmar · первая волна",
  "time": "15:00",
  "tz": "Europe/London",
- "summary": "Test videos go out on Tuesday and Thursday on all five channels. Extra videos go out on Monday and Friday everywhere except LinkedIn. Every post at 15:00 UK time.",
+ "summary": "До 2 ноября — разгон: готовые ролики на ракете. С 3 ноября — тест: по вторникам и четвергам ролики теста на всех пяти площадках, по понедельникам и пятницам добор везде, кроме LinkedIn. Каждый пост — в 15:00 по Лондону.",
  "platforms": [
   {
    "id": "li",
    "label": "LinkedIn",
    "name": "LinkedIn",
    "short": "LI",
-   "account": "Alex's personal profile",
+   "account": "личный профиль Алекса",
    "utm": "linkedin"
   },
   {
@@ -19,7 +19,7 @@
    "label": "Shorts",
    "name": "YouTube Shorts",
    "short": "YT",
-   "account": "Playmar channel",
+   "account": "канал Playmar",
    "utm": "youtube"
   },
   {
@@ -27,7 +27,7 @@
    "label": "Instagram",
    "name": "Instagram Reels",
    "short": "IG",
-   "account": "Professional account",
+   "account": "профессиональный аккаунт",
    "utm": "instagram"
   },
   {
@@ -35,7 +35,7 @@
    "label": "Facebook",
    "name": "Facebook Reels",
    "short": "FB",
-   "account": "Playmar Page",
+   "account": "страница Playmar",
    "utm": "facebook"
   },
   {
@@ -43,7 +43,7 @@
    "label": "TikTok",
    "name": "TikTok",
    "short": "TT",
-   "account": "Business account",
+   "account": "бизнес-аккаунт",
    "utm": "tiktok"
   }
  ],
@@ -63,150 +63,150 @@
   }
  },
  "games": {
-  "R": "Stick the Landing · rocket landing game (demo brand Boostback)",
-  "A": "Pack Light · packing game in the cart",
-  "C": "Memory Match · memory game in a site popup",
-  "D": "Christmas Countdown Calendar",
-  "E": "New Year's Catch & Collect",
-  "F": "Valentine's quiz · Which One Are You?"
+  "R": "Stick the Landing · посадка ракеты (демо-бренд Boostback)",
+  "A": "Pack Light · сборка посылки в корзине",
+  "C": "Memory Match · игра на память во всплывающем окне сайта",
+  "D": "Christmas Countdown Calendar · рождественский календарь",
+  "E": "Catch & Collect · новогодняя игра на ловкость",
+  "F": "Which One Are You? · квиз к 14 февраля"
  },
  "videos": {
   "R06": {
-   "title": "Pure game",
+   "title": "Чистая игра",
    "game": "R",
-   "type": "Pure game, no text on screen",
+   "type": "Чистая игра, без текста на экране",
    "file": "videos/R06.mp4?v=735fd2e3",
    "poster": "posters/R06.jpg?v=735fd2e3"
   },
   "R03": {
-   "title": "Taken apart",
+   "title": "Разбор на детали",
    "game": "R",
-   "type": "Extra template · Taken apart",
+   "type": "Вариант с плашками · В3",
    "file": "videos/R03.mp4?v=86360cf7",
    "poster": "posters/R03.jpg?v=86360cf7"
   },
   "R04": {
-   "title": "Campaign calendar",
+   "title": "Календарь кампаний",
    "game": "R",
-   "type": "Extra template · Campaign calendar",
+   "type": "Вариант с плашками · В4",
    "file": "videos/R04.mp4?v=01d904eb",
    "poster": "posters/R04.jpg?v=01d904eb"
   },
   "R05": {
-   "title": "Second order",
+   "title": "Второй заказ",
    "game": "R",
-   "type": "Extra template · Second order",
+   "type": "Вариант с плашками · В5",
    "file": "videos/R05.mp4?v=50212e79",
    "poster": "posters/R05.jpg?v=50212e79"
   },
   "R01": {
-   "title": "Inbox to cart",
+   "title": "Из письма в корзину",
    "game": "R",
-   "type": "Extra template · Inbox to cart",
+   "type": "Вариант с плашками · В1",
    "file": "videos/R01.mp4?v=3abcd4e8",
    "poster": "posters/R01.jpg?v=3abcd4e8"
   },
   "C-F4": {
-   "title": "Memory Match · Pain → game",
+   "title": "Memory Match · Боль → игра",
    "game": "C",
-   "type": "Test format F4 · Pain → game"
+   "type": "Ролик теста, формат Ф4 · Боль → игра"
   },
   "D-F1": {
-   "title": "Christmas calendar · Recipe for an occasion",
+   "title": "Рождественский календарь · Рецепт к поводу",
    "game": "D",
-   "type": "Test format F1 · Recipe for an occasion"
+   "type": "Ролик теста, формат Ф1 · Рецепт к поводу"
   },
   "A-F5": {
-   "title": "Pack Light · Customer journey",
+   "title": "Pack Light · Путь клиента",
    "game": "A",
-   "type": "Test format F5 · Customer journey"
+   "type": "Ролик теста, формат Ф5 · Путь клиента"
   },
   "D-F7": {
-   "title": "Christmas calendar · Made from the almanac",
+   "title": "Рождественский календарь · Сам альманах",
    "game": "D",
-   "type": "Test format F7 · Made from the almanac"
+   "type": "Ролик теста, формат Ф7 · Сам альманах"
   },
   "E-F7": {
-   "title": "Catch & Collect · Made from the almanac",
+   "title": "Catch & Collect · Сам альманах",
    "game": "E",
-   "type": "Test format F7 · Made from the almanac"
+   "type": "Ролик теста, формат Ф7 · Сам альманах"
   },
   "D-F5": {
-   "title": "Christmas calendar · Customer journey",
+   "title": "Рождественский календарь · Путь клиента",
    "game": "D",
-   "type": "Test format F5 · Customer journey"
+   "type": "Ролик теста, формат Ф5 · Путь клиента"
   },
   "E-F1": {
-   "title": "Catch & Collect · Recipe for an occasion",
+   "title": "Catch & Collect · Рецепт к поводу",
    "game": "E",
-   "type": "Test format F1 · Recipe for an occasion"
+   "type": "Ролик теста, формат Ф1 · Рецепт к поводу"
   },
   "A-F4": {
-   "title": "Pack Light · Pain → game",
+   "title": "Pack Light · Боль → игра",
    "game": "A",
-   "type": "Test format F4 · Pain → game"
+   "type": "Ролик теста, формат Ф4 · Боль → игра"
   },
   "C-F5": {
-   "title": "Memory Match · Customer journey",
+   "title": "Memory Match · Путь клиента",
    "game": "C",
-   "type": "Test format F5 · Customer journey"
+   "type": "Ролик теста, формат Ф5 · Путь клиента"
   },
   "F-F7": {
-   "title": "Valentine's quiz · Made from the almanac",
+   "title": "Квиз к 14 февраля · Сам альманах",
    "game": "F",
-   "type": "Test format F7 · Made from the almanac"
+   "type": "Ролик теста, формат Ф7 · Сам альманах"
   },
   "D-F4": {
-   "title": "Christmas calendar · Pain → game",
+   "title": "Рождественский календарь · Боль → игра",
    "game": "D",
-   "type": "Test format F4 · Pain → game"
+   "type": "Ролик теста, формат Ф4 · Боль → игра"
   },
   "F-F1": {
-   "title": "Valentine's quiz · Recipe for an occasion",
+   "title": "Квиз к 14 февраля · Рецепт к поводу",
    "game": "F",
-   "type": "Test format F1 · Recipe for an occasion"
+   "type": "Ролик теста, формат Ф1 · Рецепт к поводу"
   },
   "C-PURE": {
-   "title": "Memory Match · Pure game",
+   "title": "Memory Match · Чистая игра",
    "game": "C",
-   "type": "Pure game, no text on screen"
+   "type": "Чистая игра, без текста на экране"
   },
   "A-PURE": {
-   "title": "Pack Light · Pure game",
+   "title": "Pack Light · Чистая игра",
    "game": "A",
-   "type": "Pure game, no text on screen"
+   "type": "Чистая игра, без текста на экране"
   },
   "E-PURE": {
-   "title": "Catch & Collect · Pure game",
+   "title": "Catch & Collect · Чистая игра",
    "game": "E",
-   "type": "Pure game, no text on screen"
+   "type": "Чистая игра, без текста на экране"
   },
   "C-X1": {
-   "title": "Memory Match · Extra 1",
+   "title": "Memory Match · Запасной 1",
    "game": "C",
-   "type": "Extra template, picked when the video is built"
+   "type": "Запасной ролик, вариант выберем при сборке"
   },
   "C-X2": {
-   "title": "Memory Match · Extra 2",
+   "title": "Memory Match · Запасной 2",
    "game": "C",
-   "type": "Extra template, picked when the video is built"
+   "type": "Запасной ролик, вариант выберем при сборке"
   },
   "A-X1": {
-   "title": "Pack Light · Extra 1",
+   "title": "Pack Light · Запасной 1",
    "game": "A",
-   "type": "Extra template, picked when the video is built"
+   "type": "Запасной ролик, вариант выберем при сборке"
   },
   "E-X1": {
-   "title": "Catch & Collect · Extra 1",
+   "title": "Catch & Collect · Запасной 1",
    "game": "E",
-   "type": "Extra template, picked when the video is built"
+   "type": "Запасной ролик, вариант выберем при сборке"
   }
  },
  "pauses": [
   {
    "from": "2026-11-23",
    "to": "2026-11-30",
-   "text": "No posts 23–30 Nov: Thanksgiving (26 Nov), Black Friday (27 Nov), Cyber Monday (30 Nov)."
+   "text": "23–30 ноября не публикуем: День благодарения (26.11), Чёрная пятница (27.11), Киберпонедельник (30.11)."
   }
  ],
  "items": [
@@ -226,7 +226,7 @@
    "body": "",
    "tag": "#emailmarketing",
    "notes": [
-    "First post of the plan: check that Metricool posted to all four channels, that Facebook got its own post, and that TikTok is public with 'Your brand' on."
+    "Первый пост плана. Проверьте: Metricool выложил ролик на все четыре площадки, на Facebook — отдельным постом, в TikTok ролик открыт для всех и с пометкой «Your brand»."
    ]
   },
   {
@@ -249,7 +249,7 @@
     "text": "Most promo emails get a two-second glance. So here is one with a game inside, taken apart piece by piece.\n\nThe store in the video is a demo: a shop that sells refurbished phones and laptops. The game is simple. You land three rocket boosters on a barge.\n\nI don't care about the rockets. I care about what each part does for CRM.\n\n1. Entry. The player comes from a link in the email, one tap from the inbox.\n2. No \"you lost\". Every result gets a reward. Two boosters back still means a code.\n3. Tier codes. Bring more boosters back, get a bigger reward. That's a reason to fly again.\n4. Trade-in credit. Got an old phone? Send it back for $25 credit. That's a reason to come back, not just to buy once.\n5. One tap to the store, with the code ready.\n\nA banner says \"20% off\". A game asks for half a minute and gives a reason to click.\n\nIt doesn't fix everything. If people don't open your emails, they never see the game. And the reward still has to fit your margin.\n\nThis one was built from a free recipe: occasion, mechanic, goal, reward. You can build your own with AI.\n\nThe free almanac is in my Featured section.\n\nWhat would you put behind the Play button in your next promo email?"
    },
    "notes": [
-    "First video on LinkedIn. After posting, open the post on a phone and on a desktop. If the video is blurry, cropped or tiny, tell Dmitry: LinkedIn will get a 4:5 version."
+    "Первый ролик в LinkedIn. После публикации откройте пост на телефоне и на компьютере. Видео мыльное, обрезано или совсем мелкое — напишите Дмитрию: для LinkedIn сделаем версию 4:5."
    ]
   },
   {
@@ -328,9 +328,9 @@
     "status": "writing"
    },
    "notes": [
-    "Image post, not a video: the same idea as test video 1, as text plus one image (a game frame or a diagram).",
-    "No link, no product name, no call to buy. Visibility: Anyone.",
-    "Alex replies to comments for 1–2 hours after posting."
+    "Пост с картинкой, не видео: та же мысль, что в ролике теста 1, текстом и одной картинкой (кадр игры или схема).",
+    "Без ссылки, без названия продукта, без призыва купить. Видимость — Anyone (все).",
+    "Алекс отвечает на комментарии 1–2 часа после публикации."
    ]
   },
   {
@@ -400,9 +400,9 @@
     "status": "writing"
    },
    "notes": [
-    "Image post, not a video: the same idea as test video 2, as text plus one image (a game frame or a diagram).",
-    "No link, no product name, no call to buy. Visibility: Anyone.",
-    "Alex replies to comments for 1–2 hours after posting."
+    "Пост с картинкой, не видео: та же мысль, что в ролике теста 2, текстом и одной картинкой (кадр игры или схема).",
+    "Без ссылки, без названия продукта, без призыва купить. Видимость — Anyone (все).",
+    "Алекс отвечает на комментарии 1–2 часа после публикации."
    ]
   },
   {
@@ -494,7 +494,7 @@
    ],
    "tag": "#emailmarketing",
    "notes": [
-    "The caption comes with the video. It will follow one of the templates: Inbox to cart, Taken apart, Campaign calendar or Second order."
+    "Подпись появится вместе с роликом — по одному из шаблонов: «Из письма в корзину», «Разбор на детали», «Календарь кампаний» или «Второй заказ»."
    ]
   },
   {
@@ -606,7 +606,7 @@
    ],
    "tag": "#ecommerce",
    "notes": [
-    "The caption comes with the video. It will follow one of the templates: Inbox to cart, Taken apart, Campaign calendar or Second order."
+    "Подпись появится вместе с роликом — по одному из шаблонов: «Из письма в корзину», «Разбор на детали», «Календарь кампаний» или «Второй заказ»."
    ]
   },
   {
@@ -622,7 +622,7 @@
    ],
    "tag": "#emailmarketing",
    "notes": [
-    "The caption comes with the video. It will follow one of the templates: Inbox to cart, Taken apart, Campaign calendar or Second order."
+    "Подпись появится вместе с роликом — по одному из шаблонов: «Из письма в корзину», «Разбор на детали», «Календарь кампаний» или «Второй заказ»."
    ]
   },
   {
@@ -678,54 +678,54 @@
    ],
    "tag": "#emailmarketing",
    "notes": [
-    "The caption comes with the video. It will follow one of the templates: Inbox to cart, Taken apart, Campaign calendar or Second order."
+    "Подпись появится вместе с роликом — по одному из шаблонов: «Из письма в корзину», «Разбор на детали», «Календарь кампаний» или «Второй заказ»."
    ]
   }
  ],
  "rules": {
   "general": [
-   "Post at 15:00 UK time on the date shown.",
-   "Tuesday and Thursday: test videos on all five channels. Monday and Friday: extra videos everywhere except LinkedIn.",
-   "Upload each file once per platform. If a video does badly, never delete it and post it again: YouTube treats that as spam and Instagram cuts repeats.",
-   "The sound is already in the file. Don't add platform music, stickers or effects.",
-   "No posts from 23 to 30 November: Thanksgiving, Black Friday, Cyber Monday.",
-   "Video not ready on its date? Skip the slot and tell Dmitry. Don't post a different video instead.",
-   "Tick a platform as soon as the post is live, and paste the link to the post.",
-   "Link in bio on every platform: the free almanac with this platform's tag, for example ?utm_source=tiktok&utm_medium=social&utm_campaign=reels_wave1. The exact almanac link is still to be confirmed."
+   "Публикуйте в 15:00 по Лондону в указанный день.",
+   "До 2 ноября — разгон: готовые ролики на ракете. С 3 ноября: вторник и четверг — ролики теста на всех пяти площадках, понедельник и пятница — добор везде, кроме LinkedIn.",
+   "Каждый файл — один раз на площадку. Ролик не зашёл — не удаляйте его и не выкладывайте заново: YouTube считает это спамом, Instagram режет повторы.",
+   "Звук уже в файле. Не добавляйте музыку площадки, стикеры и эффекты.",
+   "С 23 по 30 ноября не публикуем: День благодарения, Чёрная пятница, Киберпонедельник.",
+   "Ролик не готов к своей дате — пропустите слот и напишите Дмитрию. Другой ролик вместо него не ставьте.",
+   "Пост вышел — сразу отметьте площадку и вставьте ссылку на пост. Галочки хранятся только в этом браузере.",
+   "Ссылка в профиле на каждой площадке — бесплатный альманах с меткой площадки, например ?utm_source=tiktok&utm_medium=social&utm_campaign=reels_wave1. Точный адрес альманаха ещё уточняем."
   ],
   "platforms": {
    "li": [
-    "Post the full text from the plan. It's long on purpose: on LinkedIn, long captions under videos get more reach than short ones.",
-    "The hook is the first line. No empty line at the top: only about 3 lines show above the video.",
-    "No link in the text: it cuts reach by 16–36%. The almanac link lives in the Featured section.",
-    "No hashtags. No tagging people for reach.",
-    "No giveaways or 'play and win' wording: LinkedIn bans contests.",
-    "Post through Metricool only if the video stays sharp (1080p). If it gets blurry, use LinkedIn's own scheduler on a desktop.",
-    "Only test videos and the two image posts go here. Extra videos don't."
+    "Публикуйте полный текст из плана. Он длинный нарочно: в LinkedIn длинные подписи под видео набирают больше охвата, чем короткие.",
+    "Крючок — первая строка. Пустой строки сверху нет: над видео видно всего около 3 строк.",
+    "Ссылки в тексте нет: она режет охват на 16–36%. Ссылка на альманах — в разделе Featured профиля.",
+    "Без хэштегов. Не отмечайте людей ради охвата.",
+    "Никаких розыгрышей и «сыграй и выиграй»: LinkedIn запрещает конкурсы.",
+    "Через Metricool — только если видео остаётся чётким (1080p). Если мылит — публикуйте через планировщик самого LinkedIn с компьютера.",
+    "Сюда идут R03 (22.10), ролики теста и два поста с картинкой. Остальные ролики — нет."
    ],
    "yt": [
-    "Title = the first line from the plan, up to 100 characters.",
-    "Description = the text, the call to action and 3 hashtags.",
-    "No unrelated hashtags (#fyp, #viral and similar): YouTube can remove the video for them.",
-    "No custom cover needed: the first frame is the cover."
+    "Название — первая строка из плана, до 100 знаков.",
+    "Описание — текст, призыв и 3 хэштега.",
+    "Без посторонних хэштегов (#fyp, #viral и похожих): YouTube может за них удалить ролик.",
+    "Обложку не ставьте: обложка — первый кадр."
    ],
    "ig": [
-    "Caption as given. About 125 characters show before 'more', so the first line carries the point.",
-    "4 hashtags. Instagram allows 5.",
-    "No 'comment a word to get…' calls.",
-    "Don't add music: the sound is in the file.",
-    "Autocopy to Facebook: OFF. Facebook gets its own post."
+    "Подпись — как в плане. До «ещё» видно около 125 знаков, поэтому суть — в первой строке.",
+    "4 хэштега. Instagram разрешает 5.",
+    "Без призывов «напишите слово в комментариях — пришлём…».",
+    "Музыку не добавляйте: звук уже в файле.",
+    "Автокопия на Facebook — выключена. На Facebook — отдельный пост."
    ],
    "fb": [
-    "Post to the Page through Metricool, not by copying from Instagram.",
-    "Same caption as Instagram.",
-    "No 'comment a word to get…' calls: Facebook treats them as engagement bait."
+    "Публикуйте на страницу через Metricool, а не копией из Instagram.",
+    "Подпись та же, что в Instagram.",
+    "Без призывов «напишите слово в комментариях…»: Facebook считает это накруткой вовлечения."
    ],
    "tt": [
-    "Caption = the first line, one sentence, the call to action and 4 hashtags.",
-    "Turn ON the 'Your brand' label (content disclosure) on every post. It has been required since 24 September 2026, and TikTok cuts reach without it. If Metricool can't set it, post from the TikTok app.",
-    "After posting, check that the video is public.",
-    "No 'follow to get…' calls."
+    "Подпись — первая строка, одно предложение, призыв и 4 хэштега.",
+    "На каждом посте включите пометку «Your brand» (раскрытие рекламы). Она обязательна с 24 сентября 2026 года, без неё TikTok режет охват. Если Metricool её не ставит — публикуйте из приложения TikTok.",
+    "После публикации проверьте, что ролик открыт для всех.",
+    "Без призывов «подпишись, чтобы получить…»."
    ]
   }
  }

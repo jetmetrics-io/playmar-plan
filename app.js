@@ -17,7 +17,7 @@ const S = { plan: null, status: {}, view: 'plan', filter: 'all', hideDone: false
 const Data = {
   async plan() {
     const r = await fetch('data/plan.json', { cache: 'no-store' });
-    if (!r.ok) throw new Error(`The plan did not load (${r.status}). Reload the page.`);
+    if (!r.ok) throw new Error(`План не загрузился (${r.status}). Обновите страницу.`);
     return r.json();
   },
   status() { try { return JSON.parse(get(TICKS_KEY) || '{}'); } catch (e) { return {}; } },
@@ -29,8 +29,9 @@ const Data = {
 const ymd = (tz, d = new Date()) => new Intl.DateTimeFormat('en-CA', { timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit' }).format(d);
 const ukToday = () => ymd(S.plan.tz);
 const noonUTC = (s) => new Date(s + 'T12:00:00Z');
-const fmtDate = (s) => new Intl.DateTimeFormat('en-GB', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' }).format(noonUTC(s));
-const fmtDay = (s) => new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', timeZone: 'UTC' }).format(noonUTC(s));
+const fmtDate = (s) => new Intl.DateTimeFormat('ru-RU', { weekday: 'short', day: 'numeric', month: 'long', timeZone: 'UTC' }).format(noonUTC(s));
+const fmtDay = (s) => new Intl.DateTimeFormat('ru-RU', { day: 'numeric', month: 'long', timeZone: 'UTC' }).format(noonUTC(s));
+const plural = (n, one, few, many) => { const a = n % 10, b = n % 100; return a === 1 && b !== 11 ? one : a >= 2 && a <= 4 && (b < 12 || b > 14) ? few : many; };
 function slotInstant(s) {
   const [y, m, d] = s.split('-').map(Number), [hh, mm] = S.plan.time.split(':').map(Number);
   const probe = new Date(Date.UTC(y, m - 1, d, 12, 0));
@@ -44,7 +45,7 @@ function localTime(s) {
   const t = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).format(at);
   const d = ymd(undefined, at);
   if (t === S.plan.time && d === s) return '';
-  return d === s ? `${t} your time` : `${t} ${fmtDate(d)} your time`;
+  return d === s ? `${t} у вас` : `${t} ${fmtDate(d)} у вас`;
 }
 function mondayOf(s) { const d = noonUTC(s); d.setUTCDate(d.getUTCDate() - (d.getUTCDay() + 6) % 7); return d.toISOString().slice(0, 10); }
 function addDays(s, n) { const d = noonUTC(s); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); }
@@ -63,9 +64,9 @@ function pState(it, pid) {
   return it.date < today ? 'late' : 'todo';
 }
 const finished = (it) => (S.filter === 'all' ? it.platforms.every((p) => isDone(it, p)) : isDone(it, S.filter));
-function itemTitle(it) { if (it.kind === 'li-image') return 'LinkedIn image post'; const v = videoOf(it); return v ? v.title : it.video; }
+function itemTitle(it) { if (it.kind === 'li-image') return 'Пост с картинкой в LinkedIn'; const v = videoOf(it); return v ? v.title : it.video; }
 function gameLine(it) {
-  if (it.kind === 'li-image') return 'Text and one image · no video';
+  if (it.kind === 'li-image') return 'Текст и одна картинка · без видео';
   const v = videoOf(it); return v ? `${S.plan.games[v.game] || ''} · ${v.type}` : '';
 }
 function tagsFor(it, pid) {
@@ -79,21 +80,21 @@ function fields(it, pid) {
   const C = S.plan.constants;
   if (pid === 'li') {
     const li = it.linkedin || {};
-    return li.status === 'ready' && li.text ? [{ label: 'Post text', text: li.text, limit: 3000, big: true }] : null;
+    return li.status === 'ready' && li.text ? [{ label: 'Текст поста', text: li.text, limit: 3000, big: true }] : null;
   }
   if (!it.hook) return null;
   const tags = tagsFor(it, pid).join(' ');
   if (pid === 'yt') {
     const title = it.shortsTitle || it.hook;
     return [
-      { label: 'Title', text: title, limit: 100 },
-      { label: 'Description', text: [it.shortsTitle ? it.hook : '', it.body, C.cta, tags].filter(Boolean).join('\n\n') }
+      { label: 'Название', text: title, limit: 100 },
+      { label: 'Описание', text: [it.shortsTitle ? it.hook : '', it.body, C.cta, tags].filter(Boolean).join('\n\n') }
     ];
   }
   const body = pid === 'tt' ? firstSentence(it.body) : it.body;
   return [
-    { label: 'Caption', text: [it.hook, body, C.cta, tags].filter(Boolean).join('\n\n'), first: pid === 'tt' ? 0 : 125 },
-    { label: 'Hashtags only', text: tags, small: true }
+    { label: 'Подпись', text: [it.hook, body, C.cta, tags].filter(Boolean).join('\n\n'), first: pid === 'tt' ? 0 : 125 },
+    { label: 'Только хэштеги', text: tags, small: true }
   ];
 }
 
@@ -101,24 +102,24 @@ function fields(it, pid) {
 const ICON = { done: 'check', today: 'clock', late: 'alert-triangle' };
 function pillHTML(it, p) {
   const st = pState(it, p.id);
-  if (st === 'off') return `<span class="pill off" title="${esc(p.name)}: not on this day">${esc(p.short)}<span>—</span></span>`;
+  if (st === 'off') return `<span class="pill off" title="${esc(p.name)}: в этот день не выходит">${esc(p.short)}<span>—</span></span>`;
   const dim = S.filter !== 'all' && S.filter !== p.id ? ' dim' : '';
-  const word = { done: 'posted', today: 'today', late: 'overdue', todo: 'to do' }[st];
+  const word = { done: 'выложено', today: 'сегодня', late: 'просрочено', todo: 'впереди' }[st];
   return `<button class="pill ${st}${dim}" data-id="${esc(it.id)}" data-p="${p.id}" title="${esc(p.name)}: ${word}">${esc(p.short)}${ICON[st] ? `<i data-lucide="${ICON[st]}"></i>` : '<span style="height:14px"></span>'}</button>`;
 }
 function cardHTML(it) {
   const v = videoOf(it), loc = localTime(it.date);
   const states = it.platforms.map((p) => pState(it, p));
   const cls = finished(it) ? ' done' : states.includes('late') ? ' is-late' : states.includes('today') ? ' is-today' : '';
-  const kind = { zero: ['zero', 'Zero week'], test: ['test', `Test ${it.test}`], extra: ['extra', 'Extra'], 'li-image': ['img', 'Image post'] }[it.kind];
+  const kind = { zero: ['zero', 'Разгон'], test: ['test', `Тест ${it.test}`], extra: ['extra', 'Добор'], 'li-image': ['img', 'Пост с картинкой'] }[it.kind];
   const badges = [`<span class="badge ${kind[0]}">${kind[1]}</span>`];
-  if (it.video) badges.push(v && v.file ? '<span class="badge ready">Video ready</span>' : '<span class="badge notready">Video in production</span>');
+  if (it.video) badges.push(v && v.file ? '<span class="badge ready">Видео готово</span>' : '<span class="badge notready">Видео делаем</span>');
   if (it.video) badges.push(`<span class="badge">${esc(it.video)}</span>`);
-  if (it.platforms.includes('li') && (it.linkedin || {}).status !== 'ready') badges.push('<span class="badge notready">LinkedIn text in progress</span>');
-  const hook = it.kind === 'li-image' ? '<p class="hook none">Text in progress</p>'
-    : it.hook ? `<p class="hook">“${esc(it.shortsTitle && S.filter === 'yt' ? it.shortsTitle : it.hook)}”</p>` : '<p class="hook none">Caption comes with the video</p>';
+  if (it.platforms.includes('li') && (it.linkedin || {}).status !== 'ready') badges.push('<span class="badge notready">Текст LinkedIn пишем</span>');
+  const hook = it.kind === 'li-image' ? '<p class="hook none">Текст пишем</p>'
+    : it.hook ? `<p class="hook">“${esc(it.shortsTitle && S.filter === 'yt' ? it.shortsTitle : it.hook)}”</p>` : '<p class="hook none">Подпись появится вместе с роликом</p>';
   return `<article class="card${cls}" data-id="${esc(it.id)}" tabindex="0">
-    <div class="when"><b>${fmtDate(it.date)}</b><span class="t">${esc(S.plan.time)} UK</span>${loc ? `<span class="loc">${esc(loc)}</span>` : ''}</div>
+    <div class="when"><b>${fmtDate(it.date)}</b><span class="t">${esc(S.plan.time)} Лондон</span>${loc ? `<span class="loc">${esc(loc)}</span>` : ''}</div>
     <div class="what"><div class="badges">${badges.join('')}</div><p class="title">${esc(itemTitle(it))}</p><p class="game">${esc(gameLine(it))}</p>${hook}</div>
     <div class="pills">${S.plan.platforms.map((p) => pillHTML(it, p)).join('')}</div>
   </article>`;
@@ -130,21 +131,21 @@ function nextHTML() {
   if (late.length) {
     const [it, p] = late[0];
     const list = late.slice(0, 4).map(([i, q]) => `${fmtDate(i.date)} ${lab(q)}`).join(' · ');
-    return `<div class="next bad" data-id="${esc(it.id)}" data-p="${p}"><span class="lbl">Overdue · ${late.length}</span><span class="what">${esc(list)}${late.length > 4 ? ' …' : ''}</span><span class="muted">Posted already? Tick it. Not posted? Tell Dmitry.</span></div>`;
+    return `<div class="next bad" data-id="${esc(it.id)}" data-p="${p}"><span class="lbl">Просрочено · ${late.length}</span><span class="what">${esc(list)}${late.length > 4 ? ' …' : ''}</span><span class="muted">Уже выложили — отметьте. Не выложили — напишите Дмитрию.</span></div>`;
   }
   const up = S.plan.items.find((it) => pids(it).some((p) => !isDone(it, p)));
-  if (!up) return '<div class="next"><span class="lbl">All done</span><span class="what">Every post in the plan is ticked.</span></div>';
+  if (!up) return '<div class="next"><span class="lbl">Всё выложено</span><span class="what">Все посты плана отмечены.</span></div>';
   const todo = pids(up).filter((p) => !isDone(up, p));
   const loc = localTime(up.date);
-  return `<div class="next" data-id="${esc(up.id)}" data-p="${todo[0]}"><span class="lbl">${up.date === ukToday() ? 'Today' : 'Next'}</span>
-    <span class="what">${fmtDate(up.date)}, ${esc(S.plan.time)} UK${loc ? ` (${esc(loc)})` : ''} · ${esc(itemTitle(up))}</span>
+  return `<div class="next" data-id="${esc(up.id)}" data-p="${todo[0]}"><span class="lbl">${up.date === ukToday() ? 'Сегодня' : 'Дальше'}</span>
+    <span class="what">${fmtDate(up.date)}, ${esc(S.plan.time)} по Лондону${loc ? ` (${esc(loc)})` : ''} · ${esc(itemTitle(up))}</span>
     <span class="muted">${todo.map((p) => esc(lab(p))).join(', ')}</span></div>`;
 }
 function renderPlan() {
   const P = S.plan;
   let total = 0, done = 0; const per = {};
   for (const it of P.items) for (const p of it.platforms) { total++; per[p] = per[p] || [0, 0]; per[p][1]++; if (isDone(it, p)) { done++; per[p][0]++; } }
-  const chips = [`<button class="chip${S.filter === 'all' ? ' on' : ''}" data-f="all">All <span class="n">${done}/${total}</span></button>`]
+  const chips = [`<button class="chip${S.filter === 'all' ? ' on' : ''}" data-f="all">Все <span class="n">${done}/${total}</span></button>`]
     .concat(P.platforms.map((p) => `<button class="chip${S.filter === p.id ? ' on' : ''}" data-f="${p.id}">${esc(lab(p.id))} <span class="n">${(per[p.id] || [0, 0]).join('/')}</span></button>`));
   const items = P.items.filter((it) => (S.filter === 'all' || it.platforms.includes(S.filter)) && !(S.hideDone && finished(it)));
   const out = [];
@@ -154,40 +155,40 @@ function renderPlan() {
     const w = mondayOf(it.date);
     if (w !== week) {
       week = w;
-      const zero = P.items.some((x) => x.kind === 'zero' && mondayOf(x.date) === w);
-      const name = zero ? 'Zero week' : `Week of ${fmtDay(w)}`;
+      const inWeek = P.items.filter((x) => mondayOf(x.date) === w);
+      const name = inWeek.every((x) => x.kind === 'zero') ? 'Разгон' : `Неделя с ${fmtDay(w)}`;
       const n = P.items.filter((x) => mondayOf(x.date) === w).reduce((a, x) => a + (S.filter === 'all' ? x.platforms.length : +x.platforms.includes(S.filter)), 0);
-      out.push(`<div class="week"><h2>${esc(name)}</h2><span>${fmtDay(w)} – ${fmtDay(addDays(w, 6))} · ${n} post${n === 1 ? '' : 's'}</span></div>`);
+      out.push(`<div class="week"><h2>${esc(name)}</h2><span>${fmtDay(w)} – ${fmtDay(addDays(w, 6))} · ${n} ${plural(n, 'пост', 'поста', 'постов')}</span></div>`);
     }
     out.push(cardHTML(it)); prev = it;
   }
   $('#main').innerHTML = `<section class="summary">
-      <p class="intro">${esc(P.summary)} Open a day to get the video, the caption and the hashtags for each platform. Tick a platform when the post is live: ticks are saved in this browser only, so use the same one each time.</p>
-      <div class="progress"><b>${done} of ${total}</b><span class="muted">posts done</span><div class="bar"><span style="width:${total ? (100 * done / total).toFixed(1) : 0}%"></span></div></div>
-      <div class="filters">${chips.join('')}<label class="toggle"><input type="checkbox" id="hideDone"${S.hideDone ? ' checked' : ''}> Hide finished</label></div>
+      <p class="intro">${esc(P.summary)} Откройте день — там видео, подпись и хэштеги для каждой площадки. Пост вышел — отметьте площадку. Галочки хранятся только в этом браузере, поэтому открывайте план всегда в одном и том же.</p>
+      <div class="progress"><b>${done} из ${total}</b><span class="muted">выложено</span><div class="bar"><span style="width:${total ? (100 * done / total).toFixed(1) : 0}%"></span></div></div>
+      <div class="filters">${chips.join('')}<label class="toggle"><input type="checkbox" id="hideDone"${S.hideDone ? ' checked' : ''}> Скрыть выложенное</label></div>
       ${nextHTML()}
-    </section>${out.join('') || '<p class="empty">Nothing here with these filters.</p>'}`;
+    </section>${out.join('') || '<p class="empty">С такими фильтрами ничего нет.</p>'}`;
 }
 
 /* ---------- render: rules ---------- */
 function renderRules() {
   const R = S.plan.rules, C = S.plan.constants;
   const legend = `<div class="legend">
-      <span class="pill">TT<span style="height:14px"></span></span> to do
-      <span class="pill today">TT<i data-lucide="clock"></i></span> today
-      <span class="pill late">TT<i data-lucide="alert-triangle"></i></span> overdue
-      <span class="pill done">TT<i data-lucide="check"></i></span> posted
-      <span class="pill off">TT<span>—</span></span> not on this day</div>`;
+      <span class="pill">TT<span style="height:14px"></span></span> впереди
+      <span class="pill today">TT<i data-lucide="clock"></i></span> сегодня
+      <span class="pill late">TT<i data-lucide="alert-triangle"></i></span> просрочено
+      <span class="pill done">TT<i data-lucide="check"></i></span> выложено
+      <span class="pill off">TT<span>—</span></span> в этот день не выходит</div>`;
   const cards = S.plan.platforms.map((p) => {
     const n = C.tagCount[p.id] || 0;
-    return `<section class="rcard"><h3>${esc(p.name)}</h3><p class="acc">${esc(p.account)} · link tag utm_source=${esc(p.utm)}</p>
+    return `<section class="rcard"><h3>${esc(p.name)}</h3><p class="acc">${esc(p.account)} · метка ссылки utm_source=${esc(p.utm)}</p>
       <ul class="rules">${(R.platforms[p.id] || []).map((x) => `<li>${esc(x)}</li>`).join('')}</ul>
-      <p class="muted" style="margin:4px 0 0;font-size:13px">Hashtags: ${n ? `${n} · ${esc(C.baseTags.join(' '))} + one per video` : 'none'}</p></section>`;
+      <p class="muted" style="margin:4px 0 0;font-size:13px">Хэштеги: ${n ? `${n} · ${esc(C.baseTags.join(' '))} + один под ролик` : 'без хэштегов'}</p></section>`;
   }).join('');
   $('#main').innerHTML = `<div class="rules-grid">
-      <section class="rcard wide"><h3>How this plan works</h3><p style="margin:0">${esc(S.plan.summary)}</p>
+      <section class="rcard wide"><h3>Как устроен план</h3><p style="margin:0">${esc(S.plan.summary)}</p>
         <ul class="rules">${R.general.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>${legend}
-        <p class="muted" style="margin:0;font-size:13px">Call to action in every caption except LinkedIn: “${esc(C.cta)}”</p></section>
+        <p class="muted" style="margin:0;font-size:13px">Призыв в каждой подписи, кроме LinkedIn: «${esc(C.cta)}»</p></section>
       ${cards}</div>`;
 }
 
@@ -215,42 +216,42 @@ function renderSheet() {
   const parts = [];
   if (it.video) {
     parts.push(v && v.file
-      ? `<div class="blk"><h4>Video</h4><div class="video"><div class="poster" id="poster"><i data-lucide="film"></i></div>
-          <div class="vid-actions"><a class="btn primary" id="dl" href="${esc(Data.url(v.file))}" download="Playmar_${esc(it.date)}_${esc(it.video)}.mp4"><i data-lucide="download"></i>Download video</a>
-          <button class="btn small" id="pv"><i data-lucide="play"></i>Preview</button>
-          <span class="muted" style="font-size:13px">${esc(it.video)} · MP4 9:16 · sound inside</span></div></div></div>`
-      : `<div class="blk"><h4>Video</h4><div class="note warn">This video is still in production. It will appear here when it's ready. Not here on the day? Skip the slot and tell Dmitry.</div></div>`);
-  } else parts.push('<div class="blk"><h4>Image</h4><div class="note warn">The image comes with the text.</div></div>');
+      ? `<div class="blk"><h4>Видео</h4><div class="video"><div class="poster" id="poster"><i data-lucide="film"></i></div>
+          <div class="vid-actions"><a class="btn primary" id="dl" href="${esc(Data.url(v.file))}" download="Playmar_${esc(it.date)}_${esc(it.video)}.mp4"><i data-lucide="download"></i>Скачать видео</a>
+          <button class="btn small" id="pv"><i data-lucide="play"></i>Посмотреть</button>
+          <span class="muted" style="font-size:13px">${esc(it.video)} · MP4 9:16 · звук в файле</span></div></div></div>`
+      : `<div class="blk"><h4>Видео</h4><div class="note warn">Ролик ещё делаем. Он появится здесь, когда будет готов. Нет его в свой день — пропустите слот и напишите Дмитрию.</div></div>`);
+  } else parts.push('<div class="blk"><h4>Картинка</h4><div class="note warn">Картинка придёт вместе с текстом.</div></div>');
   const F = fields(it, pid);
   if (F) {
     F.forEach((f, i) => {
       const len = [...f.text].length;
       let cnt = '';
       if (f.limit) cnt = `<span class="cnt${len > f.limit ? ' over' : ''}">${len} / ${f.limit}</span>`;
-      else if (f.first) { const fl = [...f.text.split('\n')[0]].length; cnt = `<span class="cnt${fl > f.first ? ' over' : ''}">first line ${fl} / ${f.first} visible</span>`; }
+      else if (f.first) { const fl = [...f.text.split('\n')[0]].length; cnt = `<span class="cnt${fl > f.first ? ' over' : ''}">первая строка: ${fl} из ${f.first} видимых знаков</span>`; }
       parts.push(`<div class="blk"><h4>${esc(f.label)}${cnt}</h4><div class="field${f.big ? ' big' : ''}">${esc(f.text)}</div>
-        <div class="field-row"><button class="btn small" data-copy="${i}"><i data-lucide="copy"></i>Copy ${esc(f.label.toLowerCase())}</button></div></div>`);
+        <div class="field-row"><button class="btn small" data-copy="${i}"><i data-lucide="copy"></i>Скопировать ${esc(f.label.toLowerCase())}</button></div></div>`);
     });
   } else {
-    const why = pid === 'li' ? 'The LinkedIn text is being written. It will appear here.' : 'The caption comes with the video. It will appear here.';
-    parts.push(`<div class="blk"><h4>${pid === 'li' ? 'Post text' : 'Caption'}</h4><div class="note warn">${why}</div></div>`);
+    const why = pid === 'li' ? 'Текст для LinkedIn пишем. Он появится здесь.' : 'Подпись появится здесь вместе с роликом.';
+    parts.push(`<div class="blk"><h4>${pid === 'li' ? 'Текст поста' : 'Подпись'}</h4><div class="note warn">${why}</div></div>`);
   }
-  if (it.notes && it.notes.length) parts.push(`<div class="blk"><h4>For this day</h4>${it.notes.map((n) => `<div class="note">${esc(n)}</div>`).join('')}</div>`);
-  parts.push(`<div class="blk"><h4>Before you post on ${esc(p.name)}</h4><ul class="rules">${(S.plan.rules.platforms[pid] || []).map((x) => `<li>${esc(x)}</li>`).join('')}</ul></div>`);
+  if (it.notes && it.notes.length) parts.push(`<div class="blk"><h4>На этот день</h4>${it.notes.map((n) => `<div class="note">${esc(n)}</div>`).join('')}</div>`);
+  parts.push(`<div class="blk"><h4>Перед публикацией в ${esc(p.name)}</h4><ul class="rules">${(S.plan.rules.platforms[pid] || []).map((x) => `<li>${esc(x)}</li>`).join('')}</ul></div>`);
   if (st && st.done) {
-    const when = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).format(new Date(st.at));
-    parts.push(`<div class="status done"><div class="who"><b>Posted on ${esc(p.name)}</b> · ticked ${esc(when)}</div>
-      ${st.url ? `<a href="${esc(st.url)}" target="_blank" rel="noopener">${esc(st.url)}</a>` : '<span class="muted">No link saved.</span>'}
-      <div><button class="btn small" id="untick">Mark as not posted</button></div></div>`);
+    const when = new Intl.DateTimeFormat('ru-RU', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).format(new Date(st.at));
+    parts.push(`<div class="status done"><div class="who"><b>Выложено в ${esc(p.name)}</b> · отмечено ${esc(when)}</div>
+      ${st.url ? `<a href="${esc(st.url)}" target="_blank" rel="noopener">${esc(st.url)}</a>` : '<span class="muted">Ссылку не сохранили.</span>'}
+      <div><button class="btn small" id="untick">Снять отметку</button></div></div>`);
   } else {
-    parts.push(`<div class="status"><label class="who" for="postUrl"><b>Live on ${esc(p.name)}?</b> Paste the link to the post (optional) and tick it.</label>
+    parts.push(`<div class="status"><label class="who" for="postUrl"><b>Пост в ${esc(p.name)} вышел?</b> Вставьте ссылку на пост (можно без неё) и отметьте.</label>
       <input id="postUrl" type="url" placeholder="https://…" autocomplete="off">
-      <div><button class="btn primary" id="tick"><i data-lucide="check"></i>Mark as posted on ${esc(p.name)}</button></div>
-      <p class="muted keep">Ticks are saved in this browser only.</p></div>`);
+      <div><button class="btn primary" id="tick"><i data-lucide="check"></i>Выложено в ${esc(p.name)}</button></div>
+      <p class="muted keep">Галочки хранятся только в этом браузере.</p></div>`);
   }
-  $('#sheet').innerHTML = `<div class="sh-head"><div class="sh-row"><div><span class="muted">${fmtDate(it.date)}, ${esc(S.plan.time)} UK${loc ? ` · ${esc(loc)}` : ''}</span>
+  $('#sheet').innerHTML = `<div class="sh-head"><div class="sh-row"><div><span class="muted">${fmtDate(it.date)}, ${esc(S.plan.time)} по Лондону${loc ? ` · ${esc(loc)}` : ''}</span>
       <h3 id="sheetTitle">${esc(itemTitle(it))}</h3><span class="muted">${esc(gameLine(it))}</span></div>
-      <button class="icon-btn" data-close title="Close"><i data-lucide="x"></i></button></div><div class="ptabs">${tabs}</div></div>
+      <button class="icon-btn" data-close title="Закрыть"><i data-lucide="x"></i></button></div><div class="ptabs">${tabs}</div></div>
     <div class="sh-body">${parts.join('')}</div>`;
   window.lucide && lucide.createIcons();
   if (v && v.poster) { const el = $('#poster'); el.style.backgroundImage = `url("${Data.url(v.poster)}")`; el.innerHTML = ''; }
@@ -259,14 +260,14 @@ function renderSheet() {
 
 function mark(done) {
   const { id, pid } = S.sheet, p = plat(pid);
-  if (!done && !confirm(`Mark as not posted on ${p.name}?`)) return;
+  if (!done && !confirm(`Снять отметку для ${p.name}?`)) return;
   const url = done ? ($('#postUrl')?.value || '').trim() : '';
   S.status = Data.save((st) => {
     if (done) (st[id] = st[id] || {})[pid] = { done: true, at: new Date().toISOString(), ...(url ? { url } : {}) };
     else if (st[id]) { delete st[id][pid]; if (!Object.keys(st[id]).length) delete st[id]; }
   });
-  if (!S.kept) toast('This browser does not keep ticks (private window?). They will be gone when you close the tab.', true);
-  else toast(done ? `Ticked: ${p.name}` : `Unticked: ${p.name}`);
+  if (!S.kept) toast('Этот браузер не хранит галочки (приватное окно?). Они пропадут, когда закроете вкладку.', true);
+  else toast(done ? `Отмечено: ${p.name}` : `Отметка снята: ${p.name}`);
   render(); if (S.sheet) renderSheet();
 }
 
@@ -277,7 +278,7 @@ function preview() {
 async function copyText(t) {
   try { await navigator.clipboard.writeText(t); }
   catch (e) { const ta = document.createElement('textarea'); ta.value = t; document.body.append(ta); ta.select(); document.execCommand('copy'); ta.remove(); }
-  toast('Copied');
+  toast('Скопировано');
 }
 
 /* ---------- misc ---------- */
@@ -315,4 +316,4 @@ document.addEventListener('keydown', (e) => {
 window.addEventListener('storage', (e) => { if (e.key === TICKS_KEY && S.plan) { S.status = Data.status(); render(); if (S.sheet) renderSheet(); } });
 
 loadPrefs();
-start().catch((e) => { $('#main').innerHTML = `<p class="empty">${esc(e.message || 'The plan did not load. Reload the page.')}</p>`; });
+start().catch((e) => { $('#main').innerHTML = `<p class="empty">${esc(e.message || 'План не загрузился. Обновите страницу.')}</p>`; });
