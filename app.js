@@ -121,7 +121,7 @@ function neighbourGames(it) {
 }
 function slotHTML(it) {
   const loc = localTime(it.date), near = neighbourGames(it);
-  const nearText = near.length ? `Любая игра, кроме ${near.join(' и ')}: ${near.length > 1 ? 'они выходят' : 'она выходит'} соседним роликом.` : 'Подойдёт любая игра: соседние дни тоже пока пустые.';
+  const nearText = near.length ? `Любая игра, кроме ${near.join(' и ')}: ${near.length > 1 ? 'они выходят соседними роликами' : 'она выходит соседним роликом'}.` : 'Подойдёт любая игра: соседние дни тоже пока пустые.';
   return `<article class="card slot" data-id="${esc(it.id)}">
     <div class="when"><b>${fmtDate(it.date)}</b><span class="t">${esc(S.plan.time)} Лондон</span>${loc ? `<span class="loc">${esc(loc)}</span>` : ''}</div>
     <div class="what"><div class="badges"><span class="badge slot">Пустой слот</span></div><p class="title">Нужен ролик</p><p class="game">${esc(nearText)}</p>
