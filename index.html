@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Playmar Reels Plan</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%236144C1'/%3E%3Cpath d='M12 9l11 7-11 7z' fill='white'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+<div id="login" class="login" hidden>
+  <form id="loginForm" class="login-card" autocomplete="on">
+    <div class="brand"><span class="logo"></span>Playmar <em>reels plan</em></div>
+    <p class="muted">What goes out where and when: videos, captions, hashtags. Tick each post when it's live.</p>
+    <label>Password
+      <input id="pw" type="password" autocomplete="current-password" required>
+    </label>
+    <label>Your name <span class="muted">· shown next to your ticks</span>
+      <input id="nm" type="text" autocomplete="name" required maxlength="40">
+    </label>
+    <label class="check"><input id="remember" type="checkbox" checked> Remember me on this device</label>
+    <button class="btn primary" type="submit">Open the plan</button>
+    <p id="loginErr" class="err" hidden></p>
+  </form>
+</div>
+
+<div id="app" hidden>
+  <header class="top">
+    <div class="brand"><span class="logo"></span>Playmar <em>reels plan</em></div>
+    <nav class="tabs" role="tablist">
+      <button class="tab" data-view="plan" role="tab">Plan</button>
+      <button class="tab" data-view="rules" role="tab">How to post</button>
+    </nav>
+    <div class="me">
+      <button class="icon-btn" id="refresh" title="Reload"><i data-lucide="refresh-cw"></i></button>
+      <span id="meName" class="muted"></span>
+      <button class="link-btn" id="logout">Sign out</button>
+    </div>
+  </header>
+  <main id="main"></main>
+</div>
+
+<div id="sheetWrap" class="sheet-wrap" hidden>
+  <div class="sheet-back" data-close></div>
+  <aside class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+    <div id="sheet"></div>
+  </aside>
+</div>
+
+<div id="toast" class="toast" hidden></div>
+
+<script src="lucide.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
