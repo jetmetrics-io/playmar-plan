@@ -1,0 +1,732 @@
+{
+ "version": 1,
+ "updated": "2026-10-21",
+ "title": "Playmar reels · wave 1",
+ "time": "15:00",
+ "tz": "Europe/London",
+ "summary": "Test videos go out on Tuesday and Thursday on all five channels. Extra videos go out on Monday and Friday everywhere except LinkedIn. Every post at 15:00 UK time.",
+ "platforms": [
+  {
+   "id": "li",
+   "label": "LinkedIn",
+   "name": "LinkedIn",
+   "short": "LI",
+   "account": "Alex's personal profile",
+   "utm": "linkedin"
+  },
+  {
+   "id": "yt",
+   "label": "Shorts",
+   "name": "YouTube Shorts",
+   "short": "YT",
+   "account": "Playmar channel",
+   "utm": "youtube"
+  },
+  {
+   "id": "ig",
+   "label": "Instagram",
+   "name": "Instagram Reels",
+   "short": "IG",
+   "account": "Professional account",
+   "utm": "instagram"
+  },
+  {
+   "id": "fb",
+   "label": "Facebook",
+   "name": "Facebook Reels",
+   "short": "FB",
+   "account": "Playmar Page",
+   "utm": "facebook"
+  },
+  {
+   "id": "tt",
+   "label": "TikTok",
+   "name": "TikTok",
+   "short": "TT",
+   "account": "Business account",
+   "utm": "tiktok"
+  }
+ ],
+ "constants": {
+  "cta": "Build yours with AI, free: link in bio.",
+  "baseTags": [
+   "#gamification",
+   "#retentionmarketing",
+   "#crm"
+  ],
+  "tagCount": {
+   "li": 0,
+   "yt": 3,
+   "ig": 4,
+   "fb": 4,
+   "tt": 4
+  }
+ },
+ "games": {
+  "R": "Stick the Landing · rocket landing game (demo brand Boostback)",
+  "A": "Pack Light · packing game in the cart",
+  "C": "Memory Match · memory game in a site popup",
+  "D": "Christmas Countdown Calendar",
+  "E": "New Year's Catch & Collect",
+  "F": "Valentine's quiz · Which One Are You?"
+ },
+ "videos": {
+  "R06": {
+   "title": "Pure game",
+   "game": "R",
+   "type": "Pure game, no text on screen",
+   "file": "videos/R06.mp4?v=cd6f6799",
+   "poster": "posters/R06.jpg?v=cd6f6799"
+  },
+  "R03": {
+   "title": "Taken apart",
+   "game": "R",
+   "type": "Extra template · Taken apart",
+   "file": "videos/R03.mp4?v=9130309a",
+   "poster": "posters/R03.jpg?v=9130309a"
+  },
+  "R04": {
+   "title": "Campaign calendar",
+   "game": "R",
+   "type": "Extra template · Campaign calendar",
+   "file": "videos/R04.mp4?v=89b3e99d",
+   "poster": "posters/R04.jpg?v=89b3e99d"
+  },
+  "R05": {
+   "title": "Second order",
+   "game": "R",
+   "type": "Extra template · Second order",
+   "file": "videos/R05.mp4?v=1b375ede",
+   "poster": "posters/R05.jpg?v=1b375ede"
+  },
+  "R01": {
+   "title": "Inbox to cart",
+   "game": "R",
+   "type": "Extra template · Inbox to cart",
+   "file": "videos/R01.mp4?v=2d23980e",
+   "poster": "posters/R01.jpg?v=2d23980e"
+  },
+  "C-F4": {
+   "title": "Memory Match · Pain → game",
+   "game": "C",
+   "type": "Test format F4 · Pain → game"
+  },
+  "D-F1": {
+   "title": "Christmas calendar · Recipe for an occasion",
+   "game": "D",
+   "type": "Test format F1 · Recipe for an occasion"
+  },
+  "A-F5": {
+   "title": "Pack Light · Customer journey",
+   "game": "A",
+   "type": "Test format F5 · Customer journey"
+  },
+  "D-F7": {
+   "title": "Christmas calendar · Made from the almanac",
+   "game": "D",
+   "type": "Test format F7 · Made from the almanac"
+  },
+  "E-F7": {
+   "title": "Catch & Collect · Made from the almanac",
+   "game": "E",
+   "type": "Test format F7 · Made from the almanac"
+  },
+  "D-F5": {
+   "title": "Christmas calendar · Customer journey",
+   "game": "D",
+   "type": "Test format F5 · Customer journey"
+  },
+  "E-F1": {
+   "title": "Catch & Collect · Recipe for an occasion",
+   "game": "E",
+   "type": "Test format F1 · Recipe for an occasion"
+  },
+  "A-F4": {
+   "title": "Pack Light · Pain → game",
+   "game": "A",
+   "type": "Test format F4 · Pain → game"
+  },
+  "C-F5": {
+   "title": "Memory Match · Customer journey",
+   "game": "C",
+   "type": "Test format F5 · Customer journey"
+  },
+  "F-F7": {
+   "title": "Valentine's quiz · Made from the almanac",
+   "game": "F",
+   "type": "Test format F7 · Made from the almanac"
+  },
+  "D-F4": {
+   "title": "Christmas calendar · Pain → game",
+   "game": "D",
+   "type": "Test format F4 · Pain → game"
+  },
+  "F-F1": {
+   "title": "Valentine's quiz · Recipe for an occasion",
+   "game": "F",
+   "type": "Test format F1 · Recipe for an occasion"
+  },
+  "C-PURE": {
+   "title": "Memory Match · Pure game",
+   "game": "C",
+   "type": "Pure game, no text on screen"
+  },
+  "A-PURE": {
+   "title": "Pack Light · Pure game",
+   "game": "A",
+   "type": "Pure game, no text on screen"
+  },
+  "E-PURE": {
+   "title": "Catch & Collect · Pure game",
+   "game": "E",
+   "type": "Pure game, no text on screen"
+  },
+  "C-X1": {
+   "title": "Memory Match · Extra 1",
+   "game": "C",
+   "type": "Extra template, picked when the video is built"
+  },
+  "C-X2": {
+   "title": "Memory Match · Extra 2",
+   "game": "C",
+   "type": "Extra template, picked when the video is built"
+  },
+  "A-X1": {
+   "title": "Pack Light · Extra 1",
+   "game": "A",
+   "type": "Extra template, picked when the video is built"
+  },
+  "E-X1": {
+   "title": "Catch & Collect · Extra 1",
+   "game": "E",
+   "type": "Extra template, picked when the video is built"
+  }
+ },
+ "pauses": [
+  {
+   "from": "2026-11-23",
+   "to": "2026-11-30",
+   "text": "No posts 23–30 Nov: Thanksgiving (26 Nov), Black Friday (27 Nov), Cyber Monday (30 Nov)."
+  }
+ ],
+ "items": [
+  {
+   "id": "2026-10-27-R06",
+   "date": "2026-10-27",
+   "kind": "zero",
+   "video": "R06",
+   "platforms": [
+    "yt",
+    "ig",
+    "fb",
+    "tt"
+   ],
+   "shortsTitle": "Can you land all three? A game from a promo email",
+   "hook": "Brand gamification for retention and lifecycle emails.",
+   "body": "",
+   "tag": "#emailmarketing",
+   "notes": [
+    "First post of the plan: check that Metricool posted to all four channels, that Facebook got its own post, and that TikTok is public with 'Your brand' on."
+   ]
+  },
+  {
+   "id": "2026-10-29-R03",
+   "date": "2026-10-29",
+   "kind": "zero",
+   "video": "R03",
+   "platforms": [
+    "li",
+    "yt",
+    "ig",
+    "fb",
+    "tt"
+   ],
+   "hook": "Email gamification, taken apart",
+   "body": "Four parts of one promo email game, and the CRM job each one does.",
+   "tag": "#emailmarketing",
+   "linkedin": {
+    "status": "ready",
+    "text": "Most promo emails get a two-second glance. So here is one with a game inside, taken apart piece by piece.\n\nThe store in the video is a demo: a shop that sells refurbished phones and laptops. The game is simple. You land three rocket boosters on a barge.\n\nI don't care about the rockets. I care about what each part does for CRM.\n\n1. Entry. The player comes from a link in the email, one tap from the inbox.\n2. No \"you lost\". Every result gets a reward. Two boosters back still means a code.\n3. Tier codes. Bring more boosters back, get a bigger reward. That's a reason to fly again.\n4. Trade-in credit. Got an old phone? Send it back for $25 credit. That's a reason to come back, not just to buy once.\n5. One tap to the store, with the code ready.\n\nA banner says \"20% off\". A game asks for half a minute and gives a reason to click.\n\nIt doesn't fix everything. If people don't open your emails, they never see the game. And the reward still has to fit your margin.\n\nThis one was built from a free recipe: occasion, mechanic, goal, reward. You can build your own with AI.\n\nThe free almanac is in my Featured section.\n\nWhat would you put behind the Play button in your next promo email?"
+   },
+   "notes": [
+    "First video on LinkedIn. After posting, open the post on a phone and on a desktop. If the video is blurry, cropped or tiny, tell Dmitry: LinkedIn will get a 4:5 version."
+   ]
+  },
+  {
+   "id": "2026-11-03-C-F4",
+   "date": "2026-11-03",
+   "kind": "test",
+   "test": 1,
+   "video": "C-F4",
+   "platforms": [
+    "li",
+    "yt",
+    "ig",
+    "fb",
+    "tt"
+   ],
+   "hook": "Need more emails before Black Friday?",
+   "body": "A memory game in your site popup: shoppers play, opt in and get the reward by email.",
+   "tag": "#blackfridaymarketing",
+   "linkedin": {
+    "status": "writing"
+   }
+  },
+  {
+   "id": "2026-11-04-LI1",
+   "date": "2026-11-04",
+   "kind": "li-image",
+   "platforms": [
+    "li"
+   ],
+   "linkedin": {
+    "status": "writing"
+   },
+   "notes": [
+    "Image post, not a video: the same idea as test video 1, as text plus one image (a game frame or a diagram).",
+    "No link, no product name, no call to buy. Visibility: Anyone.",
+    "Alex replies to comments for 1–2 hours after posting."
+   ]
+  },
+  {
+   "id": "2026-11-05-D-F1",
+   "date": "2026-11-05",
+   "kind": "test",
+   "test": 2,
+   "video": "D-F1",
+   "platforms": [
+    "li",
+    "yt",
+    "ig",
+    "fb",
+    "tt"
+   ],
+   "hook": "Got a game for Christmas?",
+   "body": "A countdown calendar for win-back emails, with a gift with the order. Christmas · Countdown Calendar · Win back · Gift with order.",
+   "tag": "#christmasmarketing",
+   "linkedin": {
+    "status": "writing"
+   }
+  },
+  {
+   "id": "2026-11-06-R04",
+   "date": "2026-11-06",
+   "kind": "extra",
+   "video": "R04",
+   "platforms": [
+    "yt",
+    "ig",
+    "fb",
+    "tt"
+   ],
+   "hook": "Your promo calendar, but playable",
+   "body": "91 occasions and 29 game mechanics in one free almanac. Pick your next campaign, get a game recipe for it.",
+   "tag": "#emailmarketing"
+  },
+  {
+   "id": "2026-11-09-C-PURE",
+   "date": "2026-11-09",
+   "kind": "extra",
+   "video": "C-PURE",
+   "platforms": [
+    "yt",
+    "ig",
+    "fb",
+    "tt"
+   ],
+   "shortsTitle": "How fast can you match them? A game from a site popup",
+   "hook": "Brand gamification for list growth: a memory game in your site popup.",
+   "body": "",
+   "tag": "#emailmarketing"
+  },
+  {
+   "id": "2026-11-10-A-F5",
+   "date": "2026-11-10",
+   "kind": "test",
+   "test": 3,
+   "video": "A-F5",
+   "platforms": [
+    "li",
+    "yt",
+    "ig",
+    "fb",
+    "tt"
+   ],
+   "hook": "From a $40 cart to $60",
+   "body": "A packing game in the cart: the reward grows with the basket, and the minimum order sits next to the code.",
+   "tag": "#ecommerce",
+   "linkedin": {
+    "status": "writing"
+   }
+  },
+  {
+   "id": "2026-11-11-LI2",
+   "date": "2026-11-11",
+   "kind": "li-image",
+   "platforms": [
+    "li"
+   ],
+   "linkedin": {
+    "status": "writing"
+   },
+   "notes": [
+    "Image post, not a video: the same idea as test video 2, as text plus one image (a game frame or a diagram).",
+    "No link, no product name, no call to buy. Visibility: Anyone.",
+    "Alex replies to comments for 1–2 hours after posting."
+   ]
+  },
+  {
+   "id": "2026-11-12-D-F7",
+   "date": "2026-11-12",
+   "kind": "test",
+   "test": 4,
+   "video": "D-F7",
+   "platforms": [
+    "li",
+    "yt",
+    "ig",
+    "fb",
+    "tt"
+   ],
+   "hook": "Made from this: a free game recipe",
+   "body": "Country, occasion, mechanic, goal. Four choices give you a brief and a prompt, and this Christmas calendar came out of that prompt.",
+   "tag": "#christmasmarketing",
+   "linkedin": {
+    "status": "writing"
+   }
+  },
+  {
+   "id": "2026-11-13-R05",
+   "date": "2026-11-13",
+   "kind": "extra",
+   "video": "R05",
+   "platforms": [
+    "yt",
+    "ig",
+    "fb",
+    "tt"
+   ],
+   "hook": "Post-purchase email game: first order in, now the second",
+   "body": "A game in the order confirmation email. The code is for the next order, plus trade-in credit.",
+   "tag": "#customerretention"
+  },
+  {
+   "id": "2026-11-16-A-PURE",
+   "date": "2026-11-16",
+   "kind": "extra",
+   "video": "A-PURE",
+   "platforms": [
+    "yt",
+    "ig",
+    "fb",
+    "tt"
+   ],
+   "shortsTitle": "How tight can you pack it? A game from a shop's cart",
+   "hook": "Brand gamification for bigger baskets: a packing game in the cart.",
+   "body": "",
+   "tag": "#ecommerce"
+  },
+  {
+   "id": "2026-11-17-E-F7",
+   "date": "2026-11-17",
+   "kind": "test",
+   "test": 5,
+   "video": "E-F7",
+   "platforms": [
+    "li",
+    "yt",
+    "ig",
+    "fb",
+    "tt"
+   ],
+   "hook": "Made from this: a free game recipe",
+   "body": "Four choices in a free almanac, one prompt, and a New Year's catch game for list growth.",
+   "tag": "#emailmarketing",
+   "linkedin": {
+    "status": "writing"
+   }
+  },
+  {
+   "id": "2026-11-19-D-F5",
+   "date": "2026-11-19",
+   "kind": "test",
+   "test": 6,
+   "video": "D-F5",
+   "platforms": [
+    "li",
+    "yt",
+    "ig",
+    "fb",
+    "tt"
+   ],
+   "hook": "Win-back email: from inbox to cart in 20 seconds",
+   "body": "A Christmas game inside a win-back email. Play, get a gift, use it within 72 hours.",
+   "tag": "#customerretention",
+   "linkedin": {
+    "status": "writing"
+   }
+  },
+  {
+   "id": "2026-11-20-C-X1",
+   "date": "2026-11-20",
+   "kind": "extra",
+   "video": "C-X1",
+   "platforms": [
+    "yt",
+    "ig",
+    "fb",
+    "tt"
+   ],
+   "tag": "#emailmarketing",
+   "notes": [
+    "The caption comes with the video. It will follow one of the templates: Inbox to cart, Taken apart, Campaign calendar or Second order."
+   ]
+  },
+  {
+   "id": "2026-12-01-E-F1",
+   "date": "2026-12-01",
+   "kind": "test",
+   "test": 7,
+   "video": "E-F1",
+   "platforms": [
+    "li",
+    "yt",
+    "ig",
+    "fb",
+    "tt"
+   ],
+   "hook": "Got a game for January?",
+   "body": "A catch game for New Year's resolutions, with free shipping as the reward. New Year's resolutions · Catch & Collect · Grow the list · Free shipping.",
+   "tag": "#emailmarketing",
+   "linkedin": {
+    "status": "writing"
+   }
+  },
+  {
+   "id": "2026-12-03-A-F4",
+   "date": "2026-12-03",
+   "kind": "test",
+   "test": 8,
+   "video": "A-F4",
+   "platforms": [
+    "li",
+    "yt",
+    "ig",
+    "fb",
+    "tt"
+   ],
+   "hook": "Want bigger baskets?",
+   "body": "A game behind a button in the cart: the bigger the basket, the better the reward.",
+   "tag": "#ecommerce",
+   "linkedin": {
+    "status": "writing"
+   }
+  },
+  {
+   "id": "2026-12-04-E-PURE",
+   "date": "2026-12-04",
+   "kind": "extra",
+   "video": "E-PURE",
+   "platforms": [
+    "yt",
+    "ig",
+    "fb",
+    "tt"
+   ],
+   "shortsTitle": "How many can you catch? A New Year's brand game",
+   "hook": "Brand gamification for list growth: a catch game for January.",
+   "body": "",
+   "tag": "#emailmarketing"
+  },
+  {
+   "id": "2026-12-07-R01",
+   "date": "2026-12-07",
+   "kind": "extra",
+   "video": "R01",
+   "platforms": [
+    "yt",
+    "ig",
+    "fb",
+    "tt"
+   ],
+   "hook": "Promo emails get skimmed. This one opens a game.",
+   "body": "Open, play, get a code, shop with it.",
+   "tag": "#emailmarketing"
+  },
+  {
+   "id": "2026-12-08-C-F5",
+   "date": "2026-12-08",
+   "kind": "test",
+   "test": 9,
+   "video": "C-F5",
+   "platforms": [
+    "li",
+    "yt",
+    "ig",
+    "fb",
+    "tt"
+   ],
+   "hook": "Gamified popup: from first visit to first order",
+   "body": "A memory game in the popup. Play, opt in, get the code by email, place the first order.",
+   "tag": "#ecommerce",
+   "linkedin": {
+    "status": "writing"
+   }
+  },
+  {
+   "id": "2026-12-10-F-F7",
+   "date": "2026-12-10",
+   "kind": "test",
+   "test": 10,
+   "video": "F-F7",
+   "platforms": [
+    "li",
+    "yt",
+    "ig",
+    "fb",
+    "tt"
+   ],
+   "hook": "Made from this: a free game recipe",
+   "body": "Four choices in a free almanac, one prompt, and a Valentine's quiz for bigger baskets.",
+   "tag": "#emailmarketing",
+   "linkedin": {
+    "status": "writing"
+   }
+  },
+  {
+   "id": "2026-12-11-A-X1",
+   "date": "2026-12-11",
+   "kind": "extra",
+   "video": "A-X1",
+   "platforms": [
+    "yt",
+    "ig",
+    "fb",
+    "tt"
+   ],
+   "tag": "#ecommerce",
+   "notes": [
+    "The caption comes with the video. It will follow one of the templates: Inbox to cart, Taken apart, Campaign calendar or Second order."
+   ]
+  },
+  {
+   "id": "2026-12-14-E-X1",
+   "date": "2026-12-14",
+   "kind": "extra",
+   "video": "E-X1",
+   "platforms": [
+    "yt",
+    "ig",
+    "fb",
+    "tt"
+   ],
+   "tag": "#emailmarketing",
+   "notes": [
+    "The caption comes with the video. It will follow one of the templates: Inbox to cart, Taken apart, Campaign calendar or Second order."
+   ]
+  },
+  {
+   "id": "2026-12-15-D-F4",
+   "date": "2026-12-15",
+   "kind": "test",
+   "test": 11,
+   "video": "D-F4",
+   "platforms": [
+    "li",
+    "yt",
+    "ig",
+    "fb",
+    "tt"
+   ],
+   "hook": "Black Friday buyers never came back?",
+   "body": "A Christmas calendar in a win-back email: a door a day and a gift with the next order.",
+   "tag": "#customerretention",
+   "linkedin": {
+    "status": "writing"
+   }
+  },
+  {
+   "id": "2026-12-17-F-F1",
+   "date": "2026-12-17",
+   "kind": "test",
+   "test": 12,
+   "video": "F-F1",
+   "platforms": [
+    "li",
+    "yt",
+    "ig",
+    "fb",
+    "tt"
+   ],
+   "hook": "Got a game for Valentine's Day?",
+   "body": "A \"which one are you\" quiz that grows the basket, with a gift with the order. Valentine's Day · Which One Are You? · Bigger baskets · Gift with order.",
+   "tag": "#emailmarketing",
+   "linkedin": {
+    "status": "writing"
+   }
+  },
+  {
+   "id": "2026-12-18-C-X2",
+   "date": "2026-12-18",
+   "kind": "extra",
+   "video": "C-X2",
+   "platforms": [
+    "yt",
+    "ig",
+    "fb",
+    "tt"
+   ],
+   "tag": "#emailmarketing",
+   "notes": [
+    "The caption comes with the video. It will follow one of the templates: Inbox to cart, Taken apart, Campaign calendar or Second order."
+   ]
+  }
+ ],
+ "rules": {
+  "general": [
+   "Post at 15:00 UK time on the date shown.",
+   "Tuesday and Thursday: test videos on all five channels. Monday and Friday: extra videos everywhere except LinkedIn.",
+   "Upload each file once per platform. If a video does badly, never delete it and post it again: YouTube treats that as spam and Instagram cuts repeats.",
+   "The sound is already in the file. Don't add platform music, stickers or effects.",
+   "No posts from 23 to 30 November: Thanksgiving, Black Friday, Cyber Monday.",
+   "Video not ready on its date? Skip the slot and tell Dmitry. Don't post a different video instead.",
+   "Tick a platform as soon as the post is live, and paste the link to the post.",
+   "Link in bio on every platform: the free almanac with this platform's tag, for example ?utm_source=tiktok&utm_medium=social&utm_campaign=reels_wave1. The exact almanac link is still to be confirmed."
+  ],
+  "platforms": {
+   "li": [
+    "Post the full text from the plan. It's long on purpose: on LinkedIn, long captions under videos get more reach than short ones.",
+    "The hook is the first line. No empty line at the top: only about 3 lines show above the video.",
+    "No link in the text: it cuts reach by 16–36%. The almanac link lives in the Featured section.",
+    "No hashtags. No tagging people for reach.",
+    "No giveaways or 'play and win' wording: LinkedIn bans contests.",
+    "Post through Metricool only if the video stays sharp (1080p). If it gets blurry, use LinkedIn's own scheduler on a desktop.",
+    "Only test videos and the two image posts go here. Extra videos don't."
+   ],
+   "yt": [
+    "Title = the first line from the plan, up to 100 characters.",
+    "Description = the text, the call to action and 3 hashtags.",
+    "No unrelated hashtags (#fyp, #viral and similar): YouTube can remove the video for them.",
+    "No custom cover needed: the first frame is the cover."
+   ],
+   "ig": [
+    "Caption as given. About 125 characters show before 'more', so the first line carries the point.",
+    "4 hashtags. Instagram allows 5.",
+    "No 'comment a word to get…' calls.",
+    "Don't add music: the sound is in the file.",
+    "Autocopy to Facebook: OFF. Facebook gets its own post."
+   ],
+   "fb": [
+    "Post to the Page through Metricool, not by copying from Instagram.",
+    "Same caption as Instagram.",
+    "No 'comment a word to get…' calls: Facebook treats them as engagement bait."
+   ],
+   "tt": [
+    "Caption = the first line, one sentence, the call to action and 4 hashtags.",
+    "Turn ON the 'Your brand' label (content disclosure) on every post. It has been required since 24 September 2026, and TikTok cuts reach without it. If Metricool can't set it, post from the TikTok app.",
+    "After posting, check that the video is public.",
+    "No 'follow to get…' calls."
+   ]
+  }
+ }
+}

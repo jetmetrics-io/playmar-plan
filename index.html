@@ -10,36 +10,15 @@
 </head>
 <body>
 
-<div id="login" class="login" hidden>
-  <form id="loginForm" class="login-card" autocomplete="on">
-    <div class="brand"><span class="logo"></span>Playmar <em>reels plan</em></div>
-    <p class="muted">What goes out where and when: videos, captions, hashtags. Tick each post when it's live.</p>
-    <label>Password
-      <input id="pw" type="password" autocomplete="current-password" required>
-    </label>
-    <label>Your name <span class="muted">· shown next to your ticks</span>
-      <input id="nm" type="text" autocomplete="name" required maxlength="40">
-    </label>
-    <label class="check"><input id="remember" type="checkbox" checked> Remember me on this device</label>
-    <button class="btn primary" type="submit">Open the plan</button>
-    <p id="loginErr" class="err" hidden></p>
-  </form>
-</div>
-
-<div id="app" hidden>
+<div id="app">
   <header class="top">
     <div class="brand"><span class="logo"></span>Playmar <em>reels plan</em></div>
     <nav class="tabs" role="tablist">
       <button class="tab" data-view="plan" role="tab">Plan</button>
       <button class="tab" data-view="rules" role="tab">How to post</button>
     </nav>
-    <div class="me">
-      <button class="icon-btn" id="refresh" title="Reload"><i data-lucide="refresh-cw"></i></button>
-      <span id="meName" class="muted"></span>
-      <button class="link-btn" id="logout">Sign out</button>
-    </div>
   </header>
-  <main id="main"></main>
+  <main id="main"><p class="empty">Loading the plan…</p></main>
 </div>
 
 <div id="sheetWrap" class="sheet-wrap" hidden>

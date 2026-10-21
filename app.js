@@ -1,96 +1,29 @@
 'use strict';
 /* Playmar reels plan.
-   The page lives on GitHub Pages; the plan, the ticks and the videos live in a private repo:
-   plan.json (what goes out where and when), status.json (ticks), videos/, posters/.
-   The access token sits in auth.json, encrypted with the password (PBKDF2-SHA256 → AES-256-GCM),
-   and is decrypted in the browser only. Each tick is a commit to status.json.
-   Local test: ?local reads ./data/ next to the page; ticks stay in this browser. */
+   A static page on GitHub Pages, no sign-in: the plan, the videos and the covers sit next to it in data/
+   (plan.json, videos/, posters/; build.py makes them). The page has noindex, nofollow.
+   Ticks are kept in this browser only (localStorage): nobody else sees them. */
 
-const CFG = { owner: 'jetmetrics-io', repo: 'playmar-content-plan', branch: 'main' };
-const TOKEN_KEY = 'pm-plan-token', NAME_KEY = 'pm-plan-name', PREF_KEY = 'pm-plan-prefs', LOCAL_ST = 'pm-plan-local-status';
-const LOCAL = new URLSearchParams(location.search).has('local');
+const TICKS_KEY = 'pm-plan-ticks', PREF_KEY = 'pm-plan-prefs';
 
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-const store = (kind) => { try { return kind === 's' ? sessionStorage : localStorage; } catch (e) { return null; } };
-const get = (k, kind = 'l') => { try { return store(kind)?.getItem(k) ?? null; } catch (e) { return null; } };
-const set = (k, v, kind = 'l') => { try { store(kind)?.setItem(k, v); } catch (e) { /* no storage: lasts until the tab closes */ } };
-const del = (k, kind = 'l') => { try { store(kind)?.removeItem(k); } catch (e) { /* no storage */ } };
+const get = (k) => { try { return localStorage.getItem(k); } catch (e) { return null; } };
+const set = (k, v) => { try { localStorage.setItem(k, v); return true; } catch (e) { return false; } };
 
-const S = { plan: null, status: {}, view: 'plan', filter: 'all', hideDone: false, sheet: null, blobs: {}, name: '', saving: false };
-
-/* ---------- GitHub ---------- */
-class HttpError extends Error { constructor(r) { super(`GitHub answered ${r.status}`); this.status = r.status; } }
-const b64bytes = (s) => Uint8Array.from(atob(s.replace(/\s/g, '')), (c) => c.charCodeAt(0));
-const b64dec = (s) => new TextDecoder().decode(b64bytes(s));
-const b64enc = (t) => { const b = new TextEncoder().encode(t); let s = ''; for (let i = 0; i < b.length; i += 0x8000) s += String.fromCharCode.apply(null, b.subarray(i, i + 0x8000)); return btoa(s); };
-
-const GH = {
-  token: null,
-  api(path, opt = {}) {
-    return fetch('https://api.github.com' + path, { cache: 'no-store', ...opt, headers: { Authorization: 'Bearer ' + GH.token, Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', ...(opt.headers || {}) } });
-  },
-  path: (p) => `/repos/${CFG.owner}/${CFG.repo}/contents/${p.split('/').map(encodeURIComponent).join('/')}`,
-  async raw(p) {
-    const r = await GH.api(GH.path(p) + `?ref=${CFG.branch}`, { headers: { Accept: 'application/vnd.github.raw' } });
-    if (!r.ok) throw new HttpError(r);
-    return r;
-  }
-};
+const S = { plan: null, status: {}, view: 'plan', filter: 'all', hideDone: false, sheet: null, kept: true };
 
 const Data = {
   async plan() {
-    if (LOCAL) return (await fetch('data/plan.json', { cache: 'no-store' })).json();
-    return (await GH.raw('plan.json')).json();
+    const r = await fetch('data/plan.json', { cache: 'no-store' });
+    if (!r.ok) throw new Error(`The plan did not load (${r.status}). Reload the page.`);
+    return r.json();
   },
-  async status() {
-    if (LOCAL) {
-      const saved = get(LOCAL_ST);
-      if (saved) return { data: JSON.parse(saved), sha: 'local' };
-      const r = await fetch('data/status.json', { cache: 'no-store' });
-      return { data: r.ok ? await r.json() : {}, sha: 'local' };
-    }
-    const r = await GH.api(GH.path('status.json') + `?ref=${CFG.branch}`);
-    if (r.status === 404) return { data: {}, sha: null };
-    if (!r.ok) throw new HttpError(r);
-    const j = await r.json();
-    return { data: JSON.parse(b64dec(j.content) || '{}'), sha: j.sha };
-  },
-  /* the change is applied to the freshest status.json, so two people ticking at once don't overwrite each other */
-  async save(change, message) {
-    if (LOCAL) { const cur = (await Data.status()).data; change(cur); set(LOCAL_ST, JSON.stringify(cur)); return cur; }
-    for (let i = 0; i < 5; i++) {
-      const cur = await Data.status();
-      change(cur.data);
-      const body = { message, content: b64enc(JSON.stringify(cur.data, null, 1) + '\n'), branch: CFG.branch };
-      if (cur.sha) body.sha = cur.sha;
-      const r = await GH.api(GH.path('status.json'), { method: 'PUT', body: JSON.stringify(body) });
-      if (r.ok) return cur.data;
-      if (r.status === 409 || r.status === 422) { await sleep(300 + i * 500); continue; }
-      throw new HttpError(r);
-    }
-    throw new Error('Someone else was saving at the same moment. Try again.');
-  },
-  async blobUrl(path) {
-    if (S.blobs[path]) return S.blobs[path];
-    let b;
-    if (LOCAL) { const r = await fetch('data/' + path); if (!r.ok) throw new HttpError(r); b = await r.blob(); }
-    else b = await (await GH.raw(path)).blob();
-    return (S.blobs[path] = URL.createObjectURL(b));
-  }
+  status() { try { return JSON.parse(get(TICKS_KEY) || '{}'); } catch (e) { return {}; } },
+  save(change) { const cur = Data.status(); change(cur); S.kept = set(TICKS_KEY, JSON.stringify(cur)); return cur; },
+  url: (path) => 'data/' + path
 };
-
-async function decryptToken(password) {
-  const r = await fetch('auth.json', { cache: 'no-store' });
-  if (!r.ok) throw new Error('setup');
-  const a = await r.json();
-  const base = await crypto.subtle.importKey('raw', new TextEncoder().encode(password), 'PBKDF2', false, ['deriveKey']);
-  const key = await crypto.subtle.deriveKey({ name: 'PBKDF2', salt: b64bytes(a.salt), iterations: a.iter, hash: 'SHA-256' }, base, { name: 'AES-GCM', length: 256 }, false, ['decrypt']);
-  try { return new TextDecoder().decode(await crypto.subtle.decrypt({ name: 'AES-GCM', iv: b64bytes(a.iv) }, key, b64bytes(a.ct))); }
-  catch (e) { throw new Error('password'); }
-}
 
 /* ---------- dates: every post at 15:00 UK time ---------- */
 const ymd = (tz, d = new Date()) => new Intl.DateTimeFormat('en-CA', { timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit' }).format(d);
@@ -229,7 +162,7 @@ function renderPlan() {
     out.push(cardHTML(it)); prev = it;
   }
   $('#main').innerHTML = `<section class="summary">
-      <p class="intro">${esc(P.summary)} Open a day to get the video, the caption and the hashtags for each platform. Tick a platform when the post is live.</p>
+      <p class="intro">${esc(P.summary)} Open a day to get the video, the caption and the hashtags for each platform. Tick a platform when the post is live: ticks are saved in this browser only, so use the same one each time.</p>
       <div class="progress"><b>${done} of ${total}</b><span class="muted">posts done</span><div class="bar"><span style="width:${total ? (100 * done / total).toFixed(1) : 0}%"></span></div></div>
       <div class="filters">${chips.join('')}<label class="toggle"><input type="checkbox" id="hideDone"${S.hideDone ? ' checked' : ''}> Hide finished</label></div>
       ${nextHTML()}
@@ -260,7 +193,6 @@ function renderRules() {
 
 function render() {
   $$('.tab').forEach((t) => t.classList.toggle('on', t.dataset.view === S.view));
-  $('#meName').textContent = S.name ? `You: ${S.name}` : '';
   if (S.view === 'rules') renderRules(); else renderPlan();
   window.lucide && lucide.createIcons();
 }
@@ -284,7 +216,7 @@ function renderSheet() {
   if (it.video) {
     parts.push(v && v.file
       ? `<div class="blk"><h4>Video</h4><div class="video"><div class="poster" id="poster"><i data-lucide="film"></i></div>
-          <div class="vid-actions"><button class="btn primary" id="dl"><i data-lucide="download"></i>Download video</button>
+          <div class="vid-actions"><a class="btn primary" id="dl" href="${esc(Data.url(v.file))}" download="Playmar_${esc(it.date)}_${esc(it.video)}.mp4"><i data-lucide="download"></i>Download video</a>
           <button class="btn small" id="pv"><i data-lucide="play"></i>Preview</button>
           <span class="muted" style="font-size:13px">${esc(it.video)} · MP4 9:16 · sound inside</span></div></div></div>`
       : `<div class="blk"><h4>Video</h4><div class="note warn">This video is still in production. It will appear here when it's ready. Not here on the day? Skip the slot and tell Dmitry.</div></div>`);
@@ -307,56 +239,40 @@ function renderSheet() {
   parts.push(`<div class="blk"><h4>Before you post on ${esc(p.name)}</h4><ul class="rules">${(S.plan.rules.platforms[pid] || []).map((x) => `<li>${esc(x)}</li>`).join('')}</ul></div>`);
   if (st && st.done) {
     const when = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).format(new Date(st.at));
-    parts.push(`<div class="status done"><div class="who"><b>Posted on ${esc(p.name)}</b> · ${esc(st.by || '')} · ${esc(when)}</div>
+    parts.push(`<div class="status done"><div class="who"><b>Posted on ${esc(p.name)}</b> · ticked ${esc(when)}</div>
       ${st.url ? `<a href="${esc(st.url)}" target="_blank" rel="noopener">${esc(st.url)}</a>` : '<span class="muted">No link saved.</span>'}
       <div><button class="btn small" id="untick">Mark as not posted</button></div></div>`);
   } else {
     parts.push(`<div class="status"><label class="who" for="postUrl"><b>Live on ${esc(p.name)}?</b> Paste the link to the post (optional) and tick it.</label>
       <input id="postUrl" type="url" placeholder="https://…" autocomplete="off">
-      <div><button class="btn primary" id="tick"><i data-lucide="check"></i>Mark as posted on ${esc(p.name)}</button></div></div>`);
+      <div><button class="btn primary" id="tick"><i data-lucide="check"></i>Mark as posted on ${esc(p.name)}</button></div>
+      <p class="muted keep">Ticks are saved in this browser only.</p></div>`);
   }
   $('#sheet').innerHTML = `<div class="sh-head"><div class="sh-row"><div><span class="muted">${fmtDate(it.date)}, ${esc(S.plan.time)} UK${loc ? ` · ${esc(loc)}` : ''}</span>
       <h3 id="sheetTitle">${esc(itemTitle(it))}</h3><span class="muted">${esc(gameLine(it))}</span></div>
       <button class="icon-btn" data-close title="Close"><i data-lucide="x"></i></button></div><div class="ptabs">${tabs}</div></div>
     <div class="sh-body">${parts.join('')}</div>`;
   window.lucide && lucide.createIcons();
-  if (v && v.poster) Data.blobUrl(v.poster).then((u) => { const el = $('#poster'); if (el && S.sheet && S.sheet.id === id) { el.style.backgroundImage = `url(${u})`; el.innerHTML = ''; } }).catch(() => {});
+  if (v && v.poster) { const el = $('#poster'); el.style.backgroundImage = `url("${Data.url(v.poster)}")`; el.innerHTML = ''; }
   S.sheetFields = F;
 }
 
-async function mark(done) {
-  if (S.saving) return;
-  const { id, pid } = S.sheet, it = itemById(id), p = plat(pid);
+function mark(done) {
+  const { id, pid } = S.sheet, p = plat(pid);
   if (!done && !confirm(`Mark as not posted on ${p.name}?`)) return;
   const url = done ? ($('#postUrl')?.value || '').trim() : '';
-  const who = S.name || 'someone';
-  const msg = `${it.date} ${it.video || 'LinkedIn image'} · ${p.name}: ${done ? 'posted' : 'unticked'} (${who})`;
-  S.saving = true; $$('#tick, #untick').forEach((b) => (b.disabled = true));
-  try {
-    S.status = await Data.save((st) => {
-      if (done) (st[id] = st[id] || {})[pid] = { done: true, by: who, at: new Date().toISOString(), ...(url ? { url } : {}) };
-      else if (st[id]) { delete st[id][pid]; if (!Object.keys(st[id]).length) delete st[id]; }
-    }, msg);
-    toast(done ? `Ticked: ${p.name}` : `Unticked: ${p.name}`);
-    render(); if (S.sheet) renderSheet();
-  } catch (e) { toast(errText(e), true); $$('#tick, #untick').forEach((b) => (b.disabled = false)); }
-  finally { S.saving = false; }
+  S.status = Data.save((st) => {
+    if (done) (st[id] = st[id] || {})[pid] = { done: true, at: new Date().toISOString(), ...(url ? { url } : {}) };
+    else if (st[id]) { delete st[id][pid]; if (!Object.keys(st[id]).length) delete st[id]; }
+  });
+  if (!S.kept) toast('This browser does not keep ticks (private window?). They will be gone when you close the tab.', true);
+  else toast(done ? `Ticked: ${p.name}` : `Unticked: ${p.name}`);
+  render(); if (S.sheet) renderSheet();
 }
 
-async function download() {
-  const it = itemById(S.sheet.id), v = videoOf(it), b = $('#dl');
-  b.disabled = true; b.lastChild.textContent = 'Loading…';
-  try {
-    const u = await Data.blobUrl(v.file);
-    const a = document.createElement('a'); a.href = u; a.download = `Playmar_${it.date}_${it.video}.mp4`; document.body.append(a); a.click(); a.remove();
-  } catch (e) { toast(errText(e), true); }
-  finally { if ($('#dl')) { b.disabled = false; b.lastChild.textContent = 'Download video'; } }
-}
-async function preview() {
-  const it = itemById(S.sheet.id), v = videoOf(it), el = $('#poster');
-  el.innerHTML = '<i data-lucide="loader"></i>'; window.lucide && lucide.createIcons();
-  try { const u = await Data.blobUrl(v.file); el.style.backgroundImage = ''; el.innerHTML = `<video src="${u}" controls autoplay playsinline></video>`; }
-  catch (e) { toast(errText(e), true); }
+function preview() {
+  const v = videoOf(itemById(S.sheet.id)), el = $('#poster');
+  el.style.backgroundImage = ''; el.innerHTML = `<video src="${esc(Data.url(v.file))}" controls autoplay playsinline></video>`;
 }
 async function copyText(t) {
   try { await navigator.clipboard.writeText(t); }
@@ -367,39 +283,14 @@ async function copyText(t) {
 /* ---------- misc ---------- */
 let toastT;
 function toast(msg, bad = false) { const t = $('#toast'); t.textContent = msg; t.className = 'toast' + (bad ? ' bad' : ''); t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => (t.hidden = true), bad ? 6000 : 2200); }
-function errText(e) {
-  if (e && (e.status === 401 || e.status === 403)) return 'Access expired or blocked. Sign out and in again; if that fails, ask Dmitry for a new password.';
-  if (e && e.status === 404) return 'Not found in the plan repo. Ask Dmitry.';
-  if (e instanceof TypeError) return 'No connection to GitHub. Check the internet and try again.';
-  return (e && e.message) || 'Something went wrong.';
-}
 function savePrefs() { set(PREF_KEY, JSON.stringify({ view: S.view, filter: S.filter, hideDone: S.hideDone })); }
 function loadPrefs() { try { Object.assign(S, JSON.parse(get(PREF_KEY) || '{}')); } catch (e) { /* defaults */ } }
 
-async function refreshStatus(force = false) {
-  if (S.saving || !S.plan) return;
-  const before = JSON.stringify(S.status);
-  try { S.status = (await Data.status()).data; } catch (e) { if (force) toast(errText(e), true); return; }
-  if (force || JSON.stringify(S.status) !== before) {
-    render();
-    if (S.sheet && JSON.stringify(S.status[S.sheet.id] || {}) !== JSON.stringify(JSON.parse(before)[S.sheet.id] || {})) renderSheet();
-  }
-}
-
 async function start() {
-  const [plan, st] = await Promise.all([Data.plan(), Data.status()]);
-  S.plan = plan; S.status = st.data;
-  if (S.filter !== 'all' && !plan.platforms.some((p) => p.id === S.filter)) S.filter = 'all';
-  $('#login').hidden = true; $('#app').hidden = false;
+  S.plan = await Data.plan(); S.status = Data.status();
+  if (S.filter !== 'all' && !S.plan.platforms.some((p) => p.id === S.filter)) S.filter = 'all';
   render();
 }
-function showLogin(msg) {
-  $('#app').hidden = true; $('#login').hidden = false;
-  $('#nm').value = S.name || '';
-  const e = $('#loginErr'); e.hidden = !msg; e.textContent = msg || '';
-  ($('#nm').value ? $('#pw') : $('#nm')).focus();
-}
-function logout() { GH.token = null; del(TOKEN_KEY, 's'); del(TOKEN_KEY); S.plan = null; closeSheet(); showLogin(); }
 
 document.addEventListener('click', (e) => {
   const t = e.target;
@@ -413,45 +304,15 @@ document.addEventListener('click', (e) => {
   const cp = t.closest('[data-copy]'); if (cp) return copyText(S.sheetFields[+cp.dataset.copy].text);
   if (t.closest('#tick')) return mark(true);
   if (t.closest('#untick')) return mark(false);
-  if (t.closest('#dl')) return download();
   if (t.closest('#pv')) return preview();
-  if (t.closest('#refresh')) return refreshStatus(true).then(() => toast('Up to date'));
-  if (t.closest('#logout')) return logout();
-  if (t.closest('#meName')) { const n = prompt('Your name (shown next to your ticks):', S.name); if (n && n.trim()) { S.name = n.trim().slice(0, 40); set(NAME_KEY, S.name); render(); } }
 });
 document.addEventListener('change', (e) => { if (e.target.id === 'hideDone') { S.hideDone = e.target.checked; savePrefs(); render(); } });
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && S.sheet) closeSheet();
   if (e.key === 'Enter' && e.target.classList && e.target.classList.contains('card')) openSheet(e.target.dataset.id);
 });
-document.addEventListener('visibilitychange', () => { if (!document.hidden) refreshStatus(); });
-setInterval(() => { if (!document.hidden) refreshStatus(); }, 60000);
+/* ticks made in another tab of this browser */
+window.addEventListener('storage', (e) => { if (e.key === TICKS_KEY && S.plan) { S.status = Data.status(); render(); if (S.sheet) renderSheet(); } });
 
-$('#loginForm').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const btn = e.submitter || $('#loginForm button'), err = $('#loginErr');
-  S.name = $('#nm').value.trim().slice(0, 40); set(NAME_KEY, S.name);
-  btn.disabled = true; err.hidden = true;
-  try {
-    const token = await decryptToken($('#pw').value);
-    GH.token = token;
-    await start();
-    set(TOKEN_KEY, token, 's'); if ($('#remember').checked) set(TOKEN_KEY, token);
-  } catch (x) {
-    GH.token = null;
-    err.textContent = x.message === 'password' ? 'Wrong password.' : x.message === 'setup' ? 'Access is not set up yet. Ask Dmitry.' : errText(x);
-    err.hidden = false;
-  } finally { btn.disabled = false; }
-});
-
-(async function boot() {
-  loadPrefs();
-  S.name = get(NAME_KEY) || (LOCAL ? 'Local test' : '');
-  if (LOCAL) { try { await start(); } catch (e) { showLogin(errText(e)); } return; }
-  GH.token = get(TOKEN_KEY, 's') || get(TOKEN_KEY);
-  if (GH.token) {
-    try { await start(); return; }
-    catch (e) { if (e.status === 401 || e.status === 403 || e.status === 404) { del(TOKEN_KEY, 's'); del(TOKEN_KEY); GH.token = null; } else return showLogin(errText(e)); }
-  }
-  showLogin();
-})();
+loadPrefs();
+start().catch((e) => { $('#main').innerHTML = `<p class="empty">${esc(e.message || 'The plan did not load. Reload the page.')}</p>`; });
