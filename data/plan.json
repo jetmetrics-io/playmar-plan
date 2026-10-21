@@ -75,36 +75,36 @@
    "title": "Pure game",
    "game": "R",
    "type": "Pure game, no text on screen",
-   "file": "videos/R06.mp4?v=cd6f6799",
-   "poster": "posters/R06.jpg?v=cd6f6799"
+   "file": "videos/R06.mp4?v=735fd2e3",
+   "poster": "posters/R06.jpg?v=735fd2e3"
   },
   "R03": {
    "title": "Taken apart",
    "game": "R",
    "type": "Extra template · Taken apart",
-   "file": "videos/R03.mp4?v=9130309a",
-   "poster": "posters/R03.jpg?v=9130309a"
+   "file": "videos/R03.mp4?v=86360cf7",
+   "poster": "posters/R03.jpg?v=86360cf7"
   },
   "R04": {
    "title": "Campaign calendar",
    "game": "R",
    "type": "Extra template · Campaign calendar",
-   "file": "videos/R04.mp4?v=89b3e99d",
-   "poster": "posters/R04.jpg?v=89b3e99d"
+   "file": "videos/R04.mp4?v=01d904eb",
+   "poster": "posters/R04.jpg?v=01d904eb"
   },
   "R05": {
    "title": "Second order",
    "game": "R",
    "type": "Extra template · Second order",
-   "file": "videos/R05.mp4?v=1b375ede",
-   "poster": "posters/R05.jpg?v=1b375ede"
+   "file": "videos/R05.mp4?v=50212e79",
+   "poster": "posters/R05.jpg?v=50212e79"
   },
   "R01": {
    "title": "Inbox to cart",
    "game": "R",
    "type": "Extra template · Inbox to cart",
-   "file": "videos/R01.mp4?v=2d23980e",
-   "poster": "posters/R01.jpg?v=2d23980e"
+   "file": "videos/R01.mp4?v=3abcd4e8",
+   "poster": "posters/R01.jpg?v=3abcd4e8"
   },
   "C-F4": {
    "title": "Memory Match · Pain → game",
@@ -253,6 +253,51 @@
    ]
   },
   {
+   "id": "2026-10-26-R04",
+   "date": "2026-10-26",
+   "kind": "zero",
+   "video": "R04",
+   "platforms": [
+    "yt",
+    "ig",
+    "fb",
+    "tt"
+   ],
+   "hook": "Your promo calendar, but playable",
+   "body": "91 occasions and 29 game mechanics in one free almanac. Pick your next campaign, get a game recipe for it.",
+   "tag": "#emailmarketing"
+  },
+  {
+   "id": "2026-10-29-R05",
+   "date": "2026-10-29",
+   "kind": "zero",
+   "video": "R05",
+   "platforms": [
+    "yt",
+    "ig",
+    "fb",
+    "tt"
+   ],
+   "hook": "Post-purchase email game: first order in, now the second",
+   "body": "A game in the order confirmation email. The code is for the next order, plus trade-in credit.",
+   "tag": "#customerretention"
+  },
+  {
+   "id": "2026-11-02-R01",
+   "date": "2026-11-02",
+   "kind": "zero",
+   "video": "R01",
+   "platforms": [
+    "yt",
+    "ig",
+    "fb",
+    "tt"
+   ],
+   "hook": "Promo emails get skimmed. This one opens a game.",
+   "body": "Open, play, get a code, shop with it.",
+   "tag": "#emailmarketing"
+  },
+  {
    "id": "2026-11-03-C-F4",
    "date": "2026-11-03",
    "kind": "test",
@@ -307,21 +352,6 @@
    "linkedin": {
     "status": "writing"
    }
-  },
-  {
-   "id": "2026-11-06-R04",
-   "date": "2026-11-06",
-   "kind": "extra",
-   "video": "R04",
-   "platforms": [
-    "yt",
-    "ig",
-    "fb",
-    "tt"
-   ],
-   "hook": "Your promo calendar, but playable",
-   "body": "91 occasions and 29 game mechanics in one free almanac. Pick your next campaign, get a game recipe for it.",
-   "tag": "#emailmarketing"
   },
   {
    "id": "2026-11-09-C-PURE",
@@ -394,21 +424,6 @@
    "linkedin": {
     "status": "writing"
    }
-  },
-  {
-   "id": "2026-11-13-R05",
-   "date": "2026-11-13",
-   "kind": "extra",
-   "video": "R05",
-   "platforms": [
-    "yt",
-    "ig",
-    "fb",
-    "tt"
-   ],
-   "hook": "Post-purchase email game: first order in, now the second",
-   "body": "A game in the order confirmation email. The code is for the next order, plus trade-in credit.",
-   "tag": "#customerretention"
   },
   {
    "id": "2026-11-16-A-PURE",
@@ -536,21 +551,6 @@
    "shortsTitle": "How many can you catch? A New Year's brand game",
    "hook": "Brand gamification for list growth: a catch game for January.",
    "body": "",
-   "tag": "#emailmarketing"
-  },
-  {
-   "id": "2026-12-07-R01",
-   "date": "2026-12-07",
-   "kind": "extra",
-   "video": "R01",
-   "platforms": [
-    "yt",
-    "ig",
-    "fb",
-    "tt"
-   ],
-   "hook": "Promo emails get skimmed. This one opens a game.",
-   "body": "Open, play, get a code, shop with it.",
    "tag": "#emailmarketing"
   },
   {
