@@ -187,3 +187,13 @@ ul.rules { margin: 0; padding-left: 18px; display: grid; gap: 6px; font-size: 14
   .ptab { padding: 7px 8px; font-size: 13px; }
 }
 .status .keep { margin: 0; font-size: 13px; }
+/* empty slot: a day that still needs a video */
+.card.slot { background: transparent; border: 1.5px dashed var(--line-2); cursor: default; }
+.card.slot:hover { box-shadow: none; border-color: var(--line-2); }
+.card.slot .title { color: var(--ink-2); }
+.badge.slot { border-style: dashed; border-color: var(--ink-3); color: var(--ink-2); background: transparent; }
+.pill.slot { border-style: dashed; color: var(--ink-3); cursor: default; background: transparent; }
+.pill.slot:hover { border-color: var(--line-2); color: var(--ink-3); }
+.work { margin: 0; font-size: 14px; color: var(--ink-2); }
+.work b { color: var(--ink); }
+.card.slot .hook { white-space: normal; overflow: visible; text-overflow: clip; font-size: 13px; }

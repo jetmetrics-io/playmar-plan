@@ -12,7 +12,7 @@ const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '
 const get = (k) => { try { return localStorage.getItem(k); } catch (e) { return null; } };
 const set = (k, v) => { try { localStorage.setItem(k, v); return true; } catch (e) { return false; } };
 
-const S = { plan: null, status: {}, view: 'plan', filter: 'all', hideDone: false, sheet: null, kept: true };
+const S = { plan: null, status: {}, view: 'plan', filter: 'all', hideDone: false, todoOnly: false, sheet: null, kept: true };
 
 const Data = {
   async plan() {
@@ -56,14 +56,19 @@ const lab = (id) => { const p = plat(id); return p.label || p.name; };
 const itemById = (id) => S.plan.items.find((i) => i.id === id);
 const videoOf = (it) => (it.video ? S.plan.videos[it.video] : null);
 const isDone = (it, pid) => !!S.status[it.id]?.[pid]?.done;
+const isSlot = (it) => it.kind === 'slot';
+const liWriting = (it) => it.platforms.includes('li') && (it.linkedin || {}).status !== 'ready';
+/* what still has to be made for this day: a video for an empty slot, a video in production, a LinkedIn text */
+const needsWork = (it) => isSlot(it) || (it.video && !(videoOf(it) || {}).file) || liWriting(it);
 function pState(it, pid) {
   if (!it.platforms.includes(pid)) return 'off';
+  if (isSlot(it)) return 'slot';
   if (isDone(it, pid)) return 'done';
   const today = ukToday();
   if (it.date === today) return 'today';
   return it.date < today ? 'late' : 'todo';
 }
-const finished = (it) => (S.filter === 'all' ? it.platforms.every((p) => isDone(it, p)) : isDone(it, S.filter));
+const finished = (it) => !isSlot(it) && (S.filter === 'all' ? it.platforms.every((p) => isDone(it, p)) : isDone(it, S.filter));
 function itemTitle(it) { if (it.kind === 'li-image') return 'Пост с картинкой в LinkedIn'; const v = videoOf(it); return v ? v.title : it.video; }
 function gameLine(it) {
   if (it.kind === 'li-image') return 'Текст и одна картинка · без видео';
@@ -103,11 +108,29 @@ const ICON = { done: 'check', today: 'clock', late: 'alert-triangle' };
 function pillHTML(it, p) {
   const st = pState(it, p.id);
   if (st === 'off') return `<span class="pill off" title="${esc(p.name)}: в этот день не выходит">${esc(p.short)}<span>—</span></span>`;
+  if (st === 'slot') return `<span class="pill slot" title="${esc(p.name)}: ролика под этот день пока нет">${esc(p.short)}<i data-lucide="circle-dashed"></i></span>`;
   const dim = S.filter !== 'all' && S.filter !== p.id ? ' dim' : '';
   const word = { done: 'выложено', today: 'сегодня', late: 'просрочено', todo: 'впереди' }[st];
   return `<button class="pill ${st}${dim}" data-id="${esc(it.id)}" data-p="${p.id}" title="${esc(p.name)}: ${word}">${esc(p.short)}${ICON[st] ? `<i data-lucide="${ICON[st]}"></i>` : '<span style="height:14px"></span>'}</button>`;
 }
+/* games of the nearest videos before and after: an empty slot needs a different game (rule: one game never twice in a row) */
+function neighbourGames(it) {
+  const seq = S.plan.items.filter((x) => x.video || isSlot(x));
+  const i = seq.indexOf(it), near = [seq[i - 1], seq[i + 1]].filter((x) => x && x.video);
+  return [...new Set(near.map((x) => (S.plan.games[videoOf(x).game] || '').split(' · ')[0]).filter(Boolean))];
+}
+function slotHTML(it) {
+  const loc = localTime(it.date), near = neighbourGames(it);
+  const nearText = near.length ? `Любая игра, кроме ${near.join(' и ')}: ${near.length > 1 ? 'они выходят' : 'она выходит'} соседним роликом.` : 'Подойдёт любая игра: соседние дни тоже пока пустые.';
+  return `<article class="card slot" data-id="${esc(it.id)}">
+    <div class="when"><b>${fmtDate(it.date)}</b><span class="t">${esc(S.plan.time)} Лондон</span>${loc ? `<span class="loc">${esc(loc)}</span>` : ''}</div>
+    <div class="what"><div class="badges"><span class="badge slot">Пустой слот</span></div><p class="title">Нужен ролик</p><p class="game">${esc(nearText)}</p>
+      ${(it.notes || []).map((n) => `<p class="hook none">${esc(n)}</p>`).join('')}</div>
+    <div class="pills">${S.plan.platforms.map((p) => pillHTML(it, p)).join('')}</div>
+  </article>`;
+}
 function cardHTML(it) {
+  if (isSlot(it)) return slotHTML(it);
   const v = videoOf(it), loc = localTime(it.date);
   const states = it.platforms.map((p) => pState(it, p));
   const cls = finished(it) ? ' done' : states.includes('late') ? ' is-late' : states.includes('today') ? ' is-today' : '';
@@ -133,7 +156,7 @@ function nextHTML() {
     const list = late.slice(0, 4).map(([i, q]) => `${fmtDate(i.date)} ${lab(q)}`).join(' · ');
     return `<div class="next bad" data-id="${esc(it.id)}" data-p="${p}"><span class="lbl">Просрочено · ${late.length}</span><span class="what">${esc(list)}${late.length > 4 ? ' …' : ''}</span><span class="muted">Уже выложили — отметьте. Не выложили — напишите Дмитрию.</span></div>`;
   }
-  const up = S.plan.items.find((it) => pids(it).some((p) => !isDone(it, p)));
+  const up = S.plan.items.find((it) => !isSlot(it) && pids(it).some((p) => !isDone(it, p)));
   if (!up) return '<div class="next"><span class="lbl">Всё выложено</span><span class="what">Все посты плана отмечены.</span></div>';
   const todo = pids(up).filter((p) => !isDone(up, p));
   const loc = localTime(up.date);
@@ -144,10 +167,14 @@ function nextHTML() {
 function renderPlan() {
   const P = S.plan;
   let total = 0, done = 0; const per = {};
-  for (const it of P.items) for (const p of it.platforms) { total++; per[p] = per[p] || [0, 0]; per[p][1]++; if (isDone(it, p)) { done++; per[p][0]++; } }
+  for (const it of P.items) for (const p of it.platforms) { if (isSlot(it)) continue; total++; per[p] = per[p] || [0, 0]; per[p][1]++; if (isDone(it, p)) { done++; per[p][0]++; } }
   const chips = [`<button class="chip${S.filter === 'all' ? ' on' : ''}" data-f="all">Все <span class="n">${done}/${total}</span></button>`]
     .concat(P.platforms.map((p) => `<button class="chip${S.filter === p.id ? ' on' : ''}" data-f="${p.id}">${esc(lab(p.id))} <span class="n">${(per[p.id] || [0, 0]).join('/')}</span></button>`));
-  const items = P.items.filter((it) => (S.filter === 'all' || it.platforms.includes(S.filter)) && !(S.hideDone && finished(it)));
+  const items = P.items.filter((it) => (S.filter === 'all' || it.platforms.includes(S.filter)) && !(S.hideDone && finished(it)) && !(S.todoOnly && !needsWork(it)));
+  const slots = P.items.filter(isSlot).length;
+  const inProd = new Set(P.items.filter((it) => it.video && !(videoOf(it) || {}).file).map((it) => it.video)).size;
+  const liTexts = P.items.filter(liWriting).length;
+  const work = `<p class="work"><b>Нужно сделать: ${slots + inProd} ${plural(slots + inProd, 'ролик', 'ролика', 'роликов')}</b> — ${slots} ${plural(slots, 'пустой слот', 'пустых слота', 'пустых слотов')} и ${inProd} ${plural(inProd, 'ролик', 'ролика', 'роликов')} в работе; ${liTexts} ${plural(liTexts, 'текст', 'текста', 'текстов')} для LinkedIn.</p>`;
   const out = [];
   let week = null; const pausesShown = new Set(); let prev = null;
   for (const it of items) {
@@ -156,16 +183,19 @@ function renderPlan() {
     if (w !== week) {
       week = w;
       const inWeek = P.items.filter((x) => mondayOf(x.date) === w);
-      const name = inWeek.every((x) => x.kind === 'zero') ? 'Разгон' : `Неделя с ${fmtDay(w)}`;
-      const n = P.items.filter((x) => mondayOf(x.date) === w).reduce((a, x) => a + (S.filter === 'all' ? x.platforms.length : +x.platforms.includes(S.filter)), 0);
-      out.push(`<div class="week"><h2>${esc(name)}</h2><span>${fmtDay(w)} – ${fmtDay(addDays(w, 6))} · ${n} ${plural(n, 'пост', 'поста', 'постов')}</span></div>`);
+      const name = inWeek.every((x) => x.kind === 'zero' || isSlot(x)) ? 'Разгон' : `Неделя с ${fmtDay(w)}`;
+      const cnt = (x) => (S.filter === 'all' ? x.platforms.length : +x.platforms.includes(S.filter));
+      const n = inWeek.filter((x) => !isSlot(x)).reduce((a, x) => a + cnt(x), 0);
+      const e = inWeek.filter((x) => isSlot(x) && cnt(x)).length;
+      out.push(`<div class="week"><h2>${esc(name)}</h2><span>${fmtDay(w)} – ${fmtDay(addDays(w, 6))} · ${n} ${plural(n, 'пост', 'поста', 'постов')}${e ? ` · ${e} ${plural(e, 'пустой слот', 'пустых слота', 'пустых слотов')}` : ''}</span></div>`);
     }
     out.push(cardHTML(it)); prev = it;
   }
   $('#main').innerHTML = `<section class="summary">
       <p class="intro">${esc(P.summary)} Откройте день — там видео, подпись и хэштеги для каждой площадки. Пост вышел — отметьте площадку. Галочки хранятся только в этом браузере, поэтому открывайте план всегда в одном и том же.</p>
       <div class="progress"><b>${done} из ${total}</b><span class="muted">выложено</span><div class="bar"><span style="width:${total ? (100 * done / total).toFixed(1) : 0}%"></span></div></div>
-      <div class="filters">${chips.join('')}<label class="toggle"><input type="checkbox" id="hideDone"${S.hideDone ? ' checked' : ''}> Скрыть выложенное</label></div>
+      ${work}
+      <div class="filters">${chips.join('')}<label class="toggle"><input type="checkbox" id="hideDone"${S.hideDone ? ' checked' : ''}> Скрыть выложенное</label><label class="toggle"><input type="checkbox" id="todoOnly"${S.todoOnly ? ' checked' : ''}> Только то, что нужно сделать</label></div>
       ${nextHTML()}
     </section>${out.join('') || '<p class="empty">С такими фильтрами ничего нет.</p>'}`;
 }
@@ -178,7 +208,8 @@ function renderRules() {
       <span class="pill today">TT<i data-lucide="clock"></i></span> сегодня
       <span class="pill late">TT<i data-lucide="alert-triangle"></i></span> просрочено
       <span class="pill done">TT<i data-lucide="check"></i></span> выложено
-      <span class="pill off">TT<span>—</span></span> в этот день не выходит</div>`;
+      <span class="pill off">TT<span>—</span></span> в этот день не выходит
+      <span class="pill slot">TT<i data-lucide="circle-dashed"></i></span> пустой слот: ролика пока нет</div>`;
   const cards = S.plan.platforms.map((p) => {
     const n = C.tagCount[p.id] || 0;
     return `<section class="rcard"><h3>${esc(p.name)}</h3><p class="acc">${esc(p.account)} · метка ссылки utm_source=${esc(p.utm)}</p>
@@ -284,7 +315,7 @@ async function copyText(t) {
 /* ---------- misc ---------- */
 let toastT;
 function toast(msg, bad = false) { const t = $('#toast'); t.textContent = msg; t.className = 'toast' + (bad ? ' bad' : ''); t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => (t.hidden = true), bad ? 6000 : 2200); }
-function savePrefs() { set(PREF_KEY, JSON.stringify({ view: S.view, filter: S.filter, hideDone: S.hideDone })); }
+function savePrefs() { set(PREF_KEY, JSON.stringify({ view: S.view, filter: S.filter, hideDone: S.hideDone, todoOnly: S.todoOnly })); }
 function loadPrefs() { try { Object.assign(S, JSON.parse(get(PREF_KEY) || '{}')); } catch (e) { /* defaults */ } }
 
 async function start() {
@@ -301,13 +332,16 @@ document.addEventListener('click', (e) => {
   const ptab = t.closest('.ptab'); if (ptab) { S.sheet.pid = ptab.dataset.p; renderSheet(); $('.sheet').scrollTop = 0; return; }
   const pill = t.closest('.pill[data-id]'); if (pill) return openSheet(pill.dataset.id, pill.dataset.p);
   const nx = t.closest('.next[data-id]'); if (nx) return openSheet(nx.dataset.id, nx.dataset.p);
-  const card = t.closest('.card'); if (card) return openSheet(card.dataset.id);
+  const card = t.closest('.card'); if (card) return card.classList.contains('slot') ? undefined : openSheet(card.dataset.id);
   const cp = t.closest('[data-copy]'); if (cp) return copyText(S.sheetFields[+cp.dataset.copy].text);
   if (t.closest('#tick')) return mark(true);
   if (t.closest('#untick')) return mark(false);
   if (t.closest('#pv')) return preview();
 });
-document.addEventListener('change', (e) => { if (e.target.id === 'hideDone') { S.hideDone = e.target.checked; savePrefs(); render(); } });
+document.addEventListener('change', (e) => {
+  if (e.target.id === 'hideDone') { S.hideDone = e.target.checked; savePrefs(); render(); }
+  if (e.target.id === 'todoOnly') { S.todoOnly = e.target.checked; savePrefs(); render(); }
+});
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && S.sheet) closeSheet();
   if (e.key === 'Enter' && e.target.classList && e.target.classList.contains('card')) openSheet(e.target.dataset.id);
