@@ -1,6 +1,6 @@
 {
  "version": 1,
- "updated": "2026-10-21",
+ "updated": "2026-10-22",
  "title": "Ролики Playmar · первая волна",
  "time": "15:00",
  "tz": "Europe/London",
@@ -65,7 +65,7 @@
  "games": {
   "R": "Stick the Landing · посадка ракеты (демо-бренд Boostback)",
   "A": "Pack Light · сборка посылки в корзине",
-  "C": "Memory Match · игра на память во всплывающем окне сайта",
+  "C": "Mustangs Memory · игра на память, ретро-карточки американского футбола (бренд Tailgate Supply Co.)",
   "D": "Christmas Countdown Calendar · рождественский календарь",
   "E": "Catch & Collect · новогодняя игра на ловкость",
   "F": "Which One Are You? · квиз к 14 февраля",
@@ -117,7 +117,7 @@
    "type": "Вариант с плашками · В1"
   },
   "C-F4": {
-   "title": "Memory Match · Боль → игра",
+   "title": "Mustangs Memory · Боль → игра",
    "game": "C",
    "type": "Ролик теста, формат Ф4 · Боль → игра"
   },
@@ -157,7 +157,7 @@
    "type": "Ролик теста, формат Ф4 · Боль → игра"
   },
   "C-F5": {
-   "title": "Memory Match · Путь клиента",
+   "title": "Mustangs Memory · Путь клиента",
    "game": "C",
    "type": "Ролик теста, формат Ф5 · Путь клиента"
   },
@@ -177,9 +177,11 @@
    "type": "Ролик теста, формат Ф1 · Рецепт к поводу"
   },
   "C-PURE": {
-   "title": "Memory Match · Чистая игра",
+   "title": "Mustangs Memory · Чистая игра",
    "game": "C",
-   "type": "Чистая игра, без текста на экране"
+   "type": "Чистая игра, без текста на экране",
+   "file": "videos/C-PURE.mp4?v=ecaa8ca8",
+   "poster": "posters/C-PURE.jpg?v=ecaa8ca8"
   },
   "A-PURE": {
    "title": "Pack Light · Чистая игра",
@@ -192,12 +194,12 @@
    "type": "Чистая игра, без текста на экране"
   },
   "C-X1": {
-   "title": "Memory Match · Запасной 1",
+   "title": "Mustangs Memory · Запасной 1",
    "game": "C",
    "type": "Запасной ролик, вариант выберем при сборке"
   },
   "C-X2": {
-   "title": "Memory Match · Запасной 2",
+   "title": "Mustangs Memory · Запасной 2",
    "game": "C",
    "type": "Запасной ролик, вариант выберем при сборке"
   },
@@ -334,18 +336,22 @@
    ]
   },
   {
-   "id": "2026-10-29-SLOT",
+   "id": "2026-10-29-C-PURE",
    "date": "2026-10-29",
-   "kind": "slot",
+   "kind": "zero",
+   "video": "C-PURE",
    "platforms": [
     "yt",
     "ig",
     "fb",
     "tt"
    ],
+   "shortsTitle": "Match six pairs of 1976 football cards for 20% off",
+   "hook": "A football-season memory game: flip trading cards until the album is full, and the code goes to the next tailgate order.",
+   "body": "",
+   "tag": "#customerretention",
    "notes": [
-    "Новая игра (решение 22.10): одна игра на 29.10 и 2.11. Успеем к 29.10 — игра к Хэллоуину (31.10).",
-    "Не Dandiya Beat: она выходит 27.10 и 30.10."
+    "Четвёртая чистая игра, после ракеты, клада и Dandiya. Тема — американский футбол, без перекраски (решение Дмитрия 22.10: рынки — США, Великобритания и ЕС, в США идёт сезон). Как и 21.10: в TikTok — пометка «Your brand» и ролик открыт для всех, на Facebook — отдельный пост."
    ]
   },
   {
@@ -378,7 +384,8 @@
     "tt"
    ],
    "notes": [
-    "Второй ролик новой игры с 29.10 (решение 22.10)."
+    "Новая игра (решение 22.10): одна игра на 2.11 и 9.11. Игра к Хэллоуину отпала: 29.10 закрыт чистой Mustangs Memory, а 2.11 — уже после 31.10.",
+    "Не Mustangs Memory: она выходит 29.10 и 3.11."
    ]
   },
   {
@@ -452,20 +459,18 @@
    ]
   },
   {
-   "id": "2026-11-09-C-PURE",
+   "id": "2026-11-09-SLOT",
    "date": "2026-11-09",
-   "kind": "extra",
-   "video": "C-PURE",
+   "kind": "slot",
    "platforms": [
     "yt",
     "ig",
     "fb",
     "tt"
    ],
-   "shortsTitle": "A site popup you'd actually play",
-   "hook": "Flip the cards, find the pairs, unlock a welcome code.",
-   "body": "",
-   "tag": "#emailmarketing"
+   "notes": [
+    "Второй ролик новой игры с 2.11 (решение 22.10; чистая Mustangs Memory переехала отсюда на 29.10)."
+   ]
   },
   {
    "id": "2026-11-10-A-F5",
