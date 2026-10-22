@@ -217,6 +217,13 @@
    "type": "Чистая игра, без текста на экране",
    "file": "videos/B-PURE.mp4?v=7133fd02",
    "poster": "posters/B-PURE.jpg?v=7133fd02"
+  },
+  "B02": {
+   "title": "Dandiya Beat · Не колесо удачи",
+   "game": "B",
+   "type": "Вариант с плашками · колесо удачи против игры на точность",
+   "file": "videos/B02.mp4?v=2f3d8841",
+   "poster": "posters/B02.jpg?v=2f3d8841"
   }
  },
  "pauses": [
@@ -342,17 +349,22 @@
    ]
   },
   {
-   "id": "2026-10-30-SLOT",
+   "id": "2026-10-30-B02",
    "date": "2026-10-30",
-   "kind": "slot",
+   "kind": "zero",
+   "video": "B02",
    "platforms": [
     "yt",
     "ig",
     "fb",
     "tt"
    ],
+   "shortsTitle": "Swap the spin-to-win wheel for a rhythm game",
+   "hook": "Wheel popups hand out random codes. In this one, timing decides: 85% accuracy earns 20% off.",
+   "body": "A 45-second round in a site popup. Lower tiers still pay: 15% from 60% accuracy, 10% for anyone who finishes.",
+   "tag": "#ecommerce",
    "notes": [
-    "Dandiya Beat с плашками (решение 22.10). Чистая игра выходит 27.10."
+    "Ролик с плашками на игре Dandiya Beat (чистая игра вышла 27.10): привычное колесо удачи на сайте против игры, где скидку решает точность."
    ]
   },
   {
