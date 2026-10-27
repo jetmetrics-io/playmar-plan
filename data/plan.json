@@ -323,11 +323,12 @@
    "tag": "#ecommerce",
    "notes": [
     "Ролик с плашками на игре Dandiya Beat (чистая игра вышла 27.10): привычное колесо удачи на сайте против игры, где скидку решает точность.",
-    "С 27.10 ролики с плашками выходят и в LinkedIn. Текст для LinkedIn появится здесь."
+    "С 27.10 ролики с плашками выходят и в LinkedIn: этот — первый по новому правилу."
    ],
    "format": "plates",
    "linkedin": {
-    "status": "writing"
+    "status": "ready",
+    "text": "A spin-to-win wheel gives every shopper a random code. Nobody earns it, and nothing brings them back.\n\nHere is the same popup slot with a rhythm game instead.\n\nThe store in the video is a demo. The game is a 45-second round for Navratri: mirrors fall in time with the music, and you strike as each one meets the line.\n\nHow the pieces work for CRM:\n\n1. The tiers are on the first screen: 10% for anyone who finishes, 15% from 60% accuracy, 20% from 85%.\n2. Nobody loses. Finish the round and you still get a code.\n3. While you play, a bar shows \"On track for 20% off\". That keeps people going to the end.\n4. One round per night, nine nights in a row. That's a reason to come back tomorrow.\n\nA wheel takes one click. This takes 45 seconds, and the shopper leaves with a score to beat, not only a code.\n\nOne catch: a rhythm game works best with sound on, and plenty of people shop with their phone muted.\n\nYou can build your own with AI, free. The almanac is in my Featured section.\n\nWould your customers play for 45 seconds, or do they just want the code?"
    }
   },
   {
