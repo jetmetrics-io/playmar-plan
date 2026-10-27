@@ -99,10 +99,8 @@ main { max-width: 1080px; margin: 0 auto; padding: 20px 24px 80px; }
 .what { min-width: 0; display: grid; gap: 4px; }
 .badges { display: flex; gap: 6px; flex-wrap: wrap; }
 .badge { font-family: var(--mono); font-weight: 700; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; padding: 2px 6px; border: 1px solid var(--line-2); color: var(--ink-2); background: #fff; }
-.badge.test { border-color: var(--accent); color: var(--accent); }
-.badge.extra { border-color: #9AA0B5; color: #4F566E; }
-.badge.zero { border-color: var(--ink); color: var(--ink); }
-.badge.img { border-color: #3B7EA1; color: #2C6584; }
+.badge.plates { border-color: var(--accent); color: var(--accent); }
+.badge.pure { border-color: var(--ink); color: var(--ink); }
 .badge.ready { background: var(--ok-tint); border-color: transparent; color: var(--ok); }
 .badge.notready { background: #F2F0F6; border-color: transparent; color: var(--ink-3); }
 .title { margin: 0; font-size: 16px; font-weight: 700; letter-spacing: -0.01em; }
@@ -194,6 +192,9 @@ ul.rules { margin: 0; padding-left: 18px; display: grid; gap: 6px; font-size: 14
 .badge.slot { border-style: dashed; border-color: var(--ink-3); color: var(--ink-2); background: transparent; }
 .pill.slot { border-style: dashed; color: var(--ink-3); cursor: default; background: transparent; }
 .pill.slot:hover { border-color: var(--line-2); color: var(--ink-3); }
+.pill.opt { border-style: dashed; color: var(--ink-3); background: transparent; }
+.pill.opt.slot { cursor: default; }
+.dot.opt { border-style: dashed; }
 .work { margin: 0; font-size: 14px; color: var(--ink-2); }
 .work b { color: var(--ink); }
 .card.slot .hook { white-space: normal; overflow: visible; text-overflow: clip; font-size: 13px; }

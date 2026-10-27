@@ -57,23 +57,25 @@ const itemById = (id) => S.plan.items.find((i) => i.id === id);
 const videoOf = (it) => (it.video ? S.plan.videos[it.video] : null);
 const isDone = (it, pid) => !!S.status[it.id]?.[pid]?.done;
 const isSlot = (it) => it.kind === 'slot';
+/* platforms of the day: required ones, then optional ones (LinkedIn for a pure-game reel) */
+const plats = (it) => it.platforms.concat((it.optional || []).filter((p) => !it.platforms.includes(p)));
+const isOpt = (it, pid) => (it.optional || []).includes(pid) && !it.platforms.includes(pid);
+const FORMAT = { pure: 'Чистая игра', plates: 'С плашками' };
 const liWriting = (it) => it.platforms.includes('li') && (it.linkedin || {}).status !== 'ready';
 /* what still has to be made for this day: a video for an empty slot, a video in production, a LinkedIn text */
 const needsWork = (it) => isSlot(it) || (it.video && !(videoOf(it) || {}).file) || liWriting(it);
 function pState(it, pid) {
-  if (!it.platforms.includes(pid)) return 'off';
-  if (isSlot(it)) return 'slot';
+  if (!plats(it).includes(pid)) return 'off';
+  if (isSlot(it)) return isOpt(it, pid) ? 'opt' : 'slot';
   if (isDone(it, pid)) return 'done';
+  if (isOpt(it, pid)) return 'opt';
   const today = ukToday();
   if (it.date === today) return 'today';
   return it.date < today ? 'late' : 'todo';
 }
 const finished = (it) => !isSlot(it) && (S.filter === 'all' ? it.platforms.every((p) => isDone(it, p)) : isDone(it, S.filter));
-function itemTitle(it) { if (it.kind === 'li-image') return 'Пост с картинкой в LinkedIn'; const v = videoOf(it); return v ? v.title : it.video; }
-function gameLine(it) {
-  if (it.kind === 'li-image') return 'Текст и одна картинка · без видео';
-  const v = videoOf(it); return v ? `${S.plan.games[v.game] || ''} · ${v.type}` : '';
-}
+function itemTitle(it) { const v = videoOf(it); return v ? v.title : it.video; }
+function gameLine(it) { const v = videoOf(it); return v ? `${S.plan.games[v.game] || ''} · ${v.type}` : ''; }
 function tagsFor(it, pid) {
   const n = S.plan.constants.tagCount[pid] || 0, base = S.plan.constants.baseTags;
   if (!n) return [];
@@ -85,7 +87,9 @@ function fields(it, pid) {
   const C = S.plan.constants;
   if (pid === 'li') {
     const li = it.linkedin || {};
-    return li.status === 'ready' && li.text ? [{ label: 'Текст поста', text: li.text, limit: 3000, big: true }] : null;
+    if (li.status === 'ready' && li.text) return [{ label: 'Текст поста', text: li.text, limit: 3000, big: true }];
+    /* LinkedIn by choice (pure game): the first line and the description, no call to action, no hashtags */
+    return isOpt(it, 'li') && it.hook ? [{ label: 'Текст поста', text: [it.hook, it.body].filter(Boolean).join('\n\n'), limit: 3000 }] : null;
   }
   if (!it.hook) return null;
   const tags = tagsFor(it, pid).join(' ');
@@ -109,6 +113,8 @@ function pillHTML(it, p) {
   const st = pState(it, p.id);
   if (st === 'off') return `<span class="pill off" title="${esc(p.name)}: в этот день не выходит">${esc(p.short)}<span>—</span></span>`;
   if (st === 'slot') return `<span class="pill slot" title="${esc(p.name)}: ролика под этот день пока нет">${esc(p.short)}<i data-lucide="circle-dashed"></i></span>`;
+  if (st === 'opt' && isSlot(it)) return `<span class="pill opt slot" title="${esc(p.name)}: по желанию">${esc(p.short)}<i data-lucide="plus"></i></span>`;
+  if (st === 'opt') return `<button class="pill opt" data-id="${esc(it.id)}" data-p="${p.id}" title="${esc(p.name)}: по желанию">${esc(p.short)}<i data-lucide="plus"></i></button>`;
   const dim = S.filter !== 'all' && S.filter !== p.id ? ' dim' : '';
   const word = { done: 'выложено', today: 'сегодня', late: 'просрочено', todo: 'впереди' }[st];
   return `<button class="pill ${st}${dim}" data-id="${esc(it.id)}" data-p="${p.id}" title="${esc(p.name)}: ${word}">${esc(p.short)}${ICON[st] ? `<i data-lucide="${ICON[st]}"></i>` : '<span style="height:14px"></span>'}</button>`;
@@ -121,10 +127,11 @@ function neighbourGames(it) {
 }
 function slotHTML(it) {
   const loc = localTime(it.date), near = neighbourGames(it);
-  const nearText = near.length ? `Любая игра, кроме ${near.join(' и ')}: ${near.length > 1 ? 'они выходят соседними роликами' : 'она выходит соседним роликом'}.` : 'Подойдёт любая игра: соседние дни тоже пока пустые.';
+  /* the slot's notes name its game: the "any game but…" hint would contradict them */
+  const nearText = (it.notes || []).length ? '' : near.length ?`Любая игра, кроме ${near.join(' и ')}: ${near.length > 1 ? 'они выходят соседними роликами' : 'она выходит соседним роликом'}.` : 'Подойдёт любая игра: соседние дни тоже пока пустые.';
   return `<article class="card slot" data-id="${esc(it.id)}">
     <div class="when"><b>${fmtDate(it.date)}</b><span class="t">${esc(S.plan.time)} Лондон</span>${loc ? `<span class="loc">${esc(loc)}</span>` : ''}</div>
-    <div class="what"><div class="badges"><span class="badge slot">Пустой слот</span></div><p class="title">Нужен ролик</p><p class="game">${esc(nearText)}</p>
+    <div class="what"><div class="badges"><span class="badge slot">Пустой слот</span>${it.format ? `<span class="badge ${it.format}">${FORMAT[it.format]}</span>` : ''}</div><p class="title">Нужен ролик</p>${nearText ? `<p class="game">${esc(nearText)}</p>` : ''}
       ${(it.notes || []).map((n) => `<p class="hook none">${esc(n)}</p>`).join('')}</div>
     <div class="pills">${S.plan.platforms.map((p) => pillHTML(it, p)).join('')}</div>
   </article>`;
@@ -134,13 +141,11 @@ function cardHTML(it) {
   const v = videoOf(it), loc = localTime(it.date);
   const states = it.platforms.map((p) => pState(it, p));
   const cls = finished(it) ? ' done' : states.includes('late') ? ' is-late' : states.includes('today') ? ' is-today' : '';
-  const kind = { zero: ['zero', 'Разгон'], test: ['test', `Тест ${it.test}`], extra: ['extra', 'Добор'], 'li-image': ['img', 'Пост с картинкой'] }[it.kind];
-  const badges = [`<span class="badge ${kind[0]}">${kind[1]}</span>`];
+  const badges = [`<span class="badge ${it.format}">${FORMAT[it.format]}</span>`];
   if (it.video) badges.push(v && v.file ? '<span class="badge ready">Видео готово</span>' : '<span class="badge notready">Видео делаем</span>');
   if (it.video) badges.push(`<span class="badge">${esc(it.video)}</span>`);
   if (it.platforms.includes('li') && (it.linkedin || {}).status !== 'ready') badges.push('<span class="badge notready">Текст LinkedIn пишем</span>');
-  const hook = it.kind === 'li-image' ? '<p class="hook none">Текст пишем</p>'
-    : it.hook ? `<p class="hook">“${esc(it.shortsTitle && S.filter === 'yt' ? it.shortsTitle : it.hook)}”</p>` : '<p class="hook none">Подпись появится вместе с роликом</p>';
+  const hook = it.hook ? `<p class="hook">“${esc(it.shortsTitle && S.filter === 'yt' ? it.shortsTitle : it.hook)}”</p>` : '<p class="hook none">Подпись появится вместе с роликом</p>';
   return `<article class="card${cls}" data-id="${esc(it.id)}" tabindex="0">
     <div class="when"><b>${fmtDate(it.date)}</b><span class="t">${esc(S.plan.time)} Лондон</span>${loc ? `<span class="loc">${esc(loc)}</span>` : ''}</div>
     <div class="what"><div class="badges">${badges.join('')}</div><p class="title">${esc(itemTitle(it))}</p><p class="game">${esc(gameLine(it))}</p>${hook}</div>
@@ -167,10 +172,11 @@ function nextHTML() {
 function renderPlan() {
   const P = S.plan;
   let total = 0, done = 0; const per = {};
-  for (const it of P.items) for (const p of it.platforms) { if (isSlot(it)) continue; total++; per[p] = per[p] || [0, 0]; per[p][1]++; if (isDone(it, p)) { done++; per[p][0]++; } }
+  /* optional platforms count only once posted */
+  for (const it of P.items) for (const p of plats(it)) { if (isSlot(it) || (isOpt(it, p) && !isDone(it, p))) continue; total++; per[p] = per[p] || [0, 0]; per[p][1]++; if (isDone(it, p)) { done++; per[p][0]++; } }
   const chips = [`<button class="chip${S.filter === 'all' ? ' on' : ''}" data-f="all">Все <span class="n">${done}/${total}</span></button>`]
     .concat(P.platforms.map((p) => `<button class="chip${S.filter === p.id ? ' on' : ''}" data-f="${p.id}">${esc(lab(p.id))} <span class="n">${(per[p.id] || [0, 0]).join('/')}</span></button>`));
-  const items = P.items.filter((it) => (S.filter === 'all' || it.platforms.includes(S.filter)) && !(S.hideDone && finished(it)) && !(S.todoOnly && !needsWork(it)));
+  const items = P.items.filter((it) => (S.filter === 'all' || plats(it).includes(S.filter)) && !(S.hideDone && finished(it)) && !(S.todoOnly && !needsWork(it)));
   const slots = P.items.filter(isSlot).length;
   const inProd = new Set(P.items.filter((it) => it.video && !(videoOf(it) || {}).file).map((it) => it.video)).size;
   const liTexts = P.items.filter(liWriting).length;
@@ -183,7 +189,7 @@ function renderPlan() {
     if (w !== week) {
       week = w;
       const inWeek = P.items.filter((x) => mondayOf(x.date) === w);
-      const name = inWeek.every((x) => x.kind === 'zero' || isSlot(x)) ? 'Разгон' : `Неделя с ${fmtDay(w)}`;
+      const name = `Неделя с ${fmtDay(w)}`;
       const cnt = (x) => (S.filter === 'all' ? x.platforms.length : +x.platforms.includes(S.filter));
       const n = inWeek.filter((x) => !isSlot(x)).reduce((a, x) => a + cnt(x), 0);
       const e = inWeek.filter((x) => isSlot(x) && cnt(x)).length;
@@ -209,7 +215,8 @@ function renderRules() {
       <span class="pill late">TT<i data-lucide="alert-triangle"></i></span> просрочено
       <span class="pill done">TT<i data-lucide="check"></i></span> выложено
       <span class="pill off">TT<span>—</span></span> в этот день не выходит
-      <span class="pill slot">TT<i data-lucide="circle-dashed"></i></span> пустой слот: ролика пока нет</div>`;
+      <span class="pill slot">TT<i data-lucide="circle-dashed"></i></span> пустой слот: ролика пока нет
+      <span class="pill opt">LI<i data-lucide="plus"></i></span> по желанию</div>`;
   const cards = S.plan.platforms.map((p) => {
     const n = C.tagCount[p.id] || 0;
     return `<section class="rcard"><h3>${esc(p.name)}</h3><p class="acc">${esc(p.account)} · метка ссылки utm_source=${esc(p.utm)}</p>
@@ -232,7 +239,7 @@ function render() {
 /* ---------- sheet: one day × one platform ---------- */
 function openSheet(id, pid) {
   const it = itemById(id); if (!it) return;
-  if (!pid || !it.platforms.includes(pid)) pid = (S.filter !== 'all' && it.platforms.includes(S.filter)) ? S.filter : (it.platforms.find((p) => !isDone(it, p)) || it.platforms[0]);
+  if (!pid || !plats(it).includes(pid)) pid = (S.filter !== 'all' && it.platforms.includes(S.filter)) ? S.filter : (it.platforms.find((p) => !isDone(it, p)) || it.platforms[0]);
   S.sheet = { id, pid };
   $('#sheetWrap').hidden = false;
   document.body.style.overflow = 'hidden';
@@ -243,7 +250,7 @@ function closeSheet() { S.sheet = null; $('#sheetWrap').hidden = true; document.
 function renderSheet() {
   const { id, pid } = S.sheet, it = itemById(id), v = videoOf(it), p = plat(pid), st = S.status[id]?.[pid];
   const loc = localTime(it.date);
-  const tabs = it.platforms.map((q) => `<button class="ptab${q === pid ? ' on' : ''}" data-p="${q}"><span class="dot ${pState(it, q)}"></span>${esc(lab(q))}</button>`).join('');
+  const tabs = plats(it).map((q) => `<button class="ptab${q === pid ? ' on' : ''}" data-p="${q}"><span class="dot ${pState(it, q)}"></span>${esc(lab(q))}</button>`).join('');
   const parts = [];
   if (it.video) {
     parts.push(v && v.file
@@ -253,6 +260,7 @@ function renderSheet() {
           <span class="muted" style="font-size:13px">${esc(it.video)} · MP4 9:16 · звук в файле</span></div></div></div>`
       : `<div class="blk"><h4>Видео</h4><div class="note warn">Ролик ещё делаем. Он появится здесь, когда будет готов. Нет его в свой день — пропустите слот и напишите Дмитрию.</div></div>`);
   } else parts.push('<div class="blk"><h4>Картинка</h4><div class="note warn">Картинка придёт вместе с текстом.</div></div>');
+  if (isOpt(it, pid)) parts.push(`<div class="blk"><div class="note">${esc(p.name)} для этого ролика — по желанию. Выложили — отметьте ниже.</div></div>`);
   const F = fields(it, pid);
   if (F) {
     F.forEach((f, i) => {
