@@ -215,9 +215,13 @@ const WINDOWS = [7, 28];
 const Stats = {
   async call(body) {
     let r;
-    /* a string body goes as text/plain: no CORS preflight */
-    try { r = await fetch(S.plan.statsApi, { method: 'POST', body: JSON.stringify(body) }); }
-    catch (e) { throw new Error('Нет связи с облаком: проверьте интернет и попробуйте ещё раз.'); }
+    /* a string body goes as text/plain: no CORS preflight. A request that never got an answer is tried twice more,
+       except an upload: its answer may be lost after the screenshot is already saved, and a retry would save it twice */
+    for (let i = 0; i < (body.a === 'upload' ? 1 : 3) && !r; i++) {
+      if (i) await new Promise((res) => setTimeout(res, 1500));
+      try { r = await fetch(S.plan.statsApi, { method: 'POST', body: JSON.stringify(body) }); } catch (e) { /* no answer */ }
+    }
+    if (!r) throw new Error('Браузер не достучался до облака Яндекса. Помешать может блокировщик рекламы, VPN или сеть: отключите блокировщик для этой страницы и попробуйте ещё раз. Не помогло — напишите Дмитрию.');
     let j = {}; try { j = await r.json(); } catch (e) { /* not JSON */ }
     if (!r.ok) throw Object.assign(new Error(j.error || (r.status === 413 ? 'Скрин слишком большой.' : `Облако ответило ${r.status}. Попробуйте ещё раз.`)), { badCode: !!j.badCode });
     return j;
