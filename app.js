@@ -323,9 +323,9 @@ function formatSummaryHTML(rows) {
     const reachPure = median(pure.map((r) => r['охват'])), reachPlates = median(plates.map((r) => r['охват']));
     const holdPure = median(pure.map((r) => holdMetric(r, p.id))), holdPlates = median(plates.map((r) => holdMetric(r, p.id)));
     const nPairs = pairs.filter((x) => x.platform === p.id).length, delta = deltaFor(p.id), deltaHold = deltaHoldFor(p.id);
-    return `<tr><th>${esc(p.name)}</th><td>${pure.length} / ${plates.length}</td><td>${pairVal(pure.map((r) => r['просмотры']), plates.map((r) => r['просмотры']))}</td>`
-      + `<td>${pairVal(pure.map((r) => r['охват']), plates.map((r) => r['охват']))}</td><td><span class="table-sub">${esc(holdMetricLabel(p.id))}</span>${pairVal(pure.map((r) => holdMetric(r, p.id)), plates.map((r) => holdMetric(r, p.id)), ' %')}</td>`
-      + `<td>${nPairs}</td><td>${delta == null ? '—' : (delta > 0 ? '+' : '') + fmtN(delta, ' %')}</td><td>${deltaHold == null ? '—' : (deltaHold > 0 ? '+' : '') + fmtN(deltaHold, ' п.п.')}</td></tr>`;
+    return `<tr><th>${esc(p.name)}</th><td data-label="Снимки · чистая / плашки">${pure.length} / ${plates.length}</td><td data-label="Медиана просмотров · чистая / плашки">${pairVal(pure.map((r) => r['просмотры']), plates.map((r) => r['просмотры']))}</td>`
+      + `<td data-label="Медиана охвата · чистая / плашки">${pairVal(pure.map((r) => r['охват']), plates.map((r) => r['охват']))}</td><td data-label="Медиана метрики просмотра · чистая / плашки"><span class="table-sub">${esc(holdMetricLabel(p.id))}</span>${pairVal(pure.map((r) => holdMetric(r, p.id)), plates.map((r) => holdMetric(r, p.id)), ' %')}</td>`
+      + `<td data-label="Полных пар: игра × площадка">${nPairs}</td><td data-label="Медианная разница просмотров: плашки к чистой">${delta == null ? '—' : (delta > 0 ? '+' : '') + fmtN(delta, ' %')}</td><td data-label="Медианная разница метрики просмотра: плашки к чистой">${deltaHold == null ? '—' : (deltaHold > 0 ? '+' : '') + fmtN(deltaHold, ' п.п.')}</td></tr>`;
   }).join('');
   return `<h4>Срез ровно на 7-й день</h4><p class="muted small">Медианы ниже описывают все доступные ролики каждого формата на площадке. Это предварительная сводка: разницу форматов оцениваем по сопоставимым парам — одна игра, одна площадка, точный возраст 7 дней.</p>`
     + `<div class="tscroll"><table class="stable compare-summary"><thead><tr><th>Площадка</th><th>Снимки<br>чистая / плашки</th><th>Медиана просмотров<br>чистая / плашки</th><th>Медиана охвата<br>чистая / плашки</th><th>Медиана метрики просмотра<br>чистая / плашки</th><th>Полных пар<br>игра × площадка</th><th>Медианная разница просмотров<br>плашки к чистой</th><th>Медианная разница метрики просмотра<br>плашки к чистой</th></tr></thead><tbody>${body}</tbody></table></div>`
@@ -367,7 +367,9 @@ function gameComparisonHTML(rows) {
   const data = [...groups.values()].sort((a, b) => String(S.plan.games[a.game] || a.game).localeCompare(String(S.plan.games[b.game] || b.game), 'ru')
     || S.plan.platforms.findIndex((p) => p.id === a.platform) - S.plan.platforms.findIndex((p) => p.id === b.platform));
   if (!data.length) return '<p class="muted">По играм появятся строки после разбора статистики.</p>';
-  const body = data.map((x) => `<tr><th>${esc(String(S.plan.games[x.game] || x.game).split(' · ')[0])}</th><td>${esc(lab(x.platform))}</td><td>${gameSnapshotCell(x.pure, x.platform)}</td><td>${gameSnapshotCell(x.plates, x.platform)}</td><td>${gameComparisonStatus(x.pure, x.plates)}</td></tr>`).join('');
+  const gameGroups = new Map();
+  data.forEach((x) => { const items = gameGroups.get(x.game) || []; items.push(x); gameGroups.set(x.game, items); });
+  const body = [...gameGroups.entries()].map(([game, items]) => items.map((x, i) => `<tr>${i === 0 ? `<th rowspan="${items.length}">${esc(String(S.plan.games[game] || game).split(' · ')[0])}</th>` : ''}<td class="cmp-platform">${esc(lab(x.platform))}</td><td class="cmp-pure">${gameSnapshotCell(x.pure, x.platform)}</td><td class="cmp-plates">${gameSnapshotCell(x.plates, x.platform)}</td><td class="cmp-status-cell">${gameComparisonStatus(x.pure, x.plates)}</td></tr>`).join('')).join('');
   return `<p class="muted small">Последний доступный снимок каждой версии игры и площадки. Возраст указан в ячейке; статус справа подсказывает, можно ли сравнивать значения напрямую.</p>`
     + `<div class="tscroll"><table class="stable game-compare"><thead><tr><th>Игра</th><th>Площадка</th><th>Чистая игра</th><th>С плашками</th><th>Сопоставимость</th></tr></thead><tbody>${body}</tbody></table></div>`
     + `<p class="muted small">Основной итог по форматам строится по одинаковому возрасту — ровно 7 дней. Для решений смотрим медиану пар, а не суммируем просмотры разных игр.</p>`;

@@ -265,12 +265,13 @@ details.hint ul { margin-top: 8px; }
 .analytics-summary tbody td { text-align: right; }
 .compare-summary { min-width: 1240px; }
 .compare-summary tbody td { min-width: 112px; text-align: left; white-space: normal; }
-.game-compare { min-width: 1120px; table-layout: fixed; }
-.game-compare thead th:nth-child(1), .game-compare tbody th { width: 180px; white-space: normal; }
-.game-compare thead th:nth-child(2), .game-compare tbody td:nth-child(1) { width: 112px; }
-.game-compare thead th:nth-child(3), .game-compare thead th:nth-child(4), .game-compare tbody td:nth-child(2), .game-compare tbody td:nth-child(3) { width: 250px; }
-.game-compare thead th:nth-child(5), .game-compare tbody td:nth-child(4) { width: 180px; }
-.game-compare tbody td:nth-child(n+2) { min-width: 170px; text-align: left; white-space: normal; vertical-align: top; }
+.game-compare { min-width: 940px; table-layout: fixed; }
+.game-compare thead th:nth-child(1), .game-compare tbody th { width: 160px; white-space: normal; vertical-align: middle; }
+.game-compare thead th:nth-child(2), .game-compare tbody .cmp-platform { width: 90px; }
+.game-compare thead th:nth-child(3), .game-compare thead th:nth-child(4), .game-compare tbody .cmp-pure, .game-compare tbody .cmp-plates { width: 220px; }
+.game-compare thead th:nth-child(5), .game-compare tbody .cmp-status-cell { width: 190px; }
+.game-compare tbody td { text-align: left; white-space: normal; vertical-align: top; }
+.game-compare tbody .cmp-pure, .game-compare tbody .cmp-plates, .game-compare tbody .cmp-status-cell { min-width: 160px; }
 .compare-cell { display: grid; gap: 2px; min-width: 0; color: var(--ink-2); font-size: 12px; line-height: 1.4; }
 .compare-cell .table-link { font-size: 13px; }
 .cmp-status { display: inline-block; max-width: 190px; padding: 4px 7px; border: 1px solid var(--line); font-size: 11px; line-height: 1.35; white-space: normal; }
@@ -320,4 +321,11 @@ details.hint ul { margin-top: 8px; }
   .analytics-summary tbody th { grid-column: 1 / -1; padding: 6px 2px; border-bottom: 1px solid var(--line); text-align: left; }
   .analytics-summary tbody td { display: flex; justify-content: space-between; gap: 8px; padding: 5px 2px; white-space: normal; text-align: right; }
   .analytics-summary tbody td::before { content: attr(data-label); color: var(--ink-2); text-align: left; font-size: 11px; }
+  .compare-summary { min-width: 0; }
+  .compare-summary thead { display: none; }
+  .compare-summary tbody { display: grid; gap: 8px; padding: 8px; }
+  .compare-summary tbody tr { display: grid; grid-template-columns: 1fr 1fr; padding: 6px 8px; border: 1px solid var(--line); }
+  .compare-summary tbody th { grid-column: 1 / -1; padding: 6px 2px; border-bottom: 1px solid var(--line); text-align: left; }
+  .compare-summary tbody td { display: flex; justify-content: space-between; gap: 8px; min-width: 0; padding: 5px 2px; text-align: right; }
+  .compare-summary tbody td::before { content: attr(data-label); max-width: 58%; color: var(--ink-2); text-align: left; font-size: 11px; }
 }
