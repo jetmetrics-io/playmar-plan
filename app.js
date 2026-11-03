@@ -275,32 +275,102 @@ function dueRowHTML(x, today) {
 }
 /* досмотр = average watch time ÷ video length (Сводка §7); a platform's own % only when the time is missing */
 function watchPct(r) { const it = itemById(r['пост']), sec = (videoOf(it) || {}).sec; return r['среднее_время_с'] != null && sec ? 100 * r['среднее_время_с'] / sec : r['досмотр_%']; }
-const per1000 = (r, k) => (r[k] != null && r['просмотры'] ? 1000 * r[k] / r['просмотры'] : null);
-function pairsHTML(rows) {
-  const M = [['Просмотры', (r) => r['просмотры'], ''], ['Досмотр', watchPct, ' %'], ['Подписки на 1 000', (r) => per1000(r, 'подписки'), '']];
-  // The upload label is a requested window; age_days is the actual age of the post in the screenshot metadata.
-  // Compare cumulative metrics only when both posts were captured at exactly the planned seven-day age.
-  const week = rows.filter((r) => r['окно'] === 7 && r['возраст_дней'] === 7), by = (id, p) => week.find((r) => r['пост'] === id && r['площадка'] === p);
-  const lines = []; let pairs = 0, pureWins = 0, platesWins = 0;
+function median(values) {
+  const a = values.filter((x) => typeof x === 'number' && Number.isFinite(x)).sort((x, y) => x - y);
+  if (!a.length) return null;
+  const m = Math.floor(a.length / 2);
+  return a.length % 2 ? a[m] : (a[m - 1] + a[m]) / 2;
+}
+function holdMetric(r, pid) {
+  if (!r) return null;
+  if (pid === 'fb') return watchPct(r);
+  if (pid === 'yt') return r['смотрели_%'];
+  if (pid === 'tt') return r['досмотр_%'];
+  return null;
+}
+function holdMetricLabel(pid) {
+  return ({ fb: 'Средняя доля просмотра', yt: 'Остались смотреть', tt: 'Досмотрели до конца', ig: 'Удержание не отображается' })[pid] || 'Метрика удержания';
+}
+function exactSevenRows(rows) {
+  // The window label is requested; age_days is the actual post age recorded with the screenshot.
+  return rows.filter((r) => Number(r['окно']) === 7 && Number(r['возраст_дней']) === 7);
+}
+function formatPairsAtSeven(rows) {
+  const week = exactSevenRows(rows), pairs = [];
   for (const g of Object.keys(S.plan.games)) {
-    const of = (f) => S.plan.items.filter((it) => it.format === f && (videoOf(it) || {}).game === g && week.some((r) => r['пост'] === it.id));
-    const a = of('pure')[0], b = of('plates')[0];
-    if (!a || !b) continue;
+    const of = (f) => S.plan.items.find((it) => it.format === f && (videoOf(it) || {}).game === g);
+    const pure = of('pure'), plates = of('plates');
+    if (!pure || !plates) continue;
     for (const p of S.plan.platforms.map((q) => q.id)) {
-      const ra = by(a.id, p), rb = by(b.id, p);
-      if (!ra || !rb) continue;
-      const cells = M.map(([, f, unit], i) => {
-        const x = f(ra), y = f(rb), win = x != null && y != null && x !== y ? (x > y ? 'a' : 'b') : '';
-        if (i === 1 && win) { pairs++; win === 'a' ? pureWins++ : platesWins++; }
-        return `<td class="${win === 'a' ? 'win' : ''}">${fmtN(x, unit)}</td><td class="${win === 'b' ? 'win' : ''}">${fmtN(y, unit)}</td>`;
-      }).join('');
-      lines.push(`<tr><th>${esc(S.plan.games[g].split(' · ')[0])}</th><td>${esc(lab(p))}</td>${cells}</tr>`);
+      const a = week.find((r) => r['пост'] === pure.id && r['площадка'] === p);
+      const b = week.find((r) => r['пост'] === plates.id && r['площадка'] === p);
+      if (a && b) pairs.push({ game: g, platform: p, pure, plates, a, b });
     }
   }
-  if (!lines.length) return '<p class="muted">Пар пока нет: сравнение учитывает только снимки ровно на 7-й день. Нужны данные чистой игры и ролика с плашками одной и той же игры на одной площадке в одинаковом возрасте.</p>';
-  return `<div class="tscroll"><table class="stable"><thead><tr><th rowspan="2">Игра</th><th rowspan="2">Площадка</th>${M.map(([l]) => `<th colspan="2">${l}</th>`).join('')}</tr>
-      <tr>${M.map(() => '<th>чистая</th><th>с плашками</th>').join('')}</tr></thead><tbody>${lines.join('')}</tbody></table></div>
-    <p class="muted small">Срез ровно на 7-й день. Выделено лучшее в паре. Просмотры сравниваем только внутри площадки: площадки считают их по-разному. По досмотру чистая игра лучше в ${pureWins} ${plural(pureWins, 'паре', 'парах', 'парах')} из ${pairs}, с плашками — в ${platesWins}. Выводы — не раньше 10 пар; уверенно — если формат выиграл 9 из 10.</p>`;
+  return pairs;
+}
+function formatSummaryHTML(rows) {
+  const week = exactSevenRows(rows), pairs = formatPairsAtSeven(rows);
+  const platforms = S.plan.platforms.filter((p) => rows.some((r) => r['площадка'] === p.id));
+  const group = (pid, format) => week.filter((r) => r['площадка'] === pid && (itemById(r['пост']) || {}).format === format);
+  const pairVal = (a, b, unit = '') => `${fmtN(median(a), unit)} / ${fmtN(median(b), unit)}`;
+  const deltaFor = (pid) => median(pairs.filter((x) => x.platform === pid && x.a['просмотры'] > 0 && x.b['просмотры'] != null)
+    .map((x) => 100 * (x.b['просмотры'] - x.a['просмотры']) / x.a['просмотры']));
+  const deltaHoldFor = (pid) => median(pairs.filter((x) => x.platform === pid && holdMetric(x.a, pid) != null && holdMetric(x.b, pid) != null)
+    .map((x) => holdMetric(x.b, pid) - holdMetric(x.a, pid)));
+  const body = platforms.map((p) => {
+    const pure = group(p.id, 'pure'), plates = group(p.id, 'plates');
+    const reachPure = median(pure.map((r) => r['охват'])), reachPlates = median(plates.map((r) => r['охват']));
+    const holdPure = median(pure.map((r) => holdMetric(r, p.id))), holdPlates = median(plates.map((r) => holdMetric(r, p.id)));
+    const nPairs = pairs.filter((x) => x.platform === p.id).length, delta = deltaFor(p.id), deltaHold = deltaHoldFor(p.id);
+    return `<tr><th>${esc(p.name)}</th><td>${pure.length} / ${plates.length}</td><td>${pairVal(pure.map((r) => r['просмотры']), plates.map((r) => r['просмотры']))}</td>`
+      + `<td>${pairVal(pure.map((r) => r['охват']), plates.map((r) => r['охват']))}</td><td><span class="table-sub">${esc(holdMetricLabel(p.id))}</span>${pairVal(pure.map((r) => holdMetric(r, p.id)), plates.map((r) => holdMetric(r, p.id)), ' %')}</td>`
+      + `<td>${nPairs}</td><td>${delta == null ? '—' : (delta > 0 ? '+' : '') + fmtN(delta, ' %')}</td><td>${deltaHold == null ? '—' : (deltaHold > 0 ? '+' : '') + fmtN(deltaHold, ' п.п.')}</td></tr>`;
+  }).join('');
+  return `<h4>Срез ровно на 7-й день</h4><p class="muted small">Медианы ниже описывают все доступные ролики каждого формата на площадке. Это предварительная сводка: разницу форматов оцениваем по сопоставимым парам — одна игра, одна площадка, точный возраст 7 дней.</p>`
+    + `<div class="tscroll"><table class="stable compare-summary"><thead><tr><th>Площадка</th><th>Снимки<br>чистая / плашки</th><th>Медиана просмотров<br>чистая / плашки</th><th>Медиана охвата<br>чистая / плашки</th><th>Медиана метрики просмотра<br>чистая / плашки</th><th>Полных пар<br>игра × площадка</th><th>Медианная разница просмотров<br>плашки к чистой</th><th>Медианная разница метрики просмотра<br>плашки к чистой</th></tr></thead><tbody>${body}</tbody></table></div>`
+    + `<p class="muted small">Площадки не сравниваем друг с другом. Для вывода о формате нужно не меньше 10 пар; охват и удержание не подменяются просмотрами. Сейчас в таблице видно, сколько данных есть для каждого формата, даже если пар пока нет.</p>`;
+}
+function gameSnapshotCell(snapshot, pid) {
+  if (!snapshot) return '<span class="muted">Нет снимка</span>';
+  const { row, item } = snapshot, v = videoOf(item) || {};
+  const age = row['возраст_дней'] == null ? 'возраст не указан' : `возраст ${fmtN(Number(row['возраст_дней']))} дн`;
+  const metrics = [`Просмотры: ${fmtN(row['просмотры'])}`];
+  if (row['охват'] != null) metrics.push(`Охват: ${fmtN(row['охват'])}`);
+  const hold = holdMetric(row, pid);
+  if (hold != null) metrics.push(`${holdMetricLabel(pid)}: ${fmtN(hold, ' %')}`);
+  return `<div class="compare-cell"><button class="table-link" data-id="${esc(item.id)}">${esc(v.code || item.video)}</button><span>${fmtDate(item.date)} · срез ${fmtN(row['окно'])} дн</span><span>${esc(age)}</span>${metrics.map((x) => `<span>${esc(x)}</span>`).join('')}</div>`;
+}
+function gameComparisonStatus(pure, plates) {
+  if (!pure || !plates) return '<span class="cmp-status wait">Нет снимка второго формата</span>';
+  const a = pure.row, b = plates.row;
+  if (Number(a['окно']) === 7 && Number(b['окно']) === 7 && Number(a['возраст_дней']) === 7 && Number(b['возраст_дней']) === 7)
+    return '<span class="cmp-status exact">Сопоставимо · 7 дней</span>';
+  const ageA = a['возраст_дней'] == null || a['возраст_дней'] === '' ? null : Number(a['возраст_дней']);
+  const ageB = b['возраст_дней'] == null || b['возраст_дней'] === '' ? null : Number(b['возраст_дней']);
+  if (ageA != null && ageB != null && ageA === ageB)
+    return `<span class="cmp-status wait">Одинаковый возраст · ${fmtN(ageA)} дн, не 7-й день</span>`;
+  return `<span class="cmp-status wait">Возраст снимков: ${ageA == null ? '—' : fmtN(ageA)} / ${ageB == null ? '—' : fmtN(ageB)} дн</span>`;
+}
+function gameComparisonHTML(rows) {
+  const groups = new Map();
+  for (const p of S.plan.platforms) {
+    for (const row of latestRowsForPlatform(rows, p.id)) {
+      const item = itemById(row['пост']), video = item && videoOf(item);
+      if (!video || !video.game || !['pure', 'plates'].includes(item.format)) continue;
+      const key = `${video.game}|${p.id}`, group = groups.get(key) || { game: video.game, platform: p.id, pure: null, plates: null };
+      const current = group[item.format], next = { row, item };
+      if (!current || item.date > current.item.date || (item.date === current.item.date && String(row['сбор'] || '') > String(current.row['сбор'] || ''))) group[item.format] = next;
+      groups.set(key, group);
+    }
+  }
+  const data = [...groups.values()].sort((a, b) => String(S.plan.games[a.game] || a.game).localeCompare(String(S.plan.games[b.game] || b.game), 'ru')
+    || S.plan.platforms.findIndex((p) => p.id === a.platform) - S.plan.platforms.findIndex((p) => p.id === b.platform));
+  if (!data.length) return '<p class="muted">По играм появятся строки после разбора статистики.</p>';
+  const body = data.map((x) => `<tr><th>${esc(S.plan.games[x.game] || x.game)}</th><td>${esc(lab(x.platform))}</td><td>${gameSnapshotCell(x.pure, x.platform)}</td><td>${gameSnapshotCell(x.plates, x.platform)}</td><td>${gameComparisonStatus(x.pure, x.plates)}</td></tr>`).join('');
+  return `<p class="muted small">Последний доступный снимок каждой версии игры и площадки. Возраст указан в ячейке; статус справа подсказывает, можно ли сравнивать значения напрямую.</p>`
+    + `<div class="tscroll"><table class="stable game-compare"><thead><tr><th>Игра</th><th>Площадка</th><th>Чистая игра</th><th>С плашками</th><th>Сопоставимость</th></tr></thead><tbody>${body}</tbody></table></div>`
+    + `<p class="muted small">Основной итог по форматам строится по одинаковому возрасту — ровно 7 дней. Для решений смотрим медиану пар, а не суммируем просмотры разных игр.</p>`;
 }
 function latestRowsForPlatform(rows, pid) {
   const byPost = new Map();
@@ -488,7 +558,9 @@ function renderStats() {
     : '<section class="rcard wide"><h3>Аналитика по скриншотам</h3><p class="muted">После загрузки и разбора скриншотов здесь появятся сводка и графики.</p></section>';
   const notes = (N.notes || []).length ? '<section class="rcard wide"><h3>Выводы разборов</h3><ul class="rules">' + N.notes.map((n) => '<li>' + (n.date ? '<b>' + fmtDay(n.date) + '.</b> ' : '') + esc(n.text) + '</li>').join('') + '</ul></section>' : '';
   $('#main').innerHTML = '<div class="stats" id="analyticsDashboard">' + charts + notes
-    + '<section class="rcard wide"><h3>Чистая игра и с плашками</h3>' + (N.rows.length ? pairsHTML(N.rows) : '<p class="muted">Сравнение появится вместе с цифрами.</p>') + '</section>'
+    + '<section class="rcard wide"><h3>Форматы и игры</h3>' + (N.rows.length
+      ? formatSummaryHTML(N.rows) + '<h4>Сравнение по каждой игре</h4>' + gameComparisonHTML(N.rows)
+      : '<p class="muted">Сравнение появится вместе с цифрами.</p>') + '</section>'
     + '<section class="rcard wide"><h3>Все цифры</h3>' + nums + '</section>'
     + '<section class="rcard wide"><h3>Что снять</h3><p class="muted small">Посту исполняется 7 и 28 дней в тот же день недели, что и выход. Нажмите площадку — откроется день: туда и загружайте скрины. Галочка — скрины уже есть, это видят все.</p>' + todo + '</section></div>';
 }
