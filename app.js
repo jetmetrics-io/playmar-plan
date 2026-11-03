@@ -570,19 +570,45 @@ function horizontalBarHTML(label, detail, value, max, format, metric) {
   const tint = format === 'plates' ? ' plates' : format === 'pure' ? ' pure' : '';
   return `<div class="hbar-row"><div class="hbar-label"><b>${esc(label)}</b>${detail ? `<span>${esc(detail)}</span>` : ''}</div><div class="hbar-track"><i class="hbar-fill${tint}" style="width:${width.toFixed(1)}%"></i></div><b class="hbar-value">${fmtN(value, analyticsMetricUnit(metric))}</b></div>`;
 }
+function platformIconHTML(pid) {
+  const common = 'class="social-brand-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"';
+  if (pid === 'yt') return `<svg ${common}><rect x="1.5" y="4" width="21" height="16" rx="4.5" fill="#FF0033"/><path d="M10 8v8l6-4z" fill="#fff"/></svg>`;
+  if (pid === 'ig') return `<svg ${common}><defs><linearGradient id="socialIgGradient" x1="0" y1="24" x2="24" y2="0" gradientUnits="userSpaceOnUse"><stop stop-color="#FFB13D"/><stop offset=".52" stop-color="#E1306C"/><stop offset="1" stop-color="#833AB4"/></linearGradient></defs><rect x="2" y="2" width="20" height="20" rx="6" fill="url(#socialIgGradient)"/><rect x="6" y="6" width="12" height="12" rx="3.5" fill="none" stroke="#fff" stroke-width="1.8"/><circle cx="12" cy="12" r="2.8" fill="none" stroke="#fff" stroke-width="1.8"/><circle cx="17.2" cy="6.9" r="1" fill="#fff"/></svg>`;
+  if (pid === 'fb') return `<svg ${common}><circle cx="12" cy="12" r="11" fill="#1877F2"/><text x="12.7" y="19" fill="#fff" font-family="Arial,sans-serif" font-size="19" font-weight="700" text-anchor="middle">f</text></svg>`;
+  if (pid === 'tt') return `<svg ${common}><path d="M15.8 4.5c.5 2.2 1.8 3.6 4 4v3.2a9.3 9.3 0 0 1-4-.9v5.1a6 6 0 1 1-5.7-6V13a2.8 2.8 0 1 0 2.5 2.8V4.5z" fill="#25F4EE" transform="translate(1 0)"/><path d="M15.8 4.5c.5 2.2 1.8 3.6 4 4v3.2a9.3 9.3 0 0 1-4-.9v5.1a6 6 0 1 1-5.7-6V13a2.8 2.8 0 1 0 2.5 2.8V4.5z" fill="#FE2C55" transform="translate(-1 0)"/><path d="M15.8 4.5c.5 2.2 1.8 3.6 4 4v3.2a9.3 9.3 0 0 1-4-.9v5.1a6 6 0 1 1-5.7-6V13a2.8 2.8 0 1 0 2.5 2.8V4.5z" fill="#111"/></svg>`;
+  if (pid === 'li') return `<svg ${common}><rect x="2" y="2" width="20" height="20" rx="3" fill="#0A66C2"/><text x="12" y="16.8" fill="#fff" font-family="Arial,sans-serif" font-size="9.5" font-weight="700" text-anchor="middle">in</text></svg>`;
+  const platform = plat(pid);
+  return `<svg ${common}><circle cx="12" cy="12" r="10" fill="#7B748B"/><text x="12" y="15.5" fill="#fff" font-family="Arial,sans-serif" font-size="7" font-weight="700" text-anchor="middle">${esc(platform.short)}</text></svg>`;
+}
 function platformSliceHTML(rows, metric) {
-  const platforms = S.plan.platforms.filter((p) => rows.some((r) => r['площадка'] === p.id));
-  return `<div class="analytics-platform-grid">${platforms.map((p) => {
-    const data = latestRowsForPlatform(rows, p.id).map((row) => ({ row, platform: p.id, item: itemById(row['пост']) }))
-      .filter((x) => typeof analyticsValue(x.row, p.id, metric) === 'number')
-      .sort((a, b) => analyticsValue(b.row, p.id, metric) - analyticsValue(a.row, p.id, metric));
-    const bars = data.map((x) => {
-      const video = videoOf(x.item) || {}, game = String(S.plan.games[video.game] || '').split(' · ')[0];
-      const age = x.row['возраст_дней'] == null ? 'возраст не указан' : `снимок ${fmtN(Number(x.row['возраст_дней']))} дн`;
-      return horizontalBarHTML(video.code || x.item.video || x.row['ролик'], `${game} · ${age}`, analyticsValue(x.row, p.id, metric), maxForPlatform(data, metric), x.item.format, metric);
-    }).join('');
-    return `<section class="analytics-chart-card"><div class="analytics-chart-head"><h3>${esc(p.name)}</h3><span>${data.length} роликов</span></div><p class="analytics-chart-caption">${esc(analyticsMetricLabel(p.id, metric))} · последние снимки</p>${bars || '<p class="chart-empty">В снимках нет этой метрики.</p>'}</section>`;
-  }).join('')}</div>`;
+  const platforms = S.plan.platforms.filter((p) => rows.some((r) => r['площадка'] === p.id)).map((platform) => {
+    const entries = latestRowsForPlatform(rows, platform.id).map((row) => ({ row, platform: platform.id, item: itemById(row['пост']), video: videoOf(itemById(row['пост'])) }))
+      .filter((entry) => entry.item && entry.video);
+    return { platform, entries, summary: aggregateSummary(entries, metric) };
+  }).sort((a, b) => (b.summary.count ? b.summary.total : -1) - (a.summary.count ? a.summary.total : -1));
+  const latest = latestAnalyticsEntries(rows), overall = aggregateSummary(latest, metric);
+  const values = platforms.filter((x) => x.summary.count).map((x) => x.summary.total);
+  const max = Math.max(...values, 1);
+  const totalLabel = metric === 'охват' ? 'Суммарный охват' : 'Всего просмотров';
+  const valueLabel = metric === 'охват' ? 'охвата' : 'просмотров';
+  const overallHTML = metric === 'удержание'
+    ? `<div class="platform-total-note"><b>Удержание не складывается</b><span>Показано среднее по роликам внутри каждой соцсети; определения различаются.</span></div>`
+    : `<div class="platform-total-grid"><div class="platform-total-card"><span>${totalLabel} по площадкам</span><b>${overall.count ? fmtN(overall.total) : '—'}</b><small>${valueLabel}</small></div><div class="platform-total-card"><span>В среднем на ролик</span><b>${overall.count ? fmtN(overall.average) : '—'}</b><small>${overall.count ? `${fmtN(overall.total)} / ${fmtN(overall.count)} роликов · все площадки` : 'нет данных'}</small></div></div>`;
+  const items = platforms.map(({ platform, entries, summary }) => {
+    const hasData = summary.count > 0, value = summary.total, width = hasData && value > 0 ? Math.max(1.5, Math.min(100, value / max * 100)) : 0;
+    const average = metric === 'удержание' ? `среднее ${fmtN(value, ' %')} на ролик` : `в среднем ${fmtN(summary.average)} на ролик`;
+    const detail = hasData ? `${summary.count} ${plural(summary.count, 'ролик', 'ролика', 'роликов')} · ${average}` : 'В снимках нет этой метрики';
+    const amount = hasData ? fmtN(value, analyticsMetricUnit(metric)) : '—';
+    const amountLabel = metric === 'удержание' ? 'среднее' : metric === 'охват' ? 'охвата' : 'просмотров';
+    const tooltip = hasData ? aggregateTooltip(entries, metric) : `${platform.name}: в снимках нет этой метрики.`;
+    return `<div class="platform-aggregate-row${hasData ? '' : ' is-empty'}" title="${esc(tooltip)}" tabindex="0" aria-label="${esc(`${platform.name}. ${amount} ${amountLabel}. ${detail}. Наведите для состава.`)}">
+      <span class="platform-aggregate-icon">${platformIconHTML(platform.id)}</span>
+      <span class="platform-aggregate-name"><b>${esc(platform.name)}</b><small>${esc(detail)}</small></span>
+      <span class="hbar-track"><i class="hbar-fill" style="width:${width.toFixed(1)}%"></i></span>
+      <span class="platform-aggregate-value"><b>${amount}</b><small>${amountLabel}</small></span>
+    </div>`;
+  }).join('');
+  return `<div class="platform-slice">${overallHTML}<div class="platform-aggregate-chart">${items}</div></div>`;
 }
 function latestAnalyticsEntries(rows) {
   return S.plan.platforms.flatMap((p) => latestRowsForPlatform(rows, p.id).map((row) => {
@@ -669,10 +695,11 @@ function analyticsVisualsHTML(rows) {
   const tabs = slices.map(([id, label]) => `<button class="analytics-tab${slice === id ? ' on' : ''}" data-analytics-slice="${id}" aria-pressed="${slice === id}">${label}</button>`).join('');
   const updated = S.nums?.updated ? ` · обновлено ${fmtDate(S.nums.updated)}` : '';
   const heading = slice === 'platforms' ? 'По площадкам' : slice === 'games' ? 'По играм' : 'По типу ролика';
-  const context = slice === 'platforms' ? 'Каждую соцсеть показываем отдельно; просмотры между сетями напрямую не сравниваем.'
+  const context = slice === 'platforms' ? metric === 'удержание' ? 'Среднее по роликам внутри каждой соцсети; определения удержания различаются.'
+    : metric === 'охват' ? 'Сумма охвата может учитывать одного человека в нескольких сетях.' : 'Одна строка — одна соцсеть. Среднее = сумма просмотров соцсети / число роликов.'
     : slice === 'games' ? (metric === 'охват' ? 'Сумма охватов по сетям; один человек может учитываться несколько раз. Среднее — на ролик.' : 'Сумма просмотров по сетям; среднее — на ролик. Подробности — при наведении.')
       : metric === 'охват' ? 'Сумма охватов по сетям; один человек может учитываться несколько раз. Возраст снимков различается.' : 'Сумма просмотров по сетям; снимки разного возраста, сравнение форматов ориентировочное. Подробности — при наведении.';
-  return `<section class="analytics-main"><div class="analytics-main-head"><div><p class="eyebrow">Срез статистики${rows.length ? ` · ${rows.length} снимков${updated}` : ''}</p><h2>${heading}</h2></div><p class="muted small">Снимки накопительные; возраст указан у каждой полосы.</p></div><nav class="analytics-tabs" aria-label="Срез аналитики">${tabs}</nav><div class="analytics-controls" aria-label="Показатель">${metricButtons}</div>${slice !== 'games' ? chartLegendHTML() : ''}<p class="analytics-context">${context} Отдельные показы (impressions) в скриншотах не указаны.${slice === 'platforms' && metric === 'удержание' ? ' Метрика удержания различается по площадкам.' : ''}</p>${body}</section>`;
+  return `<section class="analytics-main"><div class="analytics-main-head"><div><p class="eyebrow">Срез статистики${rows.length ? ` · ${rows.length} снимков${updated}` : ''}</p><h2>${heading}</h2></div><p class="muted small">Снимки накопительные; возраст указан у каждой полосы.</p></div><nav class="analytics-tabs" aria-label="Срез аналитики">${tabs}</nav><div class="analytics-controls" aria-label="Показатель">${metricButtons}</div>${slice === 'formats' ? chartLegendHTML() : ''}<p class="analytics-context">${context} Отдельные показы (impressions) в скриншотах не указаны.</p>${body}</section>`;
 }
 function renderStats() {
   const today = ukToday(), list = dueList(), N = S.nums || { rows: [], notes: [] };
