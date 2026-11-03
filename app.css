@@ -324,8 +324,8 @@ details.hint ul { margin-top: 8px; }
   .compare-summary { min-width: 0; }
   .compare-summary thead { display: none; }
   .compare-summary tbody { display: grid; gap: 8px; padding: 8px; }
-  .compare-summary tbody tr { display: grid; grid-template-columns: 1fr 1fr; padding: 6px 8px; border: 1px solid var(--line); }
+  .compare-summary tbody tr { display: grid; grid-template-columns: 1fr; padding: 6px 8px; border: 1px solid var(--line); }
   .compare-summary tbody th { grid-column: 1 / -1; padding: 6px 2px; border-bottom: 1px solid var(--line); text-align: left; }
-  .compare-summary tbody td { display: flex; justify-content: space-between; gap: 8px; min-width: 0; padding: 5px 2px; text-align: right; }
-  .compare-summary tbody td::before { content: attr(data-label); max-width: 58%; color: var(--ink-2); text-align: left; font-size: 11px; }
+  .compare-summary tbody td { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: start; gap: 8px; min-width: 0; padding: 5px 2px; text-align: right; }
+  .compare-summary tbody td::before { content: attr(data-label); max-width: none; color: var(--ink-2); text-align: left; font-size: 11px; line-height: 1.4; }
 }
