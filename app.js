@@ -648,8 +648,7 @@ function gamesSliceHTML(rows, metric) {
   const groups = [...grouped.values()].map((group) => ({ ...group, summary: aggregateSummary(group.entries, metric) }))
     .filter((group) => group.summary.count).sort((a, b) => b.summary.total - a.summary.total);
   if (!groups.length) return '<p class="chart-empty">По играм пока нет снимков.</p>';
-  const note = metric === 'охват' ? 'Охват суммируется по площадкам и может учитывать одного человека несколько раз.' : 'Просмотры суммируются по всем площадкам; среднее — на один ролик.';
-  return `<p class="analytics-note">${note} Наведите на строку, чтобы увидеть состав.</p>${aggregateChartHTML(groups, metric)}`;
+  return aggregateChartHTML(groups, metric);
 }
 function formatSliceHTML(rows, metric) {
   const entries = latestAnalyticsEntries(rows), labels = { pure: 'Чистое прохождение', plates: 'С плашками' };
@@ -657,8 +656,7 @@ function formatSliceHTML(rows, metric) {
     const groupEntries = entries.filter((entry) => entry.item.format === format);
     return { key: format, label: labels[format], format, entries: groupEntries, summary: aggregateSummary(groupEntries, metric) };
   });
-  const note = metric === 'охват' ? 'Охват суммируется по площадкам и может учитывать одного человека несколько раз.' : 'Просмотры суммируются по всем площадкам.';
-  return `<p class="analytics-note">${note} Возраст последних накопительных снимков различается, поэтому сравнение форматов пока ориентировочное. Среднее — на один ролик. Состав виден при наведении.</p>${aggregateChartHTML(groups, metric)}`;
+  return aggregateChartHTML(groups, metric);
 }
 function analyticsVisualsHTML(rows) {
   const slices = [['platforms', 'Площадки'], ['games', 'Игры'], ['formats', 'Тип ролика']];
@@ -671,10 +669,10 @@ function analyticsVisualsHTML(rows) {
   const tabs = slices.map(([id, label]) => `<button class="analytics-tab${slice === id ? ' on' : ''}" data-analytics-slice="${id}" aria-pressed="${slice === id}">${label}</button>`).join('');
   const updated = S.nums?.updated ? ` · обновлено ${fmtDate(S.nums.updated)}` : '';
   const heading = slice === 'platforms' ? 'По площадкам' : slice === 'games' ? 'По играм' : 'По типу ролика';
-  const context = slice === 'platforms' ? 'Просмотры между площадками напрямую не сравниваем.'
-    : slice === 'games' ? (metric === 'охват' ? 'Охват суммируется по площадкам и может учитывать одного человека несколько раз.' : 'Сумма просмотров объединяет площадки; их определения просмотров различаются.')
-      : metric === 'охват' ? 'Охват суммируется по площадкам и может учитывать одного человека несколько раз.' : 'Суммы просмотров по последним снимкам; возраст публикаций различается.';
-  return `<section class="analytics-main"><div class="analytics-main-head"><div><p class="eyebrow">Срез статистики${rows.length ? ` · ${rows.length} снимков${updated}` : ''}</p><h2>${heading}</h2></div><p class="muted small">Снимки накопительные; возраст указан у каждой полосы.</p></div><nav class="analytics-tabs" aria-label="Срез аналитики">${tabs}</nav><div class="analytics-controls" aria-label="Показатель">${metricButtons}</div>${slice !== 'games' ? chartLegendHTML() : ''}<p class="analytics-context">${context} Показов / impressions в загруженных скриншотах нет.${slice === 'platforms' && metric === 'удержание' ? ' Метрика удержания различается по площадкам.' : ''}</p>${body}</section>`;
+  const context = slice === 'platforms' ? 'Каждую соцсеть показываем отдельно; просмотры между сетями напрямую не сравниваем.'
+    : slice === 'games' ? (metric === 'охват' ? 'Сумма охватов по сетям; один человек может учитываться несколько раз. Среднее — на ролик.' : 'Сумма просмотров по сетям; среднее — на ролик. Подробности — при наведении.')
+      : metric === 'охват' ? 'Сумма охватов по сетям; один человек может учитываться несколько раз. Возраст снимков различается.' : 'Сумма просмотров по сетям; снимки разного возраста, сравнение форматов ориентировочное. Подробности — при наведении.';
+  return `<section class="analytics-main"><div class="analytics-main-head"><div><p class="eyebrow">Срез статистики${rows.length ? ` · ${rows.length} снимков${updated}` : ''}</p><h2>${heading}</h2></div><p class="muted small">Снимки накопительные; возраст указан у каждой полосы.</p></div><nav class="analytics-tabs" aria-label="Срез аналитики">${tabs}</nav><div class="analytics-controls" aria-label="Показатель">${metricButtons}</div>${slice !== 'games' ? chartLegendHTML() : ''}<p class="analytics-context">${context} Отдельные показы (impressions) в скриншотах не указаны.${slice === 'platforms' && metric === 'удержание' ? ' Метрика удержания различается по площадкам.' : ''}</p>${body}</section>`;
 }
 function renderStats() {
   const today = ukToday(), list = dueList(), N = S.nums || { rows: [], notes: [] };
