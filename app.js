@@ -278,7 +278,9 @@ function watchPct(r) { const it = itemById(r['пост']), sec = (videoOf(it) ||
 const per1000 = (r, k) => (r[k] != null && r['просмотры'] ? 1000 * r[k] / r['просмотры'] : null);
 function pairsHTML(rows) {
   const M = [['Просмотры', (r) => r['просмотры'], ''], ['Досмотр', watchPct, ' %'], ['Подписки на 1 000', (r) => per1000(r, 'подписки'), '']];
-  const week = rows.filter((r) => r['окно'] === 7), by = (id, p) => week.find((r) => r['пост'] === id && r['площадка'] === p);
+  // The upload label is a requested window; age_days is the actual age of the post in the screenshot metadata.
+  // Compare cumulative metrics only when both posts were captured at exactly the planned seven-day age.
+  const week = rows.filter((r) => r['окно'] === 7 && r['возраст_дней'] === 7), by = (id, p) => week.find((r) => r['пост'] === id && r['площадка'] === p);
   const lines = []; let pairs = 0, pureWins = 0, platesWins = 0;
   for (const g of Object.keys(S.plan.games)) {
     const of = (f) => S.plan.items.filter((it) => it.format === f && (videoOf(it) || {}).game === g && week.some((r) => r['пост'] === it.id));
@@ -295,22 +297,25 @@ function pairsHTML(rows) {
       lines.push(`<tr><th>${esc(S.plan.games[g].split(' · ')[0])}</th><td>${esc(lab(p))}</td>${cells}</tr>`);
     }
   }
-  if (!lines.length) return '<p class="muted">Пар пока нет: нужны 7-дневные цифры чистой игры и ролика с плашками одной и той же игры на одной площадке.</p>';
+  if (!lines.length) return '<p class="muted">Пар пока нет: сравнение учитывает только снимки ровно на 7-й день. Нужны данные чистой игры и ролика с плашками одной и той же игры на одной площадке в одинаковом возрасте.</p>';
   return `<div class="tscroll"><table class="stable"><thead><tr><th rowspan="2">Игра</th><th rowspan="2">Площадка</th>${M.map(([l]) => `<th colspan="2">${l}</th>`).join('')}</tr>
       <tr>${M.map(() => '<th>чистая</th><th>с плашками</th>').join('')}</tr></thead><tbody>${lines.join('')}</tbody></table></div>
-    <p class="muted small">Срез 7 дней. Выделено лучшее в паре. Просмотры сравниваем только внутри площадки: площадки считают их по-разному. По досмотру чистая игра лучше в ${pureWins} ${plural(pureWins, 'паре', 'парах', 'парах')} из ${pairs}, с плашками — в ${platesWins}. Выводы — не раньше 10 пар; уверенно — если формат выиграл 9 из 10.</p>`;
+    <p class="muted small">Срез ровно на 7-й день. Выделено лучшее в паре. Просмотры сравниваем только внутри площадки: площадки считают их по-разному. По досмотру чистая игра лучше в ${pureWins} ${plural(pureWins, 'паре', 'парах', 'парах')} из ${pairs}, с плашками — в ${platesWins}. Выводы — не раньше 10 пар; уверенно — если формат выиграл 9 из 10.</p>`;
 }
 function numbersHTML(rows) {
   const order = S.plan.platforms.map((p) => p.id);
   const sorted = rows.slice().sort((a, b) => a['пост'].localeCompare(b['пост']) || order.indexOf(a['площадка']) - order.indexOf(b['площадка']) || a['окно'] - b['окно']);
-  const C = [['просмотры', 'Просмотры'], ['охват', 'Охват'], ['среднее_время_с', 'Ср. время, с'], [watchPct, 'Досмотр', ' %'], ['доля_не_подписчиков_%', 'Не подписчики', ' %'],
-    ['лайки', 'Лайки'], ['комментарии', 'Комм.'], ['пересылки', 'Пересылки'], ['сохранения', 'Сохр.'], ['переходы_в_профиль', 'В профиль'], ['подписки', 'Подписки'], ['клики_по_ссылке', 'Клики']];
+  const C = [['просмотры', 'Просмотры'], ['охват', 'Охват'], ['среднее_время_с', 'Ср. время, с'], ['время_просмотра_суммарно_с', 'Время всего, с'],
+    ['просмотры_3с', 'Просмотры 3 с'], ['вовлечённые_просмотры', 'Вовлеч. просмотры'], ['показано_в_ленте', 'Показано в ленте'],
+    ['смотрели_%', 'Смотрели / не листали', ' %'], [watchPct, 'Досмотр по ролику', ' %'], ['досмотр_%', 'Досмотр по экрану', ' %'],
+    ['доля_не_подписчиков_%', 'Не подписчики', ' %'], ['лайки', 'Лайки'], ['комментарии', 'Комм.'], ['пересылки', 'Пересылки'],
+    ['сохранения', 'Сохр.'], ['переходы_в_профиль', 'В профиль'], ['подписки', 'Подписки'], ['клики_по_ссылке', 'Клики']];
   const body = sorted.map((r) => {
     const it = itemById(r['пост']);
-    return `<tr><th><span class="nm">${esc(itemTitle(it))}</span><span class="muted">${fmtDay(it.date)}</span></th><td>${esc(lab(r['площадка']))}</td><td>${r['окно']} дн</td>
+    return `<tr><th><span class="nm">${esc(itemTitle(it))}</span><span class="muted">${fmtDay(it.date)}</span></th><td>${esc(lab(r['площадка']))}</td><td>${r['окно']} дн</td><td>${fmtN(r['возраст_дней'], ' дн')}</td>
       ${C.map(([k, , unit]) => `<td>${fmtN(typeof k === 'function' ? k(r) : r[k], unit || '')}</td>`).join('')}<td class="sp">${esc(r['особое'] || '')}</td></tr>`;
   }).join('');
-  return `<div class="tscroll"><table class="stable all"><thead><tr><th>Пост</th><th>Площадка</th><th>Срез</th>${C.map(([, l]) => `<th>${l}</th>`).join('')}<th>Особое</th></tr></thead><tbody>${body}</tbody></table></div>`;
+  return `<div class="tscroll"><table class="stable all"><thead><tr><th>Пост</th><th>Площадка</th><th>Срез</th><th>Возраст</th>${C.map(([, l]) => `<th>${l}</th>`).join('')}<th>Особое</th></tr></thead><tbody>${body}</tbody></table></div>`;
 }
 function renderStats() {
   const today = ukToday(), list = dueList(), N = S.nums || { rows: [], notes: [] };
