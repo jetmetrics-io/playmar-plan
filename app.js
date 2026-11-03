@@ -370,8 +370,18 @@ function gameComparisonHTML(rows) {
   const gameGroups = new Map();
   data.forEach((x) => { const items = gameGroups.get(x.game) || []; items.push(x); gameGroups.set(x.game, items); });
   const body = [...gameGroups.entries()].map(([game, items]) => items.map((x, i) => `<tr>${i === 0 ? `<th rowspan="${items.length}">${esc(String(S.plan.games[game] || game).split(' · ')[0])}</th>` : ''}<td class="cmp-platform">${esc(lab(x.platform))}</td><td class="cmp-pure">${gameSnapshotCell(x.pure, x.platform)}</td><td class="cmp-plates">${gameSnapshotCell(x.plates, x.platform)}</td><td class="cmp-status-cell">${gameComparisonStatus(x.pure, x.plates)}</td></tr>`).join('')).join('');
+  const mobile = [...gameGroups.entries()].map(([game, items]) => {
+    const gameName = String(S.plan.games[game] || game).split(' · ')[0];
+    const exactPairs = items.filter((x) => x.pure && x.plates
+      && Number(x.pure.row['окно']) === 7 && Number(x.plates.row['окно']) === 7
+      && Number(x.pure.row['возраст_дней']) === 7 && Number(x.plates.row['возраст_дней']) === 7).length;
+    const platforms = items.map((x) => `<article class="game-mobile-platform"><h5>${esc(lab(x.platform))}</h5><div class="game-mobile-pair"><section><b>Чистая игра</b>${gameSnapshotCell(x.pure, x.platform)}</section><section><b>С плашками</b>${gameSnapshotCell(x.plates, x.platform)}</section></div>${gameComparisonStatus(x.pure, x.plates)}</article>`).join('');
+    const pairText = exactPairs === 1 ? '1 пара на 7-й день' : `${exactPairs} пар на 7-й день`;
+    return `<details class="game-mobile-group"><summary><b>${esc(gameName)}</b><span>${items.length} площадки · ${pairText}</span></summary><div class="game-mobile-platforms">${platforms}</div></details>`;
+  }).join('');
   return `<p class="muted small">Последний доступный снимок каждой версии игры и площадки. Возраст указан в ячейке; статус справа подсказывает, можно ли сравнивать значения напрямую.</p>`
-    + `<div class="tscroll"><table class="stable game-compare"><thead><tr><th>Игра</th><th>Площадка</th><th>Чистая игра</th><th>С плашками</th><th>Сопоставимость</th></tr></thead><tbody>${body}</tbody></table></div>`
+    + `<div class="tscroll game-compare-desktop"><table class="stable game-compare"><thead><tr><th>Игра</th><th>Площадка</th><th>Чистая игра</th><th>С плашками</th><th>Сопоставимость</th></tr></thead><tbody>${body}</tbody></table></div>`
+    + `<div class="game-compare-mobile">${mobile}</div>`
     + `<p class="muted small">Основной итог по форматам строится по одинаковому возрасту — ровно 7 дней. Для решений смотрим медиану пар, а не суммируем просмотры разных игр.</p>`;
 }
 function latestRowsForPlatform(rows, pid) {
