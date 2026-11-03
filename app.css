@@ -265,9 +265,13 @@ details.hint ul { margin-top: 8px; }
 .analytics-summary tbody td { text-align: right; }
 .compare-summary { min-width: 1240px; }
 .compare-summary tbody td { min-width: 112px; text-align: left; white-space: normal; }
-.game-compare { min-width: 1020px; }
+.game-compare { min-width: 1120px; table-layout: fixed; }
+.game-compare thead th:nth-child(1), .game-compare tbody th { width: 180px; white-space: normal; }
+.game-compare thead th:nth-child(2), .game-compare tbody td:nth-child(1) { width: 112px; }
+.game-compare thead th:nth-child(3), .game-compare thead th:nth-child(4), .game-compare tbody td:nth-child(2), .game-compare tbody td:nth-child(3) { width: 250px; }
+.game-compare thead th:nth-child(5), .game-compare tbody td:nth-child(4) { width: 180px; }
 .game-compare tbody td:nth-child(n+2) { min-width: 170px; text-align: left; white-space: normal; vertical-align: top; }
-.compare-cell { display: grid; gap: 2px; min-width: 150px; color: var(--ink-2); font-size: 12px; line-height: 1.4; }
+.compare-cell { display: grid; gap: 2px; min-width: 0; color: var(--ink-2); font-size: 12px; line-height: 1.4; }
 .compare-cell .table-link { font-size: 13px; }
 .cmp-status { display: inline-block; max-width: 190px; padding: 4px 7px; border: 1px solid var(--line); font-size: 11px; line-height: 1.35; white-space: normal; }
 .cmp-status.exact { border-color: #9CCEB1; background: #EFF9F2; color: #276341; }

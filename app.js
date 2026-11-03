@@ -367,7 +367,7 @@ function gameComparisonHTML(rows) {
   const data = [...groups.values()].sort((a, b) => String(S.plan.games[a.game] || a.game).localeCompare(String(S.plan.games[b.game] || b.game), 'ru')
     || S.plan.platforms.findIndex((p) => p.id === a.platform) - S.plan.platforms.findIndex((p) => p.id === b.platform));
   if (!data.length) return '<p class="muted">По играм появятся строки после разбора статистики.</p>';
-  const body = data.map((x) => `<tr><th>${esc(S.plan.games[x.game] || x.game)}</th><td>${esc(lab(x.platform))}</td><td>${gameSnapshotCell(x.pure, x.platform)}</td><td>${gameSnapshotCell(x.plates, x.platform)}</td><td>${gameComparisonStatus(x.pure, x.plates)}</td></tr>`).join('');
+  const body = data.map((x) => `<tr><th>${esc(String(S.plan.games[x.game] || x.game).split(' · ')[0])}</th><td>${esc(lab(x.platform))}</td><td>${gameSnapshotCell(x.pure, x.platform)}</td><td>${gameSnapshotCell(x.plates, x.platform)}</td><td>${gameComparisonStatus(x.pure, x.plates)}</td></tr>`).join('');
   return `<p class="muted small">Последний доступный снимок каждой версии игры и площадки. Возраст указан в ячейке; статус справа подсказывает, можно ли сравнивать значения напрямую.</p>`
     + `<div class="tscroll"><table class="stable game-compare"><thead><tr><th>Игра</th><th>Площадка</th><th>Чистая игра</th><th>С плашками</th><th>Сопоставимость</th></tr></thead><tbody>${body}</tbody></table></div>`
     + `<p class="muted small">Основной итог по форматам строится по одинаковому возрасту — ровно 7 дней. Для решений смотрим медиану пар, а не суммируем просмотры разных игр.</p>`;
