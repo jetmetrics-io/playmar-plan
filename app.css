@@ -349,6 +349,16 @@ details.hint ul { margin-top: 8px; }
 .hbar-fill.pure { background: #6144C1; }
 .hbar-fill.plates { background: #16141D; }
 .hbar-value { min-width: 42px; color: var(--ink-2); font-size: 11px; font-variant-numeric: tabular-nums; text-align: right; }
+.analytics-aggregate-card { display: grid; gap: 9px; padding: 12px; border: 1px solid var(--line); background: #fff; }
+.analytics-aggregate-row { display: grid; grid-template-columns: minmax(150px, 230px) minmax(40px, 1fr) auto; align-items: center; gap: 12px; min-width: 0; padding: 5px 0; cursor: help; }
+.analytics-aggregate-name { display: grid; min-width: 0; gap: 3px; }
+.analytics-aggregate-name b { overflow: hidden; color: var(--ink); font-size: 13px; text-overflow: ellipsis; white-space: nowrap; }
+.analytics-aggregate-name span { color: var(--ink-3); font-size: 11px; line-height: 1.35; }
+.analytics-aggregate-value { display: grid; min-width: 78px; justify-items: end; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.analytics-aggregate-value b { color: var(--ink); font-size: 16px; }
+.analytics-aggregate-value span { font-size: 10px; }
+.analytics-aggregate-row.is-empty { color: var(--ink-3); }
+.analytics-aggregate-row.is-empty .hbar-track { background: transparent; }
 .game-chart-list { display: grid; gap: 7px; }
 .game-chart-card { border: 1px solid var(--line); background: #fff; }
 .game-chart-card > summary { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 10px 12px; cursor: pointer; }
@@ -372,6 +382,9 @@ details.hint ul { margin-top: 8px; }
   .analytics-main-head > p { max-width: none; text-align: left; }
   .analytics-tab { min-height: 36px; padding: 7px 5px; font-size: 12px; }
   .analytics-platform-grid, .game-network-grid { grid-template-columns: 1fr; }
+  .analytics-aggregate-row { grid-template-columns: minmax(0, 1fr) auto; gap: 7px 10px; }
+  .analytics-aggregate-row > .hbar-track { grid-column: 1 / -1; grid-row: 2; }
+  .analytics-aggregate-value { grid-column: 2; grid-row: 1; }
   .hbar-row { grid-template-columns: minmax(78px, 32%) minmax(24px, 1fr) auto; gap: 6px; }
   .game-network .hbar-row { grid-template-columns: minmax(78px, 32%) minmax(24px, 1fr) auto; }
   .hbar-label b { font-size: 10px; }
