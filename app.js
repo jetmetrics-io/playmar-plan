@@ -302,38 +302,196 @@ function pairsHTML(rows) {
       <tr>${M.map(() => '<th>чистая</th><th>с плашками</th>').join('')}</tr></thead><tbody>${lines.join('')}</tbody></table></div>
     <p class="muted small">Срез ровно на 7-й день. Выделено лучшее в паре. Просмотры сравниваем только внутри площадки: площадки считают их по-разному. По досмотру чистая игра лучше в ${pureWins} ${plural(pureWins, 'паре', 'парах', 'парах')} из ${pairs}, с плашками — в ${platesWins}. Выводы — не раньше 10 пар; уверенно — если формат выиграл 9 из 10.</p>`;
 }
+function latestRowsForPlatform(rows, pid) {
+  const byPost = new Map();
+  rows.filter((r) => r['площадка'] === pid).forEach((r) => {
+    const prev = byPost.get(r['пост']);
+    const age = r['возраст_дней'] == null ? -1 : Number(r['возраст_дней']);
+    const prevAge = !prev || prev['возраст_дней'] == null ? -1 : Number(prev['возраст_дней']);
+    const newer = !prev || String(r['сбор'] || '') > String(prev['сбор'] || '')
+      || (r['сбор'] === prev['сбор'] && age > prevAge)
+      || (r['сбор'] === prev['сбор'] && age === prevAge && Number(r['окно'] || 0) > Number(prev['окно'] || 0));
+    if (newer) byPost.set(r['пост'], r);
+  });
+  return [...byPost.values()].sort((a, b) => a['пост'].localeCompare(b['пост']));
+}
+function sumMetric(rows, key) {
+  const values = rows.map((r) => r[key]).filter((x) => typeof x === 'number' && Number.isFinite(x));
+  return values.length ? values.reduce((a, b) => a + b, 0) : null;
+}
+function compactN(x) {
+  return new Intl.NumberFormat('ru-RU', { notation: x >= 10000 ? 'compact' : 'standard', maximumFractionDigits: 1 }).format(x);
+}
+function statsChartHTML(rows, pid, key, title, description, options = {}) {
+  const data = latestRowsForPlatform(rows, pid).slice(-12).map((r) => ({ r, v: r[key], it: itemById(r['пост']) }));
+  const values = data.map((x) => x.v).filter((x) => typeof x === 'number' && Number.isFinite(x));
+  const platform = plat(pid);
+  const figHead = '<figcaption><h4>' + esc(platform.name) + '</h4><p class="muted small">' + esc(title) + '</p><p class="muted tiny">' + esc(description) + '</p></figcaption>';
+  if (!values.length) return '<figure class="chart-card">' + figHead + '<p class="chart-empty">В загруженных снимках нет этой метрики.</p></figure>';
+  const width = 680, height = 268, left = 52, right = 12, top = 16, bottom = 205, plotH = bottom - top, plotW = width - left - right;
+  const maxValue = options.max || Math.max(...values, 1) * 1.12;
+  const slot = plotW / Math.max(data.length, 1), barW = Math.min(34, slot * .62);
+  const ticks = options.percent ? [0, 50, 100] : [0, maxValue / 2, maxValue];
+  const grid = ticks.map((tick) => {
+    const y = bottom - plotH * tick / maxValue;
+    return '<line class="chart-grid-line" x1="' + left + '" y1="' + y.toFixed(1) + '" x2="' + (width - right) + '" y2="' + y.toFixed(1) + '"></line>'
+      + '<text class="chart-axis" x="' + (left - 7) + '" y="' + (y + 4).toFixed(1) + '" text-anchor="end">' + esc(compactN(tick)) + (options.percent ? '%' : '') + '</text>';
+  }).join('');
+  const bars = data.map(({ r, v, it }, i) => {
+    const x = left + slot * i + (slot - barW) / 2;
+    const hasValue = typeof v === 'number' && Number.isFinite(v);
+    const barH = hasValue ? plotH * Math.max(0, v) / maxValue : 0;
+    const y = bottom - barH;
+    const formatClass = it && it.format === 'plates' ? ' plates' : it && it.format === 'pure' ? ' pure' : '';
+    const post = String(r['ролик'] || r['пост']).slice(0, 9);
+    const age = r['возраст_дней'] == null ? 'возраст —' : Number(r['возраст_дней']) + ' д';
+    const tip = post + ' · ' + (it ? FORMAT[it.format] : '') + ' · ' + age + ' · '
+      + (hasValue ? fmtN(v, options.unit || '') : 'нет данных')
+      + (r['просмотры'] != null ? ' · просмотры ' + fmtN(r['просмотры']) : '');
+    return '<g><title>' + esc(tip) + '</title>'
+      + (hasValue ? '<rect class="chart-bar' + formatClass + '" x="' + x.toFixed(1) + '" y="' + y.toFixed(1) + '" width="' + barW.toFixed(1) + '" height="' + Math.max(0, barH).toFixed(1) + '" rx="2"></rect>' : '')
+      + '<text class="chart-value" x="' + (x + barW / 2).toFixed(1) + '" y="' + Math.max(top + 12, y - 6).toFixed(1) + '" text-anchor="middle">' + (hasValue ? esc(fmtN(v, options.unit || '')) : '—') + '</text>'
+      + '<text class="chart-label" x="' + (left + slot * (i + .5)).toFixed(1) + '" y="' + (bottom + 18) + '" text-anchor="middle">' + esc(post) + '</text>'
+      + '<text class="chart-age" x="' + (left + slot * (i + .5)).toFixed(1) + '" y="' + (bottom + 36) + '" text-anchor="middle">' + esc(age) + '</text></g>';
+  }).join('');
+  const aria = platform.name + ': ' + title + ', последние доступные снимки по роликам';
+  return '<figure class="chart-card">' + figHead
+    + '<svg class="stat-chart" viewBox="0 0 ' + width + ' ' + height + '" role="img" aria-label="' + esc(aria) + '">'
+    + '<title>' + esc(aria) + '</title>' + grid + bars + '</svg>'
+    + '<p class="chart-foot">По горизонтали — ролик и фактический возраст снимка. Наведите на столбец, чтобы увидеть формат и значения.</p></figure>';
+}
+function chartLegendHTML() {
+  return '<div class="chart-legend"><span><i class="swatch pure"></i>Чистая игра</span><span><i class="swatch plates"></i>С плашками</span></div>';
+}
+function platformSummaryHTML(rows) {
+  const platforms = S.plan.platforms.filter((p) => rows.some((r) => r['площадка'] === p.id));
+  const body = platforms.map((p) => {
+    const latest = latestRowsForPlatform(rows, p.id);
+    const exactSeven = rows.filter((r) => r['площадка'] === p.id && r['окно'] === 7 && r['возраст_дней'] === 7).length;
+    const metric = (key, unit = '') => {
+      const value = sumMetric(latest, key);
+      return value == null ? '<span class="muted">нет данных</span>' : fmtN(value, unit);
+    };
+    return '<tr><th>' + esc(p.name) + '</th><td>' + latest.length + '</td><td>' + metric('просмотры') + '</td><td>' + metric('охват') + '</td>'
+      + '<td>' + metric('показы') + '</td><td>' + metric('показано_в_ленте') + '</td><td>' + exactSeven + '</td></tr>';
+  }).join('');
+  return '<div class="tscroll"><table class="stable analytics-summary"><thead><tr><th>Площадка</th><th>Роликов</th>'
+    + '<th>Просмотры<br><span>в последних снимках</span></th><th>Сумма охватов<br><span>по роликам*</span></th>'
+    + '<th>Показы / impressions</th><th>Показано в ленте<br><span>YouTube Shorts</span></th><th>Точно 7-й день</th></tr></thead><tbody>' + body + '</tbody></table></div>'
+    + '<p class="muted small">Сводка складывает значения последнего снимка каждого ролика отдельно внутри площадки. *Сумма охватов по роликам не означает столько же уникальных людей: один человек мог увидеть несколько роликов. Площадки считают просмотры по-разному.</p>';
+}
+function overviewHTML(rows, updated) {
+  const posts = new Set(rows.map((r) => r['пост']));
+  const platforms = new Set(rows.map((r) => r['площадка']));
+  const exactSeven = rows.filter((r) => r['окно'] === 7 && r['возраст_дней'] === 7).length;
+  const ages = new Map();
+  rows.forEach((r) => { const age = r['возраст_дней']; if (age != null) ages.set(age, (ages.get(age) || 0) + 1); });
+  const ageText = [...ages.entries()].sort((a, b) => Number(a[0]) - Number(b[0]))
+    .map(([age, count]) => age + ' дн — ' + count).join(' · ');
+  const hasReach = S.plan.platforms.filter((p) => rows.some((r) => r['площадка'] === p.id && r['охват'] != null)).map((p) => p.name);
+  const hasImpressions = rows.some((r) => r['показы'] != null);
+  const hasFeed = rows.some((r) => r['показано_в_ленте'] != null);
+  const dateLine = updated ? ' Последний сбор данных — ' + fmtDate(updated) + '.' : '';
+  return '<section class="rcard wide overview-card"><div><p class="eyebrow">Состояние данных' + esc(dateLine) + '</p><h2>Что видно сейчас</h2>'
+    + '<p class="muted">Вкладка показывает цифры из скриншотов. Снимки накопительные, поэтому графики описывают значения на фактическую дату снимка; это пока не ровные недельные результаты.</p></div>'
+    + '<div class="metric-grid">'
+    + '<div class="metric"><b>' + rows.length + '</b><span>строк статистики</span></div>'
+    + '<div class="metric"><b>' + posts.size + '</b><span>роликов с данными</span></div>'
+    + '<div class="metric"><b>' + exactSeven + ' / ' + rows.length + '</b><span>снимков ровно на 7-й день</span></div>'
+    + '<div class="metric"><b>' + platforms.size + '</b><span>площадок со снимками</span></div></div>'
+    + '<div class="note data-note"><b>Охват:</b> отдельная цифра есть у ' + (hasReach.length ? esc(hasReach.join(' и ')) : 'ни одной площадки') + '. '
+    + '<b>Показы / impressions:</b> ' + (hasImpressions ? 'есть в загруженных данных.' : 'отдельных значений в загруженных снимках нет.')
+    + (hasFeed ? ' Значение YouTube «показано в ленте» тоже доступно.' : ' «Показано в ленте» для YouTube в этой выборке также не заполнено.')
+    + '</div><p class="muted small age-breakdown"><b>Возраст снимка:</b> ' + (ageText || 'нет данных') + '.</p></section>';
+}
+function metricChartSection(rows, title, subtitle, specs, options = {}) {
+  const charts = specs.map((x) => statsChartHTML(rows, x.pid, x.key, x.title, x.description, { percent: !!x.percent, max: x.percent ? 100 : undefined, unit: x.percent ? '%' : '' })).join('');
+  return '<section class="rcard wide"><div class="section-head"><div><h3>' + esc(title) + '</h3><p class="muted small">' + esc(subtitle) + '</p></div></div>'
+    + (options.legend ? chartLegendHTML() : '') + '<div class="chart-grid">' + charts + '</div></section>';
+}
 function numbersHTML(rows) {
   const order = S.plan.platforms.map((p) => p.id);
   const sorted = rows.slice().sort((a, b) => a['пост'].localeCompare(b['пост']) || order.indexOf(a['площадка']) - order.indexOf(b['площадка']) || a['окно'] - b['окно']);
-  const C = [['просмотры', 'Просмотры'], ['охват', 'Охват'], ['среднее_время_с', 'Ср. время, с'], ['время_просмотра_суммарно_с', 'Время всего, с'],
-    ['просмотры_3с', 'Просмотры 3 с'], ['вовлечённые_просмотры', 'Вовлеч. просмотры'], ['показано_в_ленте', 'Показано в ленте'],
-    ['смотрели_%', 'Смотрели / не листали', ' %'], [watchPct, 'Досмотр по ролику', ' %'], ['досмотр_%', 'Досмотр по экрану', ' %'],
-    ['доля_не_подписчиков_%', 'Не подписчики', ' %'], ['лайки', 'Лайки'], ['комментарии', 'Комм.'], ['пересылки', 'Пересылки'],
-    ['сохранения', 'Сохр.'], ['переходы_в_профиль', 'В профиль'], ['подписки', 'Подписки'], ['клики_по_ссылке', 'Клики']];
+  const C = [
+    ['просмотры', 'Просмотры'], ['охват', 'Охват'], ['показы', 'Показы / impressions'],
+    ['вовлечённые_просмотры', 'Вовлечённые просмотры'], ['показано_в_ленте', 'Показано в ленте (YT)'],
+    ['смотрели_%', 'Смотрели, не пролистали (%)', ' %'], ['среднее_время_с', 'Среднее время просмотра, с'],
+    ['время_просмотра_суммарно_с', 'Время просмотра всего, с'], ['просмотры_3с', 'Просмотры ≥3 с'],
+    ['досмотр_%', 'Досмотр по экрану (%)', ' %'], [watchPct, 'Среднее время / длина ролика (%)', ' %'],
+    ['доля_не_подписчиков_%', 'Не подписчики (%)', ' %'], ['лайки', 'Лайки'], ['комментарии', 'Комментарии'],
+    ['пересылки', 'Пересылки'], ['сохранения', 'Сохранения'], ['переходы_в_профиль', 'Переходы в профиль'],
+    ['подписки', 'Новые подписчики'], ['клики_по_ссылке', 'Клики по ссылке'],
+    ['гео_UK_%', 'Аудитория UK (%)', ' %'], ['гео_EU_%', 'Аудитория EU (%)', ' %'], ['гео_US_%', 'Аудитория US (%)', ' %'],
+    ['комментарии_от_ЦА', 'Комментарии от целевой аудитории'], ['особое', 'Примечания']
+  ];
+  const formatOptions = [['all', 'Все форматы'], ['pure', FORMAT.pure], ['plates', FORMAT.plates]];
+  const platformOptions = S.plan.platforms.filter((p) => rows.some((r) => r['площадка'] === p.id));
+  const ages = [...new Set(rows.map((r) => r['возраст_дней']).filter((x) => x != null))].sort((a, b) => Number(a) - Number(b));
+  const opts = (xs, selected = 'all') => xs.map(([value, label]) => '<option value="' + esc(value) + '"' + (value === selected ? ' selected' : '') + '>' + esc(label) + '</option>').join('');
   const body = sorted.map((r) => {
-    const it = itemById(r['пост']);
-    return `<tr><th><span class="nm">${esc(itemTitle(it))}</span><span class="muted">${fmtDay(it.date)}</span></th><td>${esc(lab(r['площадка']))}</td><td>${r['окно']} дн</td><td>${fmtN(r['возраст_дней'], ' дн')}</td>
-      ${C.map(([k, , unit]) => `<td>${fmtN(typeof k === 'function' ? k(r) : r[k], unit || '')}</td>`).join('')}<td class="sp">${esc(r['особое'] || '')}</td></tr>`;
+    const it = itemById(r['пост']), format = it ? it.format : '';
+    return '<tr data-stat-row data-platform="' + esc(r['площадка']) + '" data-format="' + esc(format) + '" data-age="' + esc(r['возраст_дней']) + '" data-window="' + esc(r['окно']) + '">'
+      + '<th><button class="table-link" data-stats="' + esc(r['пост']) + '" data-p="' + esc(r['площадка']) + '" title="Открыть карточку поста и скриншоты">' + esc(r['ролик'] || itemTitle(it)) + '</button>'
+      + '<span class="muted table-sub">' + fmtDay(it.date) + ' · ' + (it ? esc(FORMAT[format]) : '') + '</span></th>'
+      + '<td>' + esc(lab(r['площадка'])) + '</td><td>' + fmtN(r['окно'], ' дн') + '</td><td>' + fmtN(r['возраст_дней'], ' дн') + '</td><td>' + fmtDay(r['сбор']) + '</td>'
+      + C.map(([key, , unit]) => '<td>' + fmtN(typeof key === 'function' ? key(r) : r[key], unit || '') + '</td>').join('')
+      + '</tr>';
   }).join('');
-  return `<div class="tscroll"><table class="stable all"><thead><tr><th>Пост</th><th>Площадка</th><th>Срез</th><th>Возраст</th>${C.map(([, l]) => `<th>${l}</th>`).join('')}<th>Особое</th></tr></thead><tbody>${body}</tbody></table></div>`;
+  const windowValues = [...new Set(rows.map((r) => r['окно']).filter((x) => x != null))].sort((a, b) => Number(a) - Number(b));
+  const windowOptions = [['all', 'Все срезы']].concat(windowValues.map((w) => [String(w), w + ' дней']));
+  const ageOptions = [['all', 'Любой возраст']].concat(ages.map((age) => [String(age), age + ' дн']));
+  return '<div class="stats-table-tools"><div class="stats-filters">'
+    + '<label>Площадка<select data-stats-filter="platform">' + opts([['all', 'Все площадки']].concat(platformOptions.map((p) => [p.id, p.name]))) + '</select></label>'
+    + '<label>Формат<select data-stats-filter="format">' + opts(formatOptions) + '</select></label>'
+    + '<label>Срез<select data-stats-filter="window">' + opts(windowOptions) + '</select></label>'
+    + '<label>Возраст снимка<select data-stats-filter="age">' + opts(ageOptions) + '</select></label>'
+    + '</div><span class="muted small" id="statsRowCount">' + sorted.length + ' строк</span></div>'
+    + '<p class="muted small table-key">«—» — метрика не показана на скриншоте; 0 — площадка показала нулевое значение. Нажмите название ролика, чтобы открыть карточку и исходные скриншоты.</p>'
+    + '<div class="tscroll"><table class="stable all analytics-data"><thead><tr><th>Ролик</th><th>Площадка</th><th>Запрошенный срез</th><th>Возраст</th><th>Дата сбора</th>'
+    + C.map(([, label]) => '<th>' + esc(label) + '</th>').join('') + '</tr></thead><tbody>' + body + '</tbody></table></div>';
+}
+function applyStatsFilters() {
+  const table = $('.analytics-data');
+  if (!table) return;
+  const value = (name) => $('[data-stats-filter="' + name + '"]', $('#analyticsDashboard'))?.value || 'all';
+  const platform = value('platform'), format = value('format'), windowValue = value('window'), age = value('age');
+  let shown = 0;
+  $$('[data-stat-row]', table).forEach((row) => {
+    const visible = (platform === 'all' || row.dataset.platform === platform)
+      && (format === 'all' || row.dataset.format === format)
+      && (windowValue === 'all' || row.dataset.window === windowValue)
+      && (age === 'all' || row.dataset.age === age);
+    row.hidden = !visible;
+    if (visible) shown++;
+  });
+  const count = $('#statsRowCount');
+  if (count) count.textContent = shown + ' из ' + $$('[data-stat-row]', table).length + ' строк';
 }
 function renderStats() {
   const today = ukToday(), list = dueList(), N = S.nums || { rows: [], notes: [] };
   const late = list.filter((x) => x.due < today && x.left.length), now = list.filter((x) => x.due === today), soon = list.filter((x) => x.due > today);
-  const group = (title, xs) => (xs.length ? `<h4 class="dgroup">${title}</h4>${xs.map((x) => dueRowHTML(x, today)).join('')}` : '');
+  const group = (title, xs) => (xs.length ? '<h4 class="dgroup">' + title + '</h4>' + xs.map((x) => dueRowHTML(x, today)).join('') : '');
   const todo = !S.plan.statsApi ? '<p class="muted">Загрузка скринов ещё не подключена.</p>'
-    : (S.upErr ? `<div class="note warn">Не вижу, что уже загружено: ${esc(S.upErr)}</div>` : '')
-      + (group(`Просрочено · ${late.length}`, late) + group('Сегодня', now) + group('Ближайшая неделя', soon) || '<p class="muted">На этой неделе снимать нечего.</p>');
-  const nums = N.rows.length ? `${N.updated ? `<p class="muted small">Цифры на ${fmtDate(N.updated)}.</p>` : ''}${numbersHTML(N.rows)}`
-    : `<p class="muted">Цифр пока нет. Скрины разбираем по понедельникам, ближайший разбор — ${fmtDate(nextMonday(today))}.</p>`;
-  $('#main').innerHTML = `<div class="stats">
-    <section class="rcard wide"><h3>Что снять</h3>
-      <p class="muted small">Посту исполняется 7 и 28 дней в тот же день недели, что и выход. Нажмите площадку — откроется день: туда и загружайте скрины. Галочка — скрины уже есть, это видят все.</p>${todo}</section>
-    ${(N.notes || []).length ? `<section class="rcard"><h3>Выводы разборов</h3><ul class="rules">${N.notes.map((n) => `<li>${n.date ? `<b>${fmtDay(n.date)}.</b> ` : ''}${esc(n.text)}</li>`).join('')}</ul></section>` : ''}
-    <section class="rcard"><h3>Чистая игра и с плашками</h3>${N.rows.length ? pairsHTML(N.rows) : '<p class="muted">Сравнение появится вместе с цифрами.</p>'}</section>
-    <section class="rcard"><h3>Все цифры</h3>${nums}</section></div>`;
+    : (S.upErr ? '<div class="note warn">Не вижу, что уже загружено: ' + esc(S.upErr) + '</div>' : '')
+      + (group('Просрочено · ' + late.length, late) + group('Сегодня', now) + group('Ближайшая неделя', soon) || '<p class="muted">На этой неделе снимать нечего.</p>');
+  const nums = N.rows.length ? numbersHTML(N.rows)
+    : '<p class="muted">Цифр пока нет. Скрины разбираем по понедельникам, ближайший разбор — ' + fmtDate(nextMonday(today)) + '.</p>';
+  const charts = N.rows.length ? overviewHTML(N.rows, N.updated)
+    + platformSummaryHTML(N.rows)
+    + metricChartSection(N.rows, 'Просмотры по роликам', 'Последние доступные накопительные значения. Возраст снимка указан под каждым роликом; сравнивайте только одинаковые площадки и одинаковый возраст.', S.plan.platforms.filter((p) => N.rows.some((r) => r['площадка'] === p.id)).map((p) => ({ pid: p.id, key: 'просмотры', title: 'Просмотры', description: 'Просмотры по карточкам роликов; значения между площадками не сопоставляются.' })), { legend: true })
+    + metricChartSection(N.rows, 'Охват людей по роликам', 'Охват есть не у каждой площадки и не равен просмотрам. Площадки показаны раздельно.', S.plan.platforms.filter((p) => N.rows.some((r) => r['площадка'] === p.id && r['охват'] != null)).map((p) => ({ pid: p.id, key: 'охват', title: 'Охват аккаунтов / людей', description: 'Сумма на сводной таблице — по роликам; один и тот же человек может встретиться несколько раз.' })), { legend: true })
+    + metricChartSection(N.rows, 'Удержание и пролистывания', 'Это разные определения платформ. Карточки не объединены в одну шкалу и не сравнивают площадки между собой.', [
+      { pid: 'fb', key: 'досмотр_%', title: 'Средняя доля ролика, которую посмотрели', description: 'Метрика среднего просмотра из Facebook Reels; показываем отдельно.', percent: true },
+      { pid: 'yt', key: 'смотрели_%', title: 'Остались смотреть, а не пролистали', description: 'Доля просмотров YouTube Shorts, в которых зритель остался.', percent: true },
+      { pid: 'tt', key: 'досмотр_%', title: 'Досмотрели до конца', description: 'Доля полных просмотров в TikTok; при малом числе просмотров процент нестабилен.', percent: true }
+    ], { legend: true })
+    : '<section class="rcard wide"><h3>Аналитика по скриншотам</h3><p class="muted">После загрузки и разбора скриншотов здесь появятся сводка и графики.</p></section>';
+  const notes = (N.notes || []).length ? '<section class="rcard wide"><h3>Выводы разборов</h3><ul class="rules">' + N.notes.map((n) => '<li>' + (n.date ? '<b>' + fmtDay(n.date) + '.</b> ' : '') + esc(n.text) + '</li>').join('') + '</ul></section>' : '';
+  $('#main').innerHTML = '<div class="stats" id="analyticsDashboard">' + charts + notes
+    + '<section class="rcard wide"><h3>Чистая игра и с плашками</h3>' + (N.rows.length ? pairsHTML(N.rows) : '<p class="muted">Сравнение появится вместе с цифрами.</p>') + '</section>'
+    + '<section class="rcard wide"><h3>Все цифры</h3>' + nums + '</section>'
+    + '<section class="rcard wide"><h3>Что снять</h3><p class="muted small">Посту исполняется 7 и 28 дней в тот же день недели, что и выход. Нажмите площадку — откроется день: туда и загружайте скрины. Галочка — скрины уже есть, это видят все.</p>' + todo + '</section></div>';
 }
-
 /* the Статистика block of a day's sheet: one platform, both windows */
 function statsHTML(it, pid) {
   if (!S.plan.statsApi || !hasStats(it) || !statPlats(it).includes(pid)) return '';
@@ -581,6 +739,7 @@ document.addEventListener('click', (e) => {
 document.addEventListener('change', (e) => {
   if (e.target.id === 'hideDone') { S.hideDone = e.target.checked; savePrefs(); render(); }
   if (e.target.id === 'todoOnly') { S.todoOnly = e.target.checked; savePrefs(); render(); }
+  if (e.target.dataset && e.target.dataset.statsFilter) applyStatsFilters();
   if (e.target.dataset && e.target.dataset.up) upload(e.target.files, +e.target.dataset.up);
 });
 document.addEventListener('keydown', (e) => {

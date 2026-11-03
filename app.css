@@ -245,3 +245,59 @@ details.hint ul { margin-top: 8px; }
   .srow { grid-template-columns: 1fr auto; }
   .srow .upbtn { grid-column: 1 / -1; justify-self: start; }
 }
+
+/* analytics dashboard */
+.overview-card { gap: 14px; }
+.overview-card h2 { margin: -6px 0 0; font-size: 23px; letter-spacing: -.02em; }
+.overview-card > div:first-child p { margin-bottom: 0; }
+.eyebrow { margin: 0; color: var(--accent-2); font: 700 11px/1.4 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+.metric-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.metric { display: grid; align-content: start; gap: 3px; min-width: 0; padding: 11px 12px; background: #FBFAFD; border: 1px solid var(--line); }
+.metric b { font-size: 23px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.metric span { color: var(--ink-2); font-size: 12px; }
+.data-note { margin: 0; line-height: 1.55; }
+.age-breakdown { margin: 0; }
+.section-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.section-head h3 { margin: 0; }
+.section-head p { margin: 4px 0 0; }
+.analytics-summary { min-width: 730px; }
+.analytics-summary thead th span { display: block; font: 400 10px/1.35 'Ubuntu', sans-serif; letter-spacing: 0; text-transform: none; color: var(--ink-3); }
+.analytics-summary tbody td { text-align: right; }
+.chart-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.chart-card { display: grid; align-content: start; gap: 5px; min-width: 0; margin: 0; padding: 11px; border: 1px solid var(--line); background: #fff; }
+.chart-card figcaption h4 { margin: 0; font-size: 14px; }
+.chart-card figcaption p { margin: 3px 0 0; }
+.chart-card .tiny { font-size: 11px; }
+.stat-chart { display: block; width: 100%; height: auto; overflow: visible; font-family: 'Ubuntu', sans-serif; }
+.stat-chart .chart-grid-line { stroke: #E3E0EB; stroke-width: 1; }
+.stat-chart .chart-axis { fill: #8A8794; font-size: 10px; }
+.stat-chart .chart-bar { fill: #8A8794; }
+.stat-chart .chart-bar.pure { fill: #6144C1; }
+.stat-chart .chart-bar.plates { fill: #16141D; }
+.stat-chart .chart-value { fill: #16141D; font-size: 10px; font-weight: 700; }
+.stat-chart .chart-label { fill: #16141D; font-size: 10px; font-weight: 700; }
+.stat-chart .chart-age { fill: #8A8794; font-size: 9px; }
+.chart-foot { margin: -2px 0 0; color: var(--ink-3); font-size: 11px; }
+.chart-empty { margin: 0; padding: 18px 8px; color: var(--ink-2); font-size: 13px; }
+.chart-legend { display: flex; flex-wrap: wrap; gap: 14px; color: var(--ink-2); font-size: 12px; }
+.chart-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.swatch { display: inline-block; width: 11px; height: 11px; background: #8A8794; }
+.swatch.pure { background: #6144C1; }
+.swatch.plates { background: #16141D; }
+.stats-table-tools { display: flex; justify-content: space-between; align-items: end; flex-wrap: wrap; gap: 10px; }
+.stats-filters { display: flex; align-items: end; flex-wrap: wrap; gap: 8px; }
+.stats-filters label { display: grid; gap: 3px; color: var(--ink-2); font-size: 11px; }
+.stats-filters select { max-width: 200px; min-height: 34px; padding: 5px 26px 5px 8px; border: 1px solid var(--line-2); background: #fff; font: 400 13px 'Ubuntu', sans-serif; }
+.table-key { margin: 0; }
+.table-link { border: 0; padding: 0; background: transparent; color: var(--accent-2); font-weight: 700; text-align: left; cursor: pointer; text-decoration: underline; text-underline-offset: 2px; }
+.table-link:hover { color: var(--accent); }
+.table-sub { display: block; margin-top: 2px; white-space: normal; font-size: 11px; }
+.analytics-data { min-width: 1780px; }
+.analytics-data td:last-child { min-width: 160px; white-space: normal; text-align: left; }
+@media (max-width: 760px) {
+  .metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .chart-grid { grid-template-columns: 1fr; }
+  .stats-table-tools { align-items: flex-start; }
+  .stats-filters { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; }
+  .stats-filters select { width: 100%; max-width: none; }
+}
