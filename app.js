@@ -591,8 +591,7 @@ function platformSliceHTML(rows, metric) {
   const max = Math.max(...values, 1);
   const totalLabel = metric === 'охват' ? 'Суммарный охват' : 'Всего просмотров';
   const valueLabel = metric === 'охват' ? 'охвата' : 'просмотров';
-  const overallHTML = metric === 'удержание'
-    ? `<div class="platform-total-note"><b>Удержание не складывается</b><span>Показано среднее по роликам внутри каждой соцсети; определения различаются.</span></div>`
+  const overallHTML = metric === 'удержание' ? ''
     : `<div class="platform-total-grid"><div class="platform-total-card"><span>${totalLabel} по площадкам</span><b>${overall.count ? fmtN(overall.total) : '—'}</b><small>${valueLabel}</small></div><div class="platform-total-card"><span>В среднем на ролик</span><b>${overall.count ? fmtN(overall.average) : '—'}</b><small>${overall.count ? `${fmtN(overall.total)} / ${fmtN(overall.count)} роликов · все площадки` : 'нет данных'}</small></div></div>`;
   const items = platforms.map(({ platform, entries, summary }) => {
     const hasData = summary.count > 0, value = summary.total, width = hasData && value > 0 ? Math.max(1.5, Math.min(100, value / max * 100)) : 0;
@@ -696,7 +695,7 @@ function analyticsVisualsHTML(rows) {
   const updated = S.nums?.updated ? ` · обновлено ${fmtDate(S.nums.updated)}` : '';
   const heading = slice === 'platforms' ? 'По площадкам' : slice === 'games' ? 'По играм' : 'По типу ролика';
   const context = slice === 'platforms' ? metric === 'удержание' ? 'Среднее по роликам внутри каждой соцсети; определения удержания различаются.'
-    : metric === 'охват' ? 'Сумма охвата может учитывать одного человека в нескольких сетях.' : 'Одна строка — одна соцсеть. Среднее = сумма просмотров соцсети / число роликов.'
+    : metric === 'охват' ? 'Сумма охвата может учитывать одного человека в нескольких сетях.' : 'Сумма объединяет счётчики сетей; правила подсчёта просмотров различаются. Среднее = общий итог / число роликов.'
     : slice === 'games' ? (metric === 'охват' ? 'Сумма охватов по сетям; один человек может учитываться несколько раз. Среднее — на ролик.' : 'Сумма просмотров по сетям; среднее — на ролик. Подробности — при наведении.')
       : metric === 'охват' ? 'Сумма охватов по сетям; один человек может учитываться несколько раз. Возраст снимков различается.' : 'Сумма просмотров по сетям; снимки разного возраста, сравнение форматов ориентировочное. Подробности — при наведении.';
   return `<section class="analytics-main"><div class="analytics-main-head"><div><p class="eyebrow">Срез статистики${rows.length ? ` · ${rows.length} снимков${updated}` : ''}</p><h2>${heading}</h2></div><p class="muted small">Снимки накопительные; возраст указан у каждой полосы.</p></div><nav class="analytics-tabs" aria-label="Срез аналитики">${tabs}</nav><div class="analytics-controls" aria-label="Показатель">${metricButtons}</div>${slice === 'formats' ? chartLegendHTML() : ''}<p class="analytics-context">${context} Отдельные показы (impressions) в скриншотах не указаны.</p>${body}</section>`;
