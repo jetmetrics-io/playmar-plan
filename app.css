@@ -300,4 +300,11 @@ details.hint ul { margin-top: 8px; }
   .stats-table-tools { align-items: flex-start; }
   .stats-filters { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; }
   .stats-filters select { width: 100%; max-width: none; }
+  .analytics-summary { min-width: 0; }
+  .analytics-summary thead { display: none; }
+  .analytics-summary tbody { display: grid; gap: 8px; padding: 8px; }
+  .analytics-summary tbody tr { display: grid; grid-template-columns: 1fr 1fr; padding: 6px 8px; border: 1px solid var(--line); }
+  .analytics-summary tbody th { grid-column: 1 / -1; padding: 6px 2px; border-bottom: 1px solid var(--line); text-align: left; }
+  .analytics-summary tbody td { display: flex; justify-content: space-between; gap: 8px; padding: 5px 2px; white-space: normal; text-align: right; }
+  .analytics-summary tbody td::before { content: attr(data-label); color: var(--ink-2); text-align: left; font-size: 11px; }
 }

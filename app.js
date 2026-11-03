@@ -372,8 +372,8 @@ function platformSummaryHTML(rows) {
       const value = sumMetric(latest, key);
       return value == null ? '<span class="muted">нет данных</span>' : fmtN(value, unit);
     };
-    return '<tr><th>' + esc(p.name) + '</th><td>' + latest.length + '</td><td>' + metric('просмотры') + '</td><td>' + metric('охват') + '</td>'
-      + '<td>' + metric('показы') + '</td><td>' + metric('показано_в_ленте') + '</td><td>' + exactSeven + '</td></tr>';
+    return '<tr><th>' + esc(p.name) + '</th><td data-label="Роликов">' + latest.length + '</td><td data-label="Просмотры">' + metric('просмотры') + '</td><td data-label="Сумма охватов по роликам">' + metric('охват') + '</td>'
+      + '<td data-label="Показы / impressions">' + metric('показы') + '</td><td data-label="Показано в ленте · YouTube">' + metric('показано_в_ленте') + '</td><td data-label="Срез ровно на 7-й день">' + exactSeven + '</td></tr>';
   }).join('');
   return '<div class="tscroll"><table class="stable analytics-summary"><thead><tr><th>Площадка</th><th>Роликов</th>'
     + '<th>Просмотры<br><span>в последних снимках</span></th><th>Сумма охватов<br><span>по роликам*</span></th>'
