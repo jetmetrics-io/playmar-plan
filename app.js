@@ -600,14 +600,15 @@ function gamesSliceHTML(rows, metric) {
   const groups = gameSnapshotGroups(rows), games = Object.keys(S.plan.games).filter((g) => groups.some((x) => x.game === g))
     .sort((a, b) => String(S.plan.games[a] || a).localeCompare(String(S.plan.games[b] || b), 'ru'));
   if (!games.length) return '<p class="chart-empty">По играм пока нет снимков.</p>';
-  const maxes = new Map(S.plan.platforms.map((p) => [p.id, maxForPlatform(groups.filter((g) => g.platform === p.id)
+  const dataPlatforms = S.plan.platforms.filter((p) => rows.some((r) => r['площадка'] === p.id));
+  const maxes = new Map(dataPlatforms.map((p) => [p.id, maxForPlatform(groups.filter((g) => g.platform === p.id)
     .flatMap((g) => ['pure', 'plates'].map((f) => g[f] ? { row: g[f].row, platform: p.id } : null).filter(Boolean)), metric)]));
   return `<div class="game-chart-list">${games.map((game, index) => {
     const name = String(S.plan.games[game] || game).split(' · ')[0];
     const items = groups.filter((x) => x.game === game);
     const formats = new Set(items.flatMap((x) => ['pure', 'plates'].filter((f) => x[f]))).size;
     const formatWord = formats === 1 ? 'формат' : formats >= 2 && formats <= 4 ? 'формата' : 'форматов';
-    const networks = S.plan.platforms.map((p) => {
+    const networks = dataPlatforms.map((p) => {
       const x = items.find((g) => g.platform === p.id);
       const bars = ['pure', 'plates'].map((f) => {
         const shot = x && x[f];
