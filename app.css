@@ -103,6 +103,8 @@ main { max-width: 1080px; margin: 0 auto; padding: 20px 24px 80px; }
 .badge.pure { border-color: var(--ink); color: var(--ink); }
 .badge.ready { background: var(--ok-tint); border-color: transparent; color: var(--ok); }
 .badge.notready { background: #F2F0F6; border-color: transparent; color: var(--ink-3); }
+.badge.reported { background: #F2F0F6; border-color: transparent; color: var(--ink-2); }
+.badge.condition { background: #FFF2DA; border-color: #B57819; color: #704500; }
 .title { margin: 0; font-size: 16px; font-weight: 700; letter-spacing: -0.01em; }
 .game { margin: 0; font-size: 13px; color: var(--ink-2); }
 .hook { margin: 0; font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -117,6 +119,7 @@ main { max-width: 1080px; margin: 0 auto; padding: 20px 24px 80px; }
 .pill.done { background: var(--accent); border-color: var(--accent); color: #fff; }
 .pill.today { border-color: var(--today); color: var(--today); background: var(--today-tint); }
 .pill.late { border-color: var(--bad); color: var(--bad); background: var(--bad-tint); }
+.pill.unconfirmed { border-color: var(--line-2); color: var(--ink-2); background: #F2F0F6; }
 .pill.dim { opacity: .35; }
 .empty { padding: 40px 0; text-align: center; color: var(--ink-2); }
 

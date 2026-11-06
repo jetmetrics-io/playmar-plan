@@ -65,7 +65,7 @@ const isSlot = (it) => it.kind === 'slot';
 const plats = (it) => it.platforms.concat((it.optional || []).filter((p) => !it.platforms.includes(p)));
 const isOpt = (it, pid) => (it.optional || []).includes(pid) && !it.platforms.includes(pid);
 const FORMAT = { pure: 'Чистая игра', plates: 'С плашками' };
-const liWriting = (it) => it.platforms.includes('li') && (it.linkedin || {}).status !== 'ready';
+const liWriting = (it) => !it.reportedPublished && it.platforms.includes('li') && (it.linkedin || {}).status !== 'ready';
 /* what still has to be made for this day: a video for an empty slot, a video in production, a LinkedIn text */
 const needsWork = (it) => isSlot(it) || (it.video && !(videoOf(it) || {}).file) || liWriting(it);
 function pState(it, pid) {
@@ -73,6 +73,7 @@ function pState(it, pid) {
   if (isSlot(it)) return isOpt(it, pid) ? 'opt' : 'slot';
   if (isDone(it, pid)) return 'done';
   if (isOpt(it, pid)) return 'opt';
+  if (it.reportedPublished) return 'unconfirmed';
   const today = ukToday();
   if (it.date === today) return 'today';
   return it.date < today ? 'late' : 'todo';
@@ -112,7 +113,7 @@ function fields(it, pid) {
 }
 
 /* ---------- render: plan ---------- */
-const ICON = { done: 'check', today: 'clock', late: 'alert-triangle' };
+const ICON = { done: 'check', today: 'clock', late: 'alert-triangle', unconfirmed: 'circle-help' };
 function pillHTML(it, p) {
   const st = pState(it, p.id);
   if (st === 'off') return `<span class="pill off" title="${esc(p.name)}: в этот день не выходит">${esc(p.short)}<span>—</span></span>`;
@@ -120,7 +121,7 @@ function pillHTML(it, p) {
   if (st === 'opt' && isSlot(it)) return `<span class="pill opt slot" title="${esc(p.name)}: по желанию">${esc(p.short)}<i data-lucide="plus"></i></span>`;
   if (st === 'opt') return `<button class="pill opt" data-id="${esc(it.id)}" data-p="${p.id}" title="${esc(p.name)}: по желанию">${esc(p.short)}<i data-lucide="plus"></i></button>`;
   const dim = S.filter !== 'all' && S.filter !== p.id ? ' dim' : '';
-  const word = { done: 'выложено', today: 'сегодня', late: 'просрочено', todo: 'впереди' }[st];
+  const word = { done: 'выложено', today: 'сегодня', late: 'просрочено', todo: 'впереди', unconfirmed: 'ролик вышел; публикация на этой площадке не подтверждена' }[st];
   return `<button class="pill ${st}${dim}" data-id="${esc(it.id)}" data-p="${p.id}" title="${esc(p.name)}: ${word}">${esc(p.short)}${ICON[st] ? `<i data-lucide="${ICON[st]}"></i>` : '<span style="height:14px"></span>'}</button>`;
 }
 /* games of the nearest videos before and after: an empty slot needs a different game (rule: one game never twice in a row) */
@@ -146,9 +147,11 @@ function cardHTML(it) {
   const states = it.platforms.map((p) => pState(it, p));
   const cls = finished(it) ? ' done' : states.includes('late') ? ' is-late' : states.includes('today') ? ' is-today' : '';
   const badges = [`<span class="badge ${it.format}">${FORMAT[it.format]}</span>`];
+  if (it.reportedPublished) badges.push('<span class="badge reported">Вышел · площадки уточнить</span>');
+  if (it.condition) badges.push('<span class="badge condition">Выпуск с условием</span>');
   if (it.video) badges.push(v && v.file ? '<span class="badge ready">Видео готово</span>' : '<span class="badge notready">Видео делаем</span>');
   if (it.video) badges.push(`<span class="badge">${esc(it.video)}</span>`);
-  if (it.platforms.includes('li') && (it.linkedin || {}).status !== 'ready') badges.push('<span class="badge notready">Текст LinkedIn пишем</span>');
+  if (liWriting(it)) badges.push('<span class="badge notready">Текст LinkedIn пишем</span>');
   const hook = it.hook ? `<p class="hook">“${esc(it.shortsTitle && S.filter === 'yt' ? it.shortsTitle : it.hook)}”</p>` : '<p class="hook none">Подпись появится вместе с роликом</p>';
   return `<article class="card${cls}" data-id="${esc(it.id)}" tabindex="0">
     <div class="when"><b>${fmtDate(it.date)}</b><span class="t">${esc(S.plan.time)} Лондон</span>${loc ? `<span class="loc">${esc(loc)}</span>` : ''}</div>
@@ -165,9 +168,13 @@ function nextHTML() {
     const list = late.slice(0, 4).map(([i, q]) => `${fmtDate(i.date)} ${lab(q)}`).join(' · ');
     return `<div class="next bad" data-id="${esc(it.id)}" data-p="${p}"><span class="lbl">Просрочено · ${late.length}</span><span class="what">${esc(list)}${late.length > 4 ? ' …' : ''}</span><span class="muted">Уже выложили — отметьте. Не выложили — напишите Дмитрию.</span></div>`;
   }
-  const up = S.plan.items.find((it) => !isSlot(it) && pids(it).some((p) => !isDone(it, p)));
-  if (!up) return '<div class="next"><span class="lbl">Всё выложено</span><span class="what">Все посты плана отмечены.</span></div>';
-  const todo = pids(up).filter((p) => !isDone(up, p));
+  const up = S.plan.items.find((it) => !isSlot(it) && pids(it).some((p) => ['today', 'todo'].includes(pState(it, p))));
+  if (!up) {
+    const reported = S.plan.items.find((it) => pids(it).some((p) => pState(it, p) === 'unconfirmed'));
+    return reported ? `<div class="next" data-id="${esc(reported.id)}"><span class="lbl">Уточнить площадки</span><span class="what">Факт выхода ролика подтверждён, отметки по площадкам не заполнены.</span></div>`
+      : '<div class="next"><span class="lbl">Всё выложено</span><span class="what">Все посты плана отмечены.</span></div>';
+  }
+  const todo = pids(up).filter((p) => ['today', 'todo'].includes(pState(up, p)));
   const loc = localTime(up.date);
   return `<div class="next" data-id="${esc(up.id)}" data-p="${todo[0]}"><span class="lbl">${up.date === ukToday() ? 'Сегодня' : 'Дальше'}</span>
     <span class="what">${fmtDate(up.date)}, ${esc(S.plan.time)} по Лондону${loc ? ` (${esc(loc)})` : ''} · ${esc(itemTitle(up))}</span>
@@ -203,7 +210,7 @@ function renderPlan() {
   }
   $('#main').innerHTML = `<section class="summary">
       <p class="intro">${esc(P.summary)} Откройте день — там видео, подпись и хэштеги для каждой площадки. Пост вышел — отметьте площадку. Галочки хранятся только в этом браузере, поэтому открывайте план всегда в одном и том же.</p>
-      <div class="progress"><b>${done} из ${total}</b><span class="muted">выложено</span><div class="bar"><span style="width:${total ? (100 * done / total).toFixed(1) : 0}%"></span></div></div>
+      <div class="progress"><b>${done} из ${total}</b><span class="muted">отмечено в этом браузере</span><div class="bar"><span style="width:${total ? (100 * done / total).toFixed(1) : 0}%"></span></div></div>
       ${work}
       <div class="filters">${chips.join('')}<label class="toggle"><input type="checkbox" id="hideDone"${S.hideDone ? ' checked' : ''}> Скрыть выложенное</label><label class="toggle"><input type="checkbox" id="todoOnly"${S.todoOnly ? ' checked' : ''}> Только то, что нужно сделать</label></div>
       ${nextHTML()}
@@ -858,6 +865,7 @@ function renderSheet() {
   const loc = localTime(it.date);
   const tabs = plats(it).map((q) => `<button class="ptab${q === pid ? ' on' : ''}" data-p="${q}"><span class="dot ${pState(it, q)}"></span>${esc(lab(q))}</button>`).join('');
   const parts = [];
+  if (it.condition) parts.push(`<div class="blk"><div class="note warn">${esc(it.condition)}</div></div>`);
   if (it.video) {
     parts.push(v && v.file
       ? `<div class="blk"><h4>Видео</h4><div class="video"><div class="poster" id="poster"><i data-lucide="film"></i></div>
@@ -878,7 +886,8 @@ function renderSheet() {
         <div class="field-row"><button class="btn small" data-copy="${i}"><i data-lucide="copy"></i>Скопировать ${esc(f.label.toLowerCase())}</button></div></div>`);
     });
   } else {
-    const why = pid === 'li' ? 'Текст для LinkedIn пишем. Он появится здесь.' : 'Подпись появится здесь вместе с роликом.';
+    const why = it.reportedPublished ? 'Ролик вышел; фактическая подпись для этой площадки пока не предоставлена.'
+      : pid === 'li' ? 'Текст для LinkedIn пишем. Он появится здесь.' : 'Подпись появится здесь вместе с роликом.';
     parts.push(`<div class="blk"><h4>${pid === 'li' ? 'Текст поста' : 'Подпись'}</h4><div class="note warn">${why}</div></div>`);
   }
   if (it.notes && it.notes.length) parts.push(`<div class="blk"><h4>На этот день</h4>${it.notes.map((n) => `<div class="note">${esc(n)}</div>`).join('')}</div>`);

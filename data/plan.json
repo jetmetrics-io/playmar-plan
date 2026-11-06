@@ -1,11 +1,11 @@
 {
  "version": 2,
- "updated": "2026-10-28",
+ "updated": "2026-11-06",
  "title": "Ролики Playmar · первая волна",
  "time": "15:00",
  "tz": "Europe/London",
  "statsApi": "https://functions.yandexcloud.net/d4e6fme38uk34ri74p43",
- "summary": "Только ролики, два формата по очереди: чистая игра и игра с плашками. Выходят по понедельникам, вторникам, четвергам и пятницам в 15:00 по Лондону. Ролик с плашками — на всех пяти площадках, включая LinkedIn; чистая игра — на четырёх, в LinkedIn по желанию. Пустой слот — день, под который ролик ещё нужно сделать.",
+ "summary": "Только ролики: чистая игра и игра с плашками. Обычный ритм — понедельник, вторник, четверг и пятница в 15:00 по Лондону. Одна игра не выходит два раза подряд. С плашками — пять площадок, включая LinkedIn; чистая игра — четыре, LinkedIn по желанию. Фактические публикации 3 и 4 ноября добавлены по сообщению Дмитрия; площадки уточняются.",
  "platforms": [
   {
    "id": "li",
@@ -78,7 +78,10 @@
   "N4": "Новая игра 4",
   "N5": "Новая игра 5",
   "N6": "Новая игра 6",
-  "N7": "Новая игра 7"
+  "N7": "Новая игра 7",
+  "P": "Carve Your Pumpkin · украшение тыквы (демо-бренд Frappe)",
+  "O": "Ofrenda Match · игра на память ко Дню мёртвых (демо-бренд Frappe)",
+  "BN": "Light It Up · игра с фейерверками к Bonfire Night (демо-бренд Your Brand)"
  },
  "videos": {
   "T-PURE": {
@@ -166,6 +169,38 @@
    "title": "Pack Light · С плашками",
    "game": "A",
    "type": "С плашками · корзина и средний чек"
+  },
+  "P-PURE": {
+   "title": "Carve Your Pumpkin · Чистая игра",
+   "game": "P",
+   "type": "Чистая игра · украшение тыквы",
+   "file": "videos/P-PURE.mp4?v=4e15f965",
+   "poster": "posters/P-PURE.jpg?v=4e15f965",
+   "sec": 17.12
+  },
+  "O-PLATES": {
+   "title": "Ofrenda Match · Игра с плашками",
+   "game": "O",
+   "type": "С плашками · игра в корзине и подарок",
+   "file": "videos/O-PLATES.mp4?v=6d5f7140",
+   "poster": "posters/O-PLATES.jpg?v=6d5f7140",
+   "sec": 25.0
+  },
+  "BN-PURE": {
+   "title": "Light It Up · Чистая игра",
+   "game": "BN",
+   "type": "Чистая игра · бонусные баллы за раунд",
+   "file": "videos/BN-PURE.mp4?v=b2873f21",
+   "poster": "posters/BN-PURE.jpg?v=b2873f21",
+   "sec": 21.6
+  },
+  "BN-PLATES": {
+   "title": "Light It Up · Баллы вместо скидки",
+   "game": "BN",
+   "type": "С плашками · письмо, игра, баллы и заказ",
+   "file": "videos/BN-PLATES.mp4?v=f2d913f6",
+   "poster": "posters/BN-PLATES.jpg?v=f2d913f6",
+   "sec": 25.0
   }
  },
  "pauses": [
@@ -354,16 +389,37 @@
     "li"
    ],
    "notes": [
-    "Новая игра 1: тему и механику выбирает команда. Игра на действие: её должно быть интересно смотреть без текста.",
-    "Чистая игра: прохождение без плашек, бирки и призыва. С плашками эта игра выйдет пт 6.11."
+    "Неподтверждённый слот: сведений о публикации 02.11 нет.",
+    "Прежняя связь с 06.11 снята: на 06.11 Дмитрий назначил чистую игру Bonfire Night."
    ]
   },
   {
-   "id": "2026-11-03-C-PLATES",
+   "id": "2026-11-03-P-PURE",
    "date": "2026-11-03",
    "kind": "reel",
+   "format": "pure",
+   "video": "P-PURE",
+   "platforms": [
+    "yt",
+    "ig",
+    "fb",
+    "tt"
+   ],
+   "optional": [
+    "li"
+   ],
+   "reportedPublished": true,
+   "notes": [
+    "Дмитрий 06.11 подтвердил, что чистый ролик про тыкву вышел 03.11. Конкретные площадки, время и использованные подписи пока не подтверждены.",
+    "Раньше на этот день ошибочно стоял незавершённый C-PLATES; его черновик сохранён в реестре видео и журнале плана."
+   ]
+  },
+  {
+   "id": "2026-11-04-O-PLATES",
+   "date": "2026-11-04",
+   "kind": "reel",
    "format": "plates",
-   "video": "C-PLATES",
+   "video": "O-PLATES",
    "platforms": [
     "li",
     "yt",
@@ -372,14 +428,12 @@
     "tt"
    ],
    "linkedin": {
-    "status": "writing"
+    "status": "unknown"
    },
-   "hook": "Need more emails before Black Friday?",
-   "body": "A memory game in your site popup: shoppers play, opt in and get the reward by email.",
-   "tag": "#blackfridaymarketing",
+   "reportedPublished": true,
    "notes": [
-    "С плашками: игра в задаче CRM. Чистая игра этой игры вышла чт 29.10.",
-    "Подпись — черновик под сценарий «окно на сайте → игра → почта с согласием → код в письме». Сценарий поменяется — поменяется и подпись."
+    "Дмитрий 06.11 подтвердил выход ролика Ofrenda Match 04.11. Конкретные площадки, время и использованные подписи пока не подтверждены.",
+    "Видео показало пример корзины и игрового подарка; фактический текст LinkedIn не восстанавливается без источника."
    ]
   },
   {
@@ -397,25 +451,33 @@
     "li"
    ],
    "notes": [
-    "Новая игра 2: тему и механику выбирает команда. Игра на действие: её должно быть интересно смотреть без текста.",
-    "Чистая игра: прохождение без плашек, бирки и призыва. С плашками эта игра выйдет вт 10.11."
+    "Неподтверждённый слот: сведений о публикации 05.11 нет.",
+    "Прежняя связь с 10.11 снята: на 10.11 предварительно назначена игра Bonfire Night с плашками."
    ]
   },
   {
-   "id": "2026-11-06-SLOT",
+   "id": "2026-11-06-BN-PURE",
    "date": "2026-11-06",
-   "kind": "slot",
-   "format": "plates",
+   "kind": "reel",
+   "format": "pure",
+   "video": "BN-PURE",
    "platforms": [
-    "li",
     "yt",
     "ig",
     "fb",
     "tt"
    ],
+   "optional": [
+    "li"
+   ],
+   "shortsTitle": "Can you light up the sky before the timer runs out?",
+   "hook": "A Bonfire Night game turns a 40-second firework round into a bonus-points code.",
+   "body": "Tap rockets, build a combo and reveal a reward for a qualifying order.",
+   "tag": "#loyaltyprograms",
    "notes": [
-    "Новая игра 1: тему и механику выбирает команда. Игра на действие: её должно быть интересно смотреть без текста.",
-    "С плашками: игра в задаче CRM. Чистая игра этой игры вышла пн 2.11."
+    "Дмитрий 06.11: чистое прохождение выходит сегодня. Файл — Shorts 11 команды Playmar; идентификатор BN не совпадает с B-PURE для Dandiya.",
+    "Bonfire Night был 5 ноября. Подпись подаёт ролик как пример игры, без обещания предстоящего праздника.",
+    "Фактические отметки и ссылки на площадки фиксируются отдельно после публикации."
    ]
   },
   {
@@ -433,15 +495,17 @@
     "li"
    ],
    "notes": [
-    "Тема — Рождество: маркетологи планируют за 4–8 недель, ролики в ноябре как раз вовремя.",
-    "Чистая игра: прохождение без плашек, бирки и призыва. С плашками эта игра выйдет пт 13.11."
+    "Тема — Рождество: ролик ещё нужен. Если он готов, это будет другая игра между версиями Bonfire Night 06.11 и 10.11.",
+    "При отсутствии публикации 09.11 не выпускать Bonfire 10.11 следующим подряд: перенести его после другой игры.",
+    "С плашками эта рождественская игра запланирована на 13.11. Здесь временно подряд два формата чистой игры (06.11 и 09.11), чтобы не ставить одну игру соседними публикациями."
    ]
   },
   {
-   "id": "2026-11-10-SLOT",
+   "id": "2026-11-10-BN-PLATES",
    "date": "2026-11-10",
-   "kind": "slot",
+   "kind": "reel",
    "format": "plates",
+   "video": "BN-PLATES",
    "platforms": [
     "li",
     "yt",
@@ -449,9 +513,20 @@
     "fb",
     "tt"
    ],
+   "shortsTitle": "A firework game with an offer for the next basket",
+   "hook": "A seasonal email can offer loyalty points instead of another discount.",
+   "body": "The demo puts a 40-second fireworks round before a code that awards bonus points when the basket meets its minimum.",
+   "tag": "#loyaltymarketing",
+   "linkedin": {
+    "status": "ready",
+    "text": "A seasonal campaign doesn't have to rely on another percentage-off offer.\n\nHere is a Bonfire Night demo I like: an email takes a shopper into a short firework game, with a code to earn bonus points on a qualifying order.\n\nHow the pieces fit together:\n\n1. The email gives the customer a small action tied to the occasion.\n2. Rockets and sparklers make a 40-second round. Finishing reveals a points reward.\n3. The code connects that reward to a future order. The top tier in the demo comes with a minimum spend.\n4. The final basket shows how the offer could work. It is a mockup, not proof of a live integration.\n\nWith a straight discount, the price changes immediately. Here the customer has a reason to place a qualifying order and collect points instead.\n\nThere are limits. Points need a clear value for the customer and economics that work for the brand. If the email isn't opened, the game won't be seen either.\n\nThe occasion is one example. The same structure could work around another moment your audience cares about.\n\nYou can build your own with AI, free. The almanac is in my Featured section.\n\nWhen would points make more sense than a discount for your customers?"
+   },
+   "condition": "Выпускайте только после другой игры: 09.11 пока пустой слот. Если 09.11 публикации не будет, перенесите этот ролик на дату после ближайшей другой игры; не ставьте два Bonfire подряд.",
    "notes": [
-    "Новая игра 2: тему и механику выбирает команда. Игра на действие: её должно быть интересно смотреть без текста.",
-    "С плашками: игра в задаче CRM. Чистая игра этой игры вышла чт 5.11."
+    "Дмитрий 06.11: версию Bonfire Night с плашками поставить на следующей неделе, не соседним постом с чистой игрой. Файл — Shorts 12 команды Playmar.",
+    "Между чистой игрой 06.11 и этим роликом нужна фактическая публикация другой игры. Слот 09.11 ещё не обеспечен видео; дата 10.11 условная.",
+    "Повод 5 ноября уже прошёл: это разбор сезонного демо. Корзина в ролике — макет, не подтверждение работающей интеграции.",
+    "Ранее здесь стоял пустой слот N2: пара не подтверждена, этот слот освобождён под готовый Bonfire."
    ]
   },
   {
