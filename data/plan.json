@@ -521,6 +521,36 @@
    ]
   },
   {
+   "id": "2026-11-10-BN-PLATES",
+   "date": "2026-11-09",
+   "kind": "reel",
+   "format": "plates",
+   "video": "BN-PLATES",
+   "platforms": [
+    "li",
+    "yt",
+    "ig",
+    "fb",
+    "tt"
+   ],
+   "shortsTitle": "A firework game with an offer for the next basket",
+   "hook": "A seasonal email can offer loyalty points instead of another discount.",
+   "body": "The demo puts a 40-second fireworks round before a code that awards bonus points when the basket meets its minimum.",
+   "tag": "#loyaltymarketing",
+   "linkedin": {
+    "status": "ready",
+    "text": "A seasonal campaign doesn't have to rely on another percentage-off offer.\n\nHere is a Bonfire Night demo I like: an email takes a shopper into a short firework game, with a code to earn bonus points on a qualifying order.\n\nHow the pieces fit together:\n\n1. The email gives the customer a small action tied to the occasion.\n2. Rockets and sparklers make a 40-second round. Finishing reveals a points reward.\n3. The code connects that reward to a future order. The top tier in the demo comes with a minimum spend.\n4. The final basket shows how the offer could work. It is a mockup, not proof of a live integration.\n\nWith a straight discount, the price changes immediately. Here the customer has a reason to place a qualifying order and collect points instead.\n\nThere are limits. Points need a clear value for the customer and economics that work for the brand. If the email isn't opened, the game won't be seen either.\n\nThe occasion is one example. The same structure could work around another moment your audience cares about.\n\nYou can build your own with AI, free. The almanac is in my Featured section.\n\nWhen would points make more sense than a discount for your customers?"
+   },
+   "condition": "Выпускайте после другой игры, фактически опубликованной после чистого Bonfire 06.11. Если ролики 09.11 и 10.11 не выйдут, перенесите выпуск, чтобы две версии Bonfire не шли подряд.",
+   "notes": [
+    "Дмитрий 06.11: версию Bonfire Night с плашками поставить на следующей неделе и не соседним постом с чистой игрой. Файл — Shorts 12 команды Playmar.",
+    "09.11: перенесено с 10.11 на 12.11, чтобы распределить ролики тыквы, Ofrenda и Bonfire и чередовать форматы. Идентификатор сохранён для существующих отметок и статистики.",
+    "Повод 5 ноября уже прошёл: это разбор сезонного демо. Корзина в ролике — макет, не подтверждение работающей интеграции.",
+    "09.11: Кирилл подтвердил, что ролик вышел 09.11, раньше запланированного 12.11. Площадки и ссылки на посты уточнить."
+   ],
+   "reportedPublished": true
+  },
+  {
    "id": "2026-11-10-O-PURE",
    "date": "2026-11-10",
    "kind": "reel",
@@ -544,34 +574,6 @@
    "notes": [
     "Дмитрий 09.11: включить чистое прохождение Ofrenda Match. Файл пока не найден в проекте и не добавлен в план.",
     "Версия с плашками уже вышла 04.11. День мёртвых прошёл; это пример сезонной механики, а не объявление предстоящего праздника."
-   ]
-  },
-  {
-   "id": "2026-11-10-BN-PLATES",
-   "date": "2026-11-12",
-   "kind": "reel",
-   "format": "plates",
-   "video": "BN-PLATES",
-   "platforms": [
-    "li",
-    "yt",
-    "ig",
-    "fb",
-    "tt"
-   ],
-   "shortsTitle": "A firework game with an offer for the next basket",
-   "hook": "A seasonal email can offer loyalty points instead of another discount.",
-   "body": "The demo puts a 40-second fireworks round before a code that awards bonus points when the basket meets its minimum.",
-   "tag": "#loyaltymarketing",
-   "linkedin": {
-    "status": "ready",
-    "text": "A seasonal campaign doesn't have to rely on another percentage-off offer.\n\nHere is a Bonfire Night demo I like: an email takes a shopper into a short firework game, with a code to earn bonus points on a qualifying order.\n\nHow the pieces fit together:\n\n1. The email gives the customer a small action tied to the occasion.\n2. Rockets and sparklers make a 40-second round. Finishing reveals a points reward.\n3. The code connects that reward to a future order. The top tier in the demo comes with a minimum spend.\n4. The final basket shows how the offer could work. It is a mockup, not proof of a live integration.\n\nWith a straight discount, the price changes immediately. Here the customer has a reason to place a qualifying order and collect points instead.\n\nThere are limits. Points need a clear value for the customer and economics that work for the brand. If the email isn't opened, the game won't be seen either.\n\nThe occasion is one example. The same structure could work around another moment your audience cares about.\n\nYou can build your own with AI, free. The almanac is in my Featured section.\n\nWhen would points make more sense than a discount for your customers?"
-   },
-   "condition": "Выпускайте после другой игры, фактически опубликованной после чистого Bonfire 06.11. Если ролики 09.11 и 10.11 не выйдут, перенесите выпуск, чтобы две версии Bonfire не шли подряд.",
-   "notes": [
-    "Дмитрий 06.11: версию Bonfire Night с плашками поставить на следующей неделе и не соседним постом с чистой игрой. Файл — Shorts 12 команды Playmar.",
-    "09.11: перенесено с 10.11 на 12.11, чтобы распределить ролики тыквы, Ofrenda и Bonfire и чередовать форматы. Идентификатор сохранён для существующих отметок и статистики.",
-    "Повод 5 ноября уже прошёл: это разбор сезонного демо. Корзина в ролике — макет, не подтверждение работающей интеграции."
    ]
   },
   {
