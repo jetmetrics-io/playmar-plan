@@ -493,34 +493,6 @@
    ]
   },
   {
-   "id": "2026-11-09-P-PLATES",
-   "date": "2026-11-09",
-   "kind": "reel",
-   "format": "plates",
-   "video": "P-PLATES",
-   "platforms": [
-    "li",
-    "yt",
-    "ig",
-    "fb",
-    "tt"
-   ],
-   "shortsTitle": "A pumpkin builder for a seasonal campaign",
-   "hook": "A creative prompt can make an email offer feel more inviting.",
-   "body": "In this Frappe demo, shoppers decorate a pumpkin before unlocking a code.",
-   "tag": "#emailmarketing",
-   "copyStatus": "draft",
-   "linkedin": {
-    "status": "draft",
-    "text": "An email request has to give people a reason to pause.\n\nThis Frappe demo takes a seasonal moment and gives shoppers a small creative task: decorate a pumpkin, then unlock an offer with an email. Frappe is a demo brand.\n\nHere is what I would look at as a CRM marketer:\n\n1. The creative task gives visitors something to do before they see the offer.\n2. The finished pumpkin makes the result feel personal.\n3. The email step connects the interaction with an offer. A separate marketing opt-in needs to be clear and optional.\n4. The code gives the customer a reason to return to the shop.\n\nA static signup form asks for an address straight away. An interactive experience gives a little value before the ask. That does not guarantee more subscribers: the reward, the audience and the effort all matter.\n\nThe game is only a demo, and the reward still needs to work for the brand's economics. I would also make sure consent and the offer terms are easy to understand.\n\nYou can build your own with AI, free. The almanac is in my Featured section.\n\nWhat would make an email signup worth the visitor's time?"
-   },
-   "condition": "Файл ролика пока не добавлен в план. Подписи и текст LinkedIn — черновики по чистой версии игры; перед публикацией сверить их с оригиналом, особенно способ получения кода и согласие на рассылку.",
-   "notes": [
-    "Дмитрий 09.11: включить в план готовую версию игры с тыквой с плашками. Файл пока не найден в проекте и не добавлен в план.",
-    "Хэллоуин уже прошёл, поэтому тексты рассказывают об игре как о сезонном демо, без приглашения на предстоящий праздник."
-   ]
-  },
-  {
    "id": "2026-11-10-BN-PLATES",
    "date": "2026-11-09",
    "kind": "reel",
@@ -574,6 +546,35 @@
    "notes": [
     "Дмитрий 09.11: включить чистое прохождение Ofrenda Match. Файл пока не найден в проекте и не добавлен в план.",
     "Версия с плашками уже вышла 04.11. День мёртвых прошёл; это пример сезонной механики, а не объявление предстоящего праздника."
+   ]
+  },
+  {
+   "id": "2026-11-09-P-PLATES",
+   "date": "2026-11-12",
+   "kind": "reel",
+   "format": "plates",
+   "video": "P-PLATES",
+   "platforms": [
+    "li",
+    "yt",
+    "ig",
+    "fb",
+    "tt"
+   ],
+   "shortsTitle": "A pumpkin builder for a seasonal campaign",
+   "hook": "A creative prompt can make an email offer feel more inviting.",
+   "body": "In this Frappe demo, shoppers decorate a pumpkin before unlocking a code.",
+   "tag": "#emailmarketing",
+   "copyStatus": "draft",
+   "linkedin": {
+    "status": "draft",
+    "text": "An email request has to give people a reason to pause.\n\nThis Frappe demo takes a seasonal moment and gives shoppers a small creative task: decorate a pumpkin, then unlock an offer with an email. Frappe is a demo brand.\n\nHere is what I would look at as a CRM marketer:\n\n1. The creative task gives visitors something to do before they see the offer.\n2. The finished pumpkin makes the result feel personal.\n3. The email step connects the interaction with an offer. A separate marketing opt-in needs to be clear and optional.\n4. The code gives the customer a reason to return to the shop.\n\nA static signup form asks for an address straight away. An interactive experience gives a little value before the ask. That does not guarantee more subscribers: the reward, the audience and the effort all matter.\n\nThe game is only a demo, and the reward still needs to work for the brand's economics. I would also make sure consent and the offer terms are easy to understand.\n\nYou can build your own with AI, free. The almanac is in my Featured section.\n\nWhat would make an email signup worth the visitor's time?"
+   },
+   "condition": "Файл ролика пока не добавлен в план. Подписи и текст LinkedIn — черновики по чистой версии игры; перед публикацией сверить их с оригиналом, особенно способ получения кода и согласие на рассылку.",
+   "notes": [
+    "Дмитрий 09.11: включить в план готовую версию игры с тыквой с плашками. Файл пока не найден в проекте и не добавлен в план.",
+    "Хэллоуин уже прошёл, поэтому тексты рассказывают об игре как о сезонном демо, без приглашения на предстоящий праздник.",
+    "09.11: перенесено с 09.11 на 12.11 — 09.11 вместо тыквы вышла версия Bonfire с плашками. Идентификатор сохранён."
    ]
   },
   {
