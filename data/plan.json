@@ -198,8 +198,8 @@
    "title": "Light It Up · Баллы вместо скидки",
    "game": "BN",
    "type": "С плашками · письмо, игра, баллы и заказ",
-   "file": "videos/BN-PLATES.mp4?v=f2d913f6",
-   "poster": "posters/BN-PLATES.jpg?v=f2d913f6",
+   "file": "videos/BN-PLATES.mp4?v=2c17bea9",
+   "poster": "posters/BN-PLATES.jpg?v=2c17bea9",
    "sec": 25.0
   },
   "P-PLATES": {
@@ -533,20 +533,20 @@
     "fb",
     "tt"
    ],
-   "shortsTitle": "A firework game with an offer for the next basket",
-   "hook": "A seasonal email can offer loyalty points instead of another discount.",
-   "body": "The demo puts a 40-second fireworks round before a code that awards bonus points when the basket meets its minimum.",
-   "tag": "#loyaltymarketing",
+   "shortsTitle": "Points, not a discount: a Bonfire Night game where every reward needs an order",
+   "hook": "A Bonfire Night fireworks game that pays out bonus points instead of a discount.",
+   "body": "Every round wins points, a better score wins more, and each reward comes with an order threshold. The points arrive with a purchase, so the shop pays only when someone buys.",
+   "tag": "#loyaltyprogram",
    "linkedin": {
     "status": "ready",
-    "text": "A seasonal campaign doesn't have to rely on another percentage-off offer.\n\nHere is a Bonfire Night demo I like: an email takes a shopper into a short firework game, with a code to earn bonus points on a qualifying order.\n\nHow the pieces fit together:\n\n1. The email gives the customer a small action tied to the occasion.\n2. Rockets and sparklers make a 40-second round. Finishing reveals a points reward.\n3. The code connects that reward to a future order. The top tier in the demo comes with a minimum spend.\n4. The final basket shows how the offer could work. It is a mockup, not proof of a live integration.\n\nWith a straight discount, the price changes immediately. Here the customer has a reason to place a qualifying order and collect points instead.\n\nThere are limits. Points need a clear value for the customer and economics that work for the brand. If the email isn't opened, the game won't be seen either.\n\nThe occasion is one example. The same structure could work around another moment your audience cares about.\n\nYou can build your own with AI, free. The almanac is in my Featured section.\n\nWhen would points make more sense than a discount for your customers?"
+    "text": "Most holiday promos end up as a discount. 20% off, and customers learn to wait for the next one.\n\nFor Bonfire Night I tried a different reward: points.\n\nThe game is short: 40 seconds of fireworks in the shop of a made-up brand. Tap the rockets, don't break the streak, and the score picks the reward:\n\n↳ a high score gets 500 bonus points\n↳ a good one gets 250\n↳ any finished round gets 100\n\nOne rule makes it work: points come only with an order over a set amount, and the top reward asks for the biggest basket. The shop gives points only when someone actually buys. The reward card even suggests an add-on to get a smaller basket over the line.\n\nWhy points and not % off? A discount is gone at checkout. Points stay in the account and bring people back for the next order.\n\nTo be fair, this only works if your loyalty program is worth coming back to. If nobody knows what 500 points buy, it's just a number on a screen.\n\nYou can build a game like this with AI, free. The almanac is in my Featured section.\n\nPoints or a discount: which one would your customers pick?"
    },
-   "condition": "Выпускайте после другой игры, фактически опубликованной после чистого Bonfire 06.11. Если ролики 09.11 и 10.11 не выйдут, перенесите выпуск, чтобы две версии Bonfire не шли подряд.",
    "notes": [
     "Дмитрий 06.11: версию Bonfire Night с плашками поставить на следующей неделе и не соседним постом с чистой игрой. Файл — Shorts 12 команды Playmar.",
     "09.11: перенесено с 10.11 на 12.11, чтобы распределить ролики тыквы, Ofrenda и Bonfire и чередовать форматы. Идентификатор сохранён для существующих отметок и статистики.",
     "Повод 5 ноября уже прошёл: это разбор сезонного демо. Корзина в ролике — макет, не подтверждение работающей интеграции.",
-    "09.11: Кирилл подтвердил, что ролик вышел 09.11, раньше запланированного 12.11. Площадки и ссылки на посты уточнить."
+    "09.11: Кирилл подтвердил, что ролик вышел 09.11, раньше запланированного 12.11. Площадки и ссылки на посты уточнить.",
+    "09.11: видео и подписи заменены на версию, которая вышла 09.11 (Shorts 14, страница превью Playmar): название Shorts, подпись, хэштег и текст LinkedIn."
    ],
    "reportedPublished": true
   },
