@@ -92,7 +92,7 @@ function fields(it, pid) {
   const C = S.plan.constants;
   if (pid === 'li') {
     const li = it.linkedin || {};
-    if (li.status === 'ready' && li.text) return [{ label: 'Текст поста', text: li.text, limit: 3000, big: true }];
+    if ((li.status === 'ready' || li.status === 'draft') && li.text) return [{ label: li.status === 'draft' ? 'Черновик поста' : 'Текст поста', text: li.text, limit: 3000, big: true }];
     /* LinkedIn by choice (pure game): the first line and the description, no call to action, no hashtags */
     return isOpt(it, 'li') && it.hook ? [{ label: 'Текст поста', text: [it.hook, it.body].filter(Boolean).join('\n\n'), limit: 3000 }] : null;
   }
@@ -149,9 +149,10 @@ function cardHTML(it) {
   const badges = [`<span class="badge ${it.format}">${FORMAT[it.format]}</span>`];
   if (it.reportedPublished) badges.push('<span class="badge reported">Вышел · площадки уточнить</span>');
   if (it.condition) badges.push('<span class="badge condition">Выпуск с условием</span>');
-  if (it.video) badges.push(v && v.file ? '<span class="badge ready">Видео готово</span>' : '<span class="badge notready">Видео делаем</span>');
+  if (it.video) badges.push(v && v.file ? '<span class="badge ready">Видео готово</span>' : `<span class="badge notready">${v && v.awaitingFile ? 'Файл не добавлен' : 'Видео делаем'}</span>`);
   if (it.video) badges.push(`<span class="badge">${esc(it.video)}</span>`);
-  if (liWriting(it)) badges.push('<span class="badge notready">Текст LinkedIn пишем</span>');
+  if (it.copyStatus === 'draft') badges.push('<span class="badge notready">Подписи — черновик</span>');
+  if (liWriting(it)) badges.push(`<span class="badge notready">${it.linkedin?.status === 'draft' ? 'LinkedIn — черновик' : 'Текст LinkedIn пишем'}</span>`);
   const hook = it.hook ? `<p class="hook">“${esc(it.shortsTitle && S.filter === 'yt' ? it.shortsTitle : it.hook)}”</p>` : '<p class="hook none">Подпись появится вместе с роликом</p>';
   return `<article class="card${cls}" data-id="${esc(it.id)}" tabindex="0">
     <div class="when"><b>${fmtDate(it.date)}</b><span class="t">${esc(S.plan.time)} Лондон</span>${loc ? `<span class="loc">${esc(loc)}</span>` : ''}</div>
@@ -189,9 +190,10 @@ function renderPlan() {
     .concat(P.platforms.map((p) => `<button class="chip${S.filter === p.id ? ' on' : ''}" data-f="${p.id}">${esc(lab(p.id))} <span class="n">${(per[p.id] || [0, 0]).join('/')}</span></button>`));
   const items = P.items.filter((it) => (S.filter === 'all' || plats(it).includes(S.filter)) && !(S.hideDone && finished(it)) && !(S.todoOnly && !needsWork(it)));
   const slots = P.items.filter(isSlot).length;
-  const inProd = new Set(P.items.filter((it) => it.video && !(videoOf(it) || {}).file).map((it) => it.video)).size;
+  const missing = new Set(P.items.filter((it) => it.video && !(videoOf(it) || {}).file && (videoOf(it) || {}).awaitingFile).map((it) => it.video)).size;
+  const inProd = new Set(P.items.filter((it) => it.video && !(videoOf(it) || {}).file && !(videoOf(it) || {}).awaitingFile).map((it) => it.video)).size;
   const liTexts = P.items.filter(liWriting).length;
-  const work = `<p class="work"><b>Нужно сделать: ${slots + inProd} ${plural(slots + inProd, 'ролик', 'ролика', 'роликов')}</b> — ${slots} ${plural(slots, 'пустой слот', 'пустых слота', 'пустых слотов')} и ${inProd} ${plural(inProd, 'ролик', 'ролика', 'роликов')} в работе; ${liTexts} ${plural(liTexts, 'текст', 'текста', 'текстов')} для LinkedIn.</p>`;
+  const work = `<p class="work"><b>Нужно подготовить: ${slots + inProd + missing} ${plural(slots + inProd + missing, 'ролик', 'ролика', 'роликов')}</b> — ${slots} ${plural(slots, 'пустой слот', 'пустых слота', 'пустых слотов')}, ${inProd} ${plural(inProd, 'ролик', 'ролика', 'роликов')} в работе, для ${missing} нет файла в плане; ${liTexts} ${plural(liTexts, 'текст', 'текста', 'текстов')} для LinkedIn.</p>`;
   const out = [];
   let week = null; const pausesShown = new Set(); let prev = null;
   for (const it of items) {
@@ -872,11 +874,12 @@ function renderSheet() {
           <div class="vid-actions"><a class="btn primary" id="dl" href="${esc(Data.url(v.file))}" download="Playmar_${esc(it.date)}_${esc(it.video)}.mp4"><i data-lucide="download"></i>Скачать видео</a>
           <button class="btn small" id="pv"><i data-lucide="play"></i>Посмотреть</button>
           <span class="muted" style="font-size:13px">${esc(it.video)} · MP4 9:16 · звук в файле</span></div></div></div>`
-      : `<div class="blk"><h4>Видео</h4><div class="note warn">Ролик ещё делаем. Он появится здесь, когда будет готов. Нет его в свой день — пропустите слот и напишите Дмитрию.</div></div>`);
+      : `<div class="blk"><h4>Видео</h4><div class="note warn">${v && v.awaitingFile ? 'Файл ролика пока не добавлен в план. Перед публикацией получите оригинал команды и сверьте подписи с ним.' : 'Ролик ещё делаем. Он появится здесь, когда будет готов. Нет его в свой день — пропустите слот и напишите Дмитрию.'}</div></div>`);
   } else parts.push('<div class="blk"><h4>Картинка</h4><div class="note warn">Картинка придёт вместе с текстом.</div></div>');
   if (isOpt(it, pid)) parts.push(`<div class="blk"><div class="note">${esc(p.name)} для этого ролика — по желанию. Выложили — отметьте ниже.</div></div>`);
   const F = fields(it, pid);
   if (F) {
+    if (it.copyStatus === 'draft') parts.push('<div class="blk"><div class="note warn">Подписи предварительные: они составлены по другой версии игры. Сверьте их с оригиналом этого ролика до публикации.</div></div>');
     F.forEach((f, i) => {
       const len = [...f.text].length;
       let cnt = '';

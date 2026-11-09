@@ -201,6 +201,18 @@
    "file": "videos/BN-PLATES.mp4?v=f2d913f6",
    "poster": "posters/BN-PLATES.jpg?v=f2d913f6",
    "sec": 25.0
+  },
+  "P-PLATES": {
+   "title": "Carve Your Pumpkin · С плашками",
+   "game": "P",
+   "type": "С плашками · оформление тыквы",
+   "awaitingFile": true
+  },
+  "O-PURE": {
+   "title": "Ofrenda Match · Чистая игра",
+   "game": "O",
+   "type": "Чистая игра · игра на память",
+   "awaitingFile": true
   }
  },
  "pauses": [
@@ -481,10 +493,39 @@
    ]
   },
   {
-   "id": "2026-11-09-SLOT",
+   "id": "2026-11-09-P-PLATES",
    "date": "2026-11-09",
-   "kind": "slot",
+   "kind": "reel",
+   "format": "plates",
+   "video": "P-PLATES",
+   "platforms": [
+    "li",
+    "yt",
+    "ig",
+    "fb",
+    "tt"
+   ],
+   "shortsTitle": "A pumpkin builder for a seasonal campaign",
+   "hook": "A creative prompt can make an email offer feel more inviting.",
+   "body": "In this Frappe demo, shoppers decorate a pumpkin before unlocking a code.",
+   "tag": "#emailmarketing",
+   "copyStatus": "draft",
+   "linkedin": {
+    "status": "draft",
+    "text": "An email request has to give people a reason to pause.\n\nThis Frappe demo takes a seasonal moment and gives shoppers a small creative task: decorate a pumpkin, then unlock an offer with an email. Frappe is a demo brand.\n\nHere is what I would look at as a CRM marketer:\n\n1. The creative task gives visitors something to do before they see the offer.\n2. The finished pumpkin makes the result feel personal.\n3. The email step connects the interaction with an offer. A separate marketing opt-in needs to be clear and optional.\n4. The code gives the customer a reason to return to the shop.\n\nA static signup form asks for an address straight away. An interactive experience gives a little value before the ask. That does not guarantee more subscribers: the reward, the audience and the effort all matter.\n\nThe game is only a demo, and the reward still needs to work for the brand's economics. I would also make sure consent and the offer terms are easy to understand.\n\nYou can build your own with AI, free. The almanac is in my Featured section.\n\nWhat would make an email signup worth the visitor's time?"
+   },
+   "condition": "Файл ролика пока не добавлен в план. Подписи и текст LinkedIn — черновики по чистой версии игры; перед публикацией сверить их с оригиналом, особенно способ получения кода и согласие на рассылку.",
+   "notes": [
+    "Дмитрий 09.11: включить в план готовую версию игры с тыквой с плашками. Файл пока не найден в проекте и не добавлен в план.",
+    "Хэллоуин уже прошёл, поэтому тексты рассказывают об игре как о сезонном демо, без приглашения на предстоящий праздник."
+   ]
+  },
+  {
+   "id": "2026-11-10-O-PURE",
+   "date": "2026-11-10",
+   "kind": "reel",
    "format": "pure",
+   "video": "O-PURE",
    "platforms": [
     "yt",
     "ig",
@@ -494,15 +535,20 @@
    "optional": [
     "li"
    ],
+   "shortsTitle": "Ofrenda Match: can you find all six pairs?",
+   "hook": "A memory game turns a seasonal shopping moment into something to play.",
+   "body": "Flip matching cards to reveal a gift offer tied to an eligible order.",
+   "tag": "#ecommerce",
+   "copyStatus": "draft",
+   "condition": "Файл чистого прохождения пока не добавлен в план. Подписи — черновики по версии с плашками; перед публикацией сверить число пар и условия подарка с оригиналом.",
    "notes": [
-    "Пустой слот: конкретная игра, ролик и подписи пока не определены. Если подготовят другую игру, она может разделить версии Bonfire Night 06.11 и 10.11.",
-    "При отсутствии публикации 09.11 не выпускать Bonfire 10.11 следующим подряд: перенести его после другой игры.",
-    "Если слот закроют чистым прохождением, 06.11 и 09.11 временно получатся два чистых формата подряд, чтобы не ставить одну игру соседними публикациями."
+    "Дмитрий 09.11: включить чистое прохождение Ofrenda Match. Файл пока не найден в проекте и не добавлен в план.",
+    "Версия с плашками уже вышла 04.11. День мёртвых прошёл; это пример сезонной механики, а не объявление предстоящего праздника."
    ]
   },
   {
    "id": "2026-11-10-BN-PLATES",
-   "date": "2026-11-10",
+   "date": "2026-11-12",
    "kind": "reel",
    "format": "plates",
    "video": "BN-PLATES",
@@ -521,17 +567,16 @@
     "status": "ready",
     "text": "A seasonal campaign doesn't have to rely on another percentage-off offer.\n\nHere is a Bonfire Night demo I like: an email takes a shopper into a short firework game, with a code to earn bonus points on a qualifying order.\n\nHow the pieces fit together:\n\n1. The email gives the customer a small action tied to the occasion.\n2. Rockets and sparklers make a 40-second round. Finishing reveals a points reward.\n3. The code connects that reward to a future order. The top tier in the demo comes with a minimum spend.\n4. The final basket shows how the offer could work. It is a mockup, not proof of a live integration.\n\nWith a straight discount, the price changes immediately. Here the customer has a reason to place a qualifying order and collect points instead.\n\nThere are limits. Points need a clear value for the customer and economics that work for the brand. If the email isn't opened, the game won't be seen either.\n\nThe occasion is one example. The same structure could work around another moment your audience cares about.\n\nYou can build your own with AI, free. The almanac is in my Featured section.\n\nWhen would points make more sense than a discount for your customers?"
    },
-   "condition": "Выпускайте только после другой игры: 09.11 пока пустой слот. Если 09.11 публикации не будет, перенесите этот ролик на дату после ближайшей другой игры; не ставьте два Bonfire подряд.",
+   "condition": "Выпускайте после другой игры, фактически опубликованной после чистого Bonfire 06.11. Если ролики 09.11 и 10.11 не выйдут, перенесите выпуск, чтобы две версии Bonfire не шли подряд.",
    "notes": [
-    "Дмитрий 06.11: версию Bonfire Night с плашками поставить на следующей неделе, не соседним постом с чистой игрой. Файл — Shorts 12 команды Playmar.",
-    "Между чистой игрой 06.11 и этим роликом нужна фактическая публикация другой игры. Слот 09.11 ещё не обеспечен видео; дата 10.11 условная.",
-    "Повод 5 ноября уже прошёл: это разбор сезонного демо. Корзина в ролике — макет, не подтверждение работающей интеграции.",
-    "Ранее здесь стоял пустой слот N2: пара не подтверждена, этот слот освобождён под готовый Bonfire."
+    "Дмитрий 06.11: версию Bonfire Night с плашками поставить на следующей неделе и не соседним постом с чистой игрой. Файл — Shorts 12 команды Playmar.",
+    "09.11: перенесено с 10.11 на 12.11, чтобы распределить ролики тыквы, Ofrenda и Bonfire и чередовать форматы. Идентификатор сохранён для существующих отметок и статистики.",
+    "Повод 5 ноября уже прошёл: это разбор сезонного демо. Корзина в ролике — макет, не подтверждение работающей интеграции."
    ]
   },
   {
-   "id": "2026-11-12-SLOT",
-   "date": "2026-11-12",
+   "id": "2026-11-13-SLOT",
+   "date": "2026-11-13",
    "kind": "slot",
    "format": "pure",
    "platforms": [
@@ -540,29 +585,12 @@
     "fb",
     "tt"
    ],
-   "optional": [
-    "li"
-   ],
-   "notes": [
-    "Новая игра 3: тему и механику выбирает команда. Игра на действие: её должно быть интересно смотреть без текста.",
-    "Чистая игра: прохождение без плашек, бирки и призыва. С плашками эта игра выйдет вт 17.11."
-   ]
-  },
-  {
-   "id": "2026-11-13-SLOT",
-   "date": "2026-11-13",
-   "kind": "slot",
-   "format": "plates",
-   "platforms": [
-    "li",
-    "yt",
-    "ig",
-    "fb",
-    "tt"
-   ],
    "notes": [
     "Пустой слот: конкретная игра и ролик пока не определены.",
-    "Формат с плашками: игру показываем в задаче CRM. Чистое прохождение выбранной игры должно выйти раньше."
+    "После версии Bonfire с плашками здесь предусмотрено чистое прохождение другой игры. Если готового ролика нет, слот пропускаем."
+   ],
+   "optional": [
+    "li"
    ]
   },
   {
