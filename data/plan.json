@@ -82,7 +82,7 @@
   "P": "Carve Your Pumpkin · украшение тыквы (демо-бренд Frappe)",
   "O": "Ofrenda Match · игра на память ко Дню мёртвых (демо-бренд Frappe)",
   "BN": "Light It Up · игра с фейерверками к Bonfire Night (демо-бренд Your Brand)",
-  "XM": "Рождественская игра · тема Рождества, игру делаем (механика будет выбрана)"
+  "XM": "Christmas Scratch Card · скретч-карта к Рождеству (демо-бренд Frappe)"
  },
  "videos": {
   "T-PURE": {
@@ -220,9 +220,20 @@
    "sec": 17.44
   },
   "XM-PURE": {
-   "title": "Рождественская игра · Чистая игра",
+   "title": "Christmas Scratch Card · Чистая игра",
    "game": "XM",
-   "type": "Чистая игра, без текста на экране"
+   "type": "Чистая игра · скретч-карта",
+   "file": "videos/XM-PURE.mp4?v=2fd9c63a",
+   "poster": "posters/XM-PURE.jpg?v=2fd9c63a",
+   "sec": 17.32
+  },
+  "XM-PLATES": {
+   "title": "Christmas Scratch Card · С плашками",
+   "game": "XM",
+   "type": "С плашками · корзина, игра и товар до порога",
+   "file": "videos/XM-PLATES.mp4?v=1c9c796e",
+   "poster": "posters/XM-PLATES.jpg?v=1c9c796e",
+   "sec": 25.0
   }
  },
  "pauses": [
@@ -598,13 +609,18 @@
     "tt"
    ],
    "notes": [
+    "10.11: добавлены файл (Shorts 15, чистое прохождение Christmas Scratch Card: лендинг, шансы, стирание фольги, 20 % off) и финальные подписи с его страницы превью: название Shorts, подпись, хэштег. Суммы в ролике без валюты.",
     "10.11: Кирилл поставил сюда чистое прохождение рождественской игры. Игру делаем позже; файл и подписи добавим, когда ролик будет готов. Идентификатор слота сохранён.",
     "Раньше: пустой слот под чистое прохождение другой игры после версии Bonfire с плашками."
    ],
    "optional": [
     "li"
    ],
-   "video": "XM-PURE"
+   "video": "XM-PURE",
+   "shortsTitle": "A Christmas scratch card: every card wins, bigger discounts need bigger orders",
+   "hook": "A Christmas scratch card where every card wins 20%, 15% or 10% off, and each code has its own minimum order.",
+   "body": "The prize is drawn before the first scratch, and the odds are on the start screen. The top code needs the biggest basket, so a lucky card pulls the order up.",
+   "tag": "#holidaymarketing"
   },
   {
    "id": "2026-11-16-A-PURE",
@@ -633,8 +649,9 @@
   {
    "id": "2026-11-17-SLOT",
    "date": "2026-11-17",
-   "kind": "slot",
+   "kind": "reel",
    "format": "plates",
+   "video": "XM-PLATES",
    "platforms": [
     "li",
     "yt",
@@ -642,9 +659,18 @@
     "fb",
     "tt"
    ],
+   "shortsTitle": "Every card wins, and the top prize asks for a bigger basket: a scratch card in your cart",
+   "hook": "A scratch card that opens from the cart: every card wins, and the top prize comes with a higher minimum.",
+   "body": "When the order falls short, the card suggests one product to cover the difference. The basket grew 57%, and the total after the discount was still 25% higher.",
+   "tag": "#ecommerce",
+   "linkedin": {
+    "status": "ready",
+    "text": "A discount code usually makes an order smaller. This one is set up to make it bigger.\n\nThe brand is fictional. Picture a coffee shop that puts a Christmas scratch card inside its cart.\n\nHow the card works with the basket:\n\n1. Every card wins: 20%, 15% or 10% off. The odds are on the start screen, before anyone scratches.\n2. The prize is drawn when the card is dealt. Scratching only reveals it.\n3. Each prize has its own minimum order, and the top one needs the biggest basket.\n4. The game knows the cart total. If the order is below the minimum, the card suggests one product that covers the difference.\n5. The shopper adds it, and the code is applied at checkout.\n\nHere the basket grew by 57%. After the 20% off, the shopper still paid 25% more than the original cart.\n\nThe catch: the add-on has to be something people want anyway, not filler. And one card in twenty gives 20% off, so run the numbers on your margin before launch.\n\nYou can build your own with AI, free. The almanac is in my Featured section.\n\nWould you rather give everyone a small discount, or a bigger one that asks for a bigger basket?"
+   },
    "notes": [
-    "Новая игра 3: тему и механику выбирает команда. Игра на действие: её должно быть интересно смотреть без текста.",
-    "С плашками: игра в задаче CRM. Чистое прохождение этой игры пока не назначено; перед выпуском сначала опубликовать его."
+    "10.11: Кирилл поставил сюда Christmas Scratch Card с плашками (Shorts 16, сюжет «Карта двигает корзину»): корзина 46 → игра в корзине → товар до порога приза → корзина 72, +57 %. Финальные подписи и текст LinkedIn — с его страницы превью. Чистое прохождение этой игры выходит пт 13.11. Идентификатор слота сохранён.",
+    "Корзина в ролике — макет: игра получает сумму корзины и предлагает товар, добавление в корзину делает магазин. Суммы без валюты.",
+    "Раньше: слот под новую игру 3 с плашками. Новая игра 3: тему и механику выбирает команда. Игра на действие: её должно быть интересно смотреть без текста. С плашками: игра в задаче CRM. Чистое прохождение этой игры пока не назначено; перед выпуском сначала опубликовать его."
    ]
   },
   {
