@@ -207,7 +207,9 @@
    "title": "Carve Your Pumpkin · С плашками",
    "game": "P",
    "type": "С плашками · оформление тыквы",
-   "awaitingFile": true
+   "file": "videos/P-PLATES.mp4?v=cc92f6ef",
+   "poster": "posters/P-PLATES.jpg?v=cc92f6ef",
+   "sec": 25.0
   },
   "O-PURE": {
    "title": "Ofrenda Match · Чистая игра",
@@ -569,20 +571,19 @@
     "fb",
     "tt"
    ],
-   "shortsTitle": "A pumpkin builder for a seasonal campaign",
-   "hook": "A creative prompt can make an email offer feel more inviting.",
-   "body": "In this Frappe demo, shoppers decorate a pumpkin before unlocking a code.",
+   "shortsTitle": "Type an email, get the code, leave the marketing box unticked",
+   "hook": "A popup game for list growth: one email unlocks 15% off, and the marketing box stays unticked.",
+   "body": "Consent is its own choice, so your newsletter goes only to people who ticked the box. The code itself needs just the email.",
    "tag": "#emailmarketing",
-   "copyStatus": "draft",
    "linkedin": {
-    "status": "draft",
-    "text": "An email request has to give people a reason to pause.\n\nThis Frappe demo takes a seasonal moment and gives shoppers a small creative task: decorate a pumpkin, then unlock an offer with an email. Frappe is a demo brand.\n\nHere is what I would look at as a CRM marketer:\n\n1. The creative task gives visitors something to do before they see the offer.\n2. The finished pumpkin makes the result feel personal.\n3. The email step connects the interaction with an offer. A separate marketing opt-in needs to be clear and optional.\n4. The code gives the customer a reason to return to the shop.\n\nA static signup form asks for an address straight away. An interactive experience gives a little value before the ask. That does not guarantee more subscribers: the reward, the audience and the effort all matter.\n\nThe game is only a demo, and the reward still needs to work for the brand's economics. I would also make sure consent and the offer terms are easy to understand.\n\nYou can build your own with AI, free. The almanac is in my Featured section.\n\nWhat would make an email signup worth the visitor's time?"
+    "status": "ready",
+    "text": "Some signup popups pre-tick the newsletter box and hope nobody looks. Under GDPR, a pre-ticked box is not valid consent.\n\nThis one asks for less.\n\nThe shop here is invented: a coffee brand with a Halloween game in a popup. You decorate a pumpkin with stickers and tap Done.\n\nHow it handles the email:\n\n1. Everyone who finishes gets the same reward: 15% off. No score to beat.\n2. The code stays blurred until you enter an email. One field, one button.\n3. The marketing box sits under the field and stays unticked. The code unlocks without it.\n4. Only people who tick the box go to your newsletter. Everyone else still gets their code.\n5. The code works at checkout, so the first order comes with the discount.\n\nA typical popup trades 10% off for an email and a newsletter in one move. Here the shopper makes two separate choices.\n\nThe catch: the list grows slower, because fewer people tick the box. And 15% for every player is a fixed cost, so check it against your margin.\n\nYou can build your own with AI, free. The almanac is in my Featured section.\n\nFewer subscribers who chose to be there, or more who never saw the box: which list would you rather have?"
    },
-   "condition": "Файл ролика пока не добавлен в план. Подписи и текст LinkedIn — черновики по чистой версии игры; перед публикацией сверить их с оригиналом, особенно способ получения кода и согласие на рассылку.",
    "notes": [
     "Дмитрий 09.11: включить в план готовую версию игры с тыквой с плашками. Файл пока не найден в проекте и не добавлен в план.",
     "Хэллоуин уже прошёл, поэтому тексты рассказывают об игре как о сезонном демо, без приглашения на предстоящий праздник.",
-    "09.11: перенесено с 09.11 на 12.11 — 09.11 вместо тыквы вышла версия Bonfire с плашками. Идентификатор сохранён."
+    "09.11: перенесено с 09.11 на 12.11 — 09.11 вместо тыквы вышла версия Bonfire с плашками. Идентификатор сохранён.",
+    "10.11: добавлены файл (Shorts 11, Carve Your Pumpkin с плашками, пересобран 10.11 без валюты: цены в магазине просто числа) и финальные подписи с его страницы превью: название Shorts, подпись, хэштег и текст LinkedIn."
    ]
   },
   {
