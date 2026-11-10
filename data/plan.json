@@ -81,7 +81,8 @@
   "N7": "Новая игра 7",
   "P": "Carve Your Pumpkin · украшение тыквы (демо-бренд Frappe)",
   "O": "Ofrenda Match · игра на память ко Дню мёртвых (демо-бренд Frappe)",
-  "BN": "Light It Up · игра с фейерверками к Bonfire Night (демо-бренд Your Brand)"
+  "BN": "Light It Up · игра с фейерверками к Bonfire Night (демо-бренд Your Brand)",
+  "XM": "Рождественская игра · тема Рождества, игру делаем (механика будет выбрана)"
  },
  "videos": {
   "T-PURE": {
@@ -212,7 +213,14 @@
    "title": "Ofrenda Match · Чистая игра",
    "game": "O",
    "type": "Чистая игра · игра на память",
-   "awaitingFile": true
+   "file": "videos/O-PURE.mp4?v=9047ed74",
+   "poster": "posters/O-PURE.jpg?v=9047ed74",
+   "sec": 17.44
+  },
+  "XM-PURE": {
+   "title": "Рождественская игра · Чистая игра",
+   "game": "XM",
+   "type": "Чистая игра, без текста на экране"
   }
  },
  "pauses": [
@@ -537,15 +545,14 @@
    "optional": [
     "li"
    ],
-   "shortsTitle": "Ofrenda Match: can you find all six pairs?",
-   "hook": "A memory game turns a seasonal shopping moment into something to play.",
-   "body": "Flip matching cards to reveal a gift offer tied to an eligible order.",
+   "shortsTitle": "Six pairs from the ofrenda: fewer moves, bigger gift with the next order",
+   "hook": "A Día de Muertos memory game: the fewer moves you take, the bigger the gift with your next order.",
+   "body": "Each gift needs a minimum order, so the game nudges a bigger basket. One round a day brings players back every day of the campaign.",
    "tag": "#ecommerce",
-   "copyStatus": "draft",
-   "condition": "Файл чистого прохождения пока не добавлен в план. Подписи — черновики по версии с плашками; перед публикацией сверить число пар и условия подарка с оригиналом.",
    "notes": [
     "Дмитрий 09.11: включить чистое прохождение Ofrenda Match. Файл пока не найден в проекте и не добавлен в план.",
-    "Версия с плашками уже вышла 04.11. День мёртвых прошёл; это пример сезонной механики, а не объявление предстоящего праздника."
+    "Версия с плашками уже вышла 04.11. День мёртвых прошёл; это пример сезонной механики, а не объявление предстоящего праздника.",
+    "10.11: добавлены файл (Shorts 9, чистое прохождение Ofrenda Match) и финальные подписи с его страницы превью: название Shorts, подпись, хэштег."
    ]
   },
   {
@@ -580,7 +587,7 @@
   {
    "id": "2026-11-13-SLOT",
    "date": "2026-11-13",
-   "kind": "slot",
+   "kind": "reel",
    "format": "pure",
    "platforms": [
     "yt",
@@ -589,12 +596,13 @@
     "tt"
    ],
    "notes": [
-    "Пустой слот: конкретная игра и ролик пока не определены.",
-    "После версии Bonfire с плашками здесь предусмотрено чистое прохождение другой игры. Если готового ролика нет, слот пропускаем."
+    "10.11: Кирилл поставил сюда чистое прохождение рождественской игры. Игру делаем позже; файл и подписи добавим, когда ролик будет готов. Идентификатор слота сохранён.",
+    "Раньше: пустой слот под чистое прохождение другой игры после версии Bonfire с плашками."
    ],
    "optional": [
     "li"
-   ]
+   ],
+   "video": "XM-PURE"
   },
   {
    "id": "2026-11-16-A-PURE",
