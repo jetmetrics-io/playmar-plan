@@ -57,6 +57,8 @@ function addDays(s, n) { const d = noonUTC(s); d.setUTCDate(d.getUTCDate() + n);
 /* ---------- plan helpers ---------- */
 const plat = (id) => S.plan.platforms.find((p) => p.id === id);
 const lab = (id) => { const p = plat(id); return p.label || p.name; };
+/* a second account on the same network (plan.json: "like": "tt") works as that network: caption, icon, metric */
+const base = (id) => (plat(id) || {}).like || id;
 const itemById = (id) => S.plan.items.find((i) => i.id === id);
 const videoOf = (it) => (it.video ? S.plan.videos[it.video] : null);
 const isDone = (it, pid) => !!S.status[it.id]?.[pid]?.done;
@@ -105,9 +107,9 @@ function fields(it, pid) {
       { label: 'Описание', text: [it.shortsTitle ? it.hook : '', it.body, C.cta, tags].filter(Boolean).join('\n\n') }
     ];
   }
-  const body = pid === 'tt' ? firstSentence(it.body) : it.body;
+  const body = base(pid) === 'tt' ? firstSentence(it.body) : it.body;
   return [
-    { label: 'Подпись', text: [it.hook, body, C.cta, tags].filter(Boolean).join('\n\n'), first: pid === 'tt' ? 0 : 125 },
+    { label: 'Подпись', text: [it.hook, body, C.cta, tags].filter(Boolean).join('\n\n'), first: base(pid) === 'tt' ? 0 : 125 },
     { label: 'Только хэштеги', text: tags, small: true }
   ];
 }
@@ -294,11 +296,11 @@ function holdMetric(r, pid) {
   if (!r) return null;
   if (pid === 'fb') return watchPct(r);
   if (pid === 'yt') return r['смотрели_%'];
-  if (pid === 'tt') return r['досмотр_%'];
+  if (base(pid) === 'tt') return r['досмотр_%'];
   return null;
 }
 function holdMetricLabel(pid) {
-  return ({ fb: 'Средняя доля просмотра', yt: 'Остались смотреть', tt: 'Досмотрели до конца', ig: 'Удержание не отображается' })[pid] || 'Метрика удержания';
+  return ({ fb: 'Средняя доля просмотра', yt: 'Остались смотреть', tt: 'Досмотрели до конца', ig: 'Удержание не отображается' })[base(pid)] || 'Метрика удержания';
 }
 function exactSevenRows(rows) {
   // The window label is requested; age_days is the actual post age recorded with the screenshot.
@@ -584,7 +586,7 @@ function platformIconHTML(pid) {
   if (pid === 'yt') return `<svg ${common}><rect x="1.5" y="4" width="21" height="16" rx="4.5" fill="#FF0033"/><path d="M10 8v8l6-4z" fill="#fff"/></svg>`;
   if (pid === 'ig') return `<svg ${common}><defs><linearGradient id="socialIgGradient" x1="0" y1="24" x2="24" y2="0" gradientUnits="userSpaceOnUse"><stop stop-color="#FFB13D"/><stop offset=".52" stop-color="#E1306C"/><stop offset="1" stop-color="#833AB4"/></linearGradient></defs><rect x="2" y="2" width="20" height="20" rx="6" fill="url(#socialIgGradient)"/><rect x="6" y="6" width="12" height="12" rx="3.5" fill="none" stroke="#fff" stroke-width="1.8"/><circle cx="12" cy="12" r="2.8" fill="none" stroke="#fff" stroke-width="1.8"/><circle cx="17.2" cy="6.9" r="1" fill="#fff"/></svg>`;
   if (pid === 'fb') return `<svg ${common}><circle cx="12" cy="12" r="11" fill="#1877F2"/><text x="12.7" y="19" fill="#fff" font-family="Arial,sans-serif" font-size="19" font-weight="700" text-anchor="middle">f</text></svg>`;
-  if (pid === 'tt') return `<svg ${common}><path d="M15.8 4.5c.5 2.2 1.8 3.6 4 4v3.2a9.3 9.3 0 0 1-4-.9v5.1a6 6 0 1 1-5.7-6V13a2.8 2.8 0 1 0 2.5 2.8V4.5z" fill="#25F4EE" transform="translate(1 0)"/><path d="M15.8 4.5c.5 2.2 1.8 3.6 4 4v3.2a9.3 9.3 0 0 1-4-.9v5.1a6 6 0 1 1-5.7-6V13a2.8 2.8 0 1 0 2.5 2.8V4.5z" fill="#FE2C55" transform="translate(-1 0)"/><path d="M15.8 4.5c.5 2.2 1.8 3.6 4 4v3.2a9.3 9.3 0 0 1-4-.9v5.1a6 6 0 1 1-5.7-6V13a2.8 2.8 0 1 0 2.5 2.8V4.5z" fill="#111"/></svg>`;
+  if (base(pid) === 'tt') return `<svg ${common}><path d="M15.8 4.5c.5 2.2 1.8 3.6 4 4v3.2a9.3 9.3 0 0 1-4-.9v5.1a6 6 0 1 1-5.7-6V13a2.8 2.8 0 1 0 2.5 2.8V4.5z" fill="#25F4EE" transform="translate(1 0)"/><path d="M15.8 4.5c.5 2.2 1.8 3.6 4 4v3.2a9.3 9.3 0 0 1-4-.9v5.1a6 6 0 1 1-5.7-6V13a2.8 2.8 0 1 0 2.5 2.8V4.5z" fill="#FE2C55" transform="translate(-1 0)"/><path d="M15.8 4.5c.5 2.2 1.8 3.6 4 4v3.2a9.3 9.3 0 0 1-4-.9v5.1a6 6 0 1 1-5.7-6V13a2.8 2.8 0 1 0 2.5 2.8V4.5z" fill="#111"/></svg>`;
   if (pid === 'li') return `<svg ${common}><rect x="2" y="2" width="20" height="20" rx="3" fill="#0A66C2"/><text x="12" y="16.8" fill="#fff" font-family="Arial,sans-serif" font-size="9.5" font-weight="700" text-anchor="middle">in</text></svg>`;
   const platform = plat(pid);
   return `<svg ${common}><circle cx="12" cy="12" r="10" fill="#7B748B"/><text x="12" y="15.5" fill="#fff" font-family="Arial,sans-serif" font-size="7" font-weight="700" text-anchor="middle">${esc(platform.short)}</text></svg>`;
