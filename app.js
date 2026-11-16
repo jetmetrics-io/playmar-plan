@@ -154,11 +154,12 @@ function cardHTML(it) {
   if (it.video) badges.push(v && v.file ? '<span class="badge ready">Видео готово</span>' : `<span class="badge notready">${v && v.awaitingFile ? 'Файл не добавлен' : 'Видео делаем'}</span>`);
   if (it.video) badges.push(`<span class="badge">${esc(it.video)}</span>`);
   if (it.copyStatus === 'draft') badges.push('<span class="badge notready">Подписи — черновик</span>');
+  if (it.expertPost) badges.push(`<span class="badge ${it.expertPost.linkedin ? 'ready' : 'notready'}">LinkedIn · ${it.expertPost.linkedin ? 'пост вышел' : 'экспертный пост'}</span>`);
   if (liWriting(it)) badges.push(`<span class="badge notready">${it.linkedin?.status === 'draft' ? 'LinkedIn — черновик' : 'Текст LinkedIn пишем'}</span>`);
   const hook = it.hook ? `<p class="hook">“${esc(it.shortsTitle && S.filter === 'yt' ? it.shortsTitle : it.hook)}”</p>` : '<p class="hook none">Подпись появится вместе с роликом</p>';
   return `<article class="card${cls}" data-id="${esc(it.id)}" tabindex="0">
     <div class="when"><b>${fmtDate(it.date)}</b><span class="t">${esc(S.plan.time)} Лондон</span>${loc ? `<span class="loc">${esc(loc)}</span>` : ''}</div>
-    <div class="what"><div class="badges">${badges.join('')}</div><p class="title">${esc(itemTitle(it))}</p><p class="game">${esc(gameLine(it))}</p>${hook}</div>
+    <div class="what"><div class="badges">${badges.join('')}</div><p class="title">${esc(itemTitle(it))}</p><p class="game">${esc(gameLine(it))}</p>${it.expertPost ? `<p class="game">LinkedIn: ${esc(it.expertPost.title)}</p>` : ''}${hook}</div>
     <div class="pills">${S.plan.platforms.map((p) => pillHTML(it, p)).join('')}</div>
   </article>`;
 }
@@ -855,7 +856,7 @@ function render() {
 /* ---------- sheet: one day × one platform ---------- */
 function openSheet(id, pid, toStats = false) {
   const it = itemById(id); if (!it) return;
-  if (!pid || !plats(it).includes(pid)) pid = (S.filter !== 'all' && it.platforms.includes(S.filter)) ? S.filter : (it.platforms.find((p) => !isDone(it, p)) || it.platforms[0]);
+  if (!pid || !(plats(it).includes(pid) || (pid === 'xpost' && it.expertPost))) pid = (S.filter !== 'all' && it.platforms.includes(S.filter)) ? S.filter : (it.platforms.find((p) => !isDone(it, p)) || it.platforms[0]);
   S.sheet = { id, pid };
   $('#sheetWrap').hidden = false;
   document.body.style.overflow = 'hidden';
@@ -867,7 +868,9 @@ function closeSheet() { S.sheet = null; $('#sheetWrap').hidden = true; document.
 function renderSheet() {
   const { id, pid } = S.sheet, it = itemById(id), v = videoOf(it), p = plat(pid), st = S.status[id]?.[pid];
   const loc = localTime(it.date);
-  const tabs = plats(it).map((q) => `<button class="ptab${q === pid ? ' on' : ''}" data-p="${q}"><span class="dot ${pState(it, q)}"></span>${esc(lab(q))}</button>`).join('');
+  const tabs = plats(it).map((q) => `<button class="ptab${q === pid ? ' on' : ''}" data-p="${q}"><span class="dot ${pState(it, q)}"></span>${esc(lab(q))}</button>`).join('')
+    + (it.expertPost ? `<button class="ptab${pid === 'xpost' ? ' on' : ''}" data-p="xpost"><span class="dot ${it.expertPost.linkedin ? 'done' : 'todo'}"></span>LinkedIn · пост</button>` : '');
+  if (pid === 'xpost') return renderExpert(it, tabs, loc);
   const parts = [];
   if (it.condition) parts.push(`<div class="blk"><div class="note warn">${esc(it.condition)}</div></div>`);
   if (it.video) {
@@ -916,6 +919,27 @@ function renderSheet() {
     <div class="sh-body">${parts.join('')}</div>`;
   window.lucide && lucide.createIcons();
   if (v && v.poster) { const el = $('#poster'); el.style.backgroundImage = `url("${Data.url(v.poster)}")`; el.innerHTML = ''; }
+  S.sheetFields = F;
+}
+
+/* LinkedIn on Mondays: Alex's expert post, not a video (plan.json → item.expertPost: title, linkedin, notion,
+   preview, image, text). Shown as its own tab of the day; the text has a Copy button. */
+function renderExpert(it, tabs, loc) {
+  const x = it.expertPost, parts = [];
+  const links = [['Пост в LinkedIn', x.linkedin], ['Страница в Notion', x.notion], ['Превью визуала', x.preview]].filter((l) => l[1]);
+  parts.push(`<div class="blk"><h4>Экспертный пост LinkedIn</h4><div class="note">${esc(x.title)}${x.linkedin ? ' · вышел' : ''}</div>
+    <div class="field-row" style="flex-wrap:wrap;margin-top:8px">${links.map(([l, u]) => `<a class="btn small" href="${esc(u)}" target="_blank" rel="noopener"><i data-lucide="external-link"></i>${esc(l)}</a>`).join('')}</div></div>`);
+  if (x.image) parts.push(`<div class="blk"><h4>Визуал</h4><img src="${esc(Data.url(x.image))}" alt="${esc(x.title)}" style="display:block;width:100%;max-width:420px;height:auto;border:1px solid var(--line)">
+    <div class="field-row" style="margin-top:8px"><a class="btn small" href="${esc(Data.url(x.image))}" download="${esc(x.file || 'post.jpg')}"><i data-lucide="download"></i>Скачать картинку</a></div></div>`);
+  const F = x.text ? [{ label: 'Текст поста', text: x.text }] : null;
+  if (F) parts.push(`<div class="blk"><h4>Текст поста<span class="cnt">${[...x.text].length} знаков</span></h4><div class="field big">${esc(x.text)}</div>
+    <div class="field-row"><button class="btn small" data-copy="0"><i data-lucide="copy"></i>Скопировать текст поста</button></div></div>`);
+  parts.push('<div class="blk"><div class="note">По понедельникам в LinkedIn выходит экспертный пост Алекса, а не ролик.</div></div>');
+  $('#sheet').innerHTML = `<div class="sh-head"><div class="sh-row"><div><span class="muted">${fmtDate(it.date)}, ${esc(S.plan.time)} по Лондону${loc ? ` · ${esc(loc)}` : ''}</span>
+      <h3 id="sheetTitle">${esc(itemTitle(it))}</h3><span class="muted">${esc(gameLine(it))}</span></div>
+      <button class="icon-btn" data-close title="Закрыть"><i data-lucide="x"></i></button></div><div class="ptabs">${tabs}</div></div>
+    <div class="sh-body">${parts.join('')}</div>`;
+  window.lucide && lucide.createIcons();
   S.sheetFields = F;
 }
 

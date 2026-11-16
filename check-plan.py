@@ -38,6 +38,11 @@ def validate(plan, data_dir):
             errors.append(f'{ident}: по понедельникам в LinkedIn экспертный пост, ролик туда не ставим')
         if fmt == 'pure' and 'li' in selected:
             errors.append(f'{ident}: для чистой игры LinkedIn только по желанию')
+        xp = item.get('expertPost')
+        if xp and xp.get('image'):
+            img = (data_dir / urlsplit(xp['image']).path).resolve()
+            if data_dir not in img.parents or not img.is_file():
+                errors.append(f'{ident}: картинка экспертного поста не найдена в data')
         vid = item.get('video')
         if kind == 'slot' and vid:
             errors.append(f'{ident}: у пустого слота есть видео')

@@ -659,7 +659,16 @@
     "Подпись — черновик: сверить с тем, что делает игра (сейчас скидка растёт от плотности укладки, а не от суммы корзины).",
     "16.11: добавлены файл (Shorts 17, чистое прохождение Pack Light, Fly Far: укладка 26 из 26, 20 %, PACKPRO20) и финальные подписи с его страницы превью. Подписи описывают то, что делает игра: скидка растёт от плотности укладки, у каждого игрока минимум 10 % и бесплатная доставка. Черновик про «полную корзину» заменён.",
     "16.11: в LinkedIn вышел экспертный пост Алекса: https://lnkd.in/p/gE29BBwS. Ролик в LinkedIn по понедельникам не выкладываем."
-   ]
+   ],
+   "expertPost": {
+    "title": "Post #97 - Links Libruary 2 - 6 GAMIFICATION READS OF 2026 THAT WILL SURPRISE YOU",
+    "linkedin": "https://lnkd.in/p/gE29BBwS",
+    "notion": "https://app.notion.com/p/4172d362b4db80b9801ce9c66c32d51c",
+    "preview": "https://claude.ai/artifact/KEciLRR4KS2cWhcoHYc3mr",
+    "image": "posts/P97.jpg?v=8bfcd812",
+    "file": "Post97_6_gamification_reads_2026.jpg",
+    "text": "I've created 100+ gamification projects for brands. And yet, every month I come across a case that makes me think, \"Wow, you could do it that way, too?\"\n\nHere are 6 recent pieces that impressed me:\n\nResearch Studies\n\n1. Journal of Retailing and Consumer Services, June 2026\n500 online grocery shoppers in the UK were randomly divided into two groups: one received a standard loyalty program, the other a gamified one.\n\n+ People engaged more often with the gamified program and became more attached to the store.\n+ Personal progress worked better than competing with others.\n\nRead: https://doi.org/10.1016/j.jretconser.2026.104834\n\n2. hello again: Loyalty Report for Germany, Austria, and Switzerland, 2026\n2,040 shoppers were surveyed.\n\n+ 43% are willing to use game features in a loyalty app.\n+ This topic wasn't in the 2023 report at all.\n\nRead: https://www.helloagain.com/en/blog/dach-loyalty-report-2023-vs-2026-how-customer-loyalty-has-evolved\n\nCase Studies\n\n1. Duolingo, Q2 2026 shareholder letter\n\n+ A one-time event let people restore a lost streak: 15.4 million did. Nearly 8 million of them had no active streak when the event started.\n+ Daily active users grew 23% year over year, to 58.7 million.\n\nRead: https://www.sec.gov/Archives/edgar/data/0001562088/000162828026053299/q2fy26duolingo6-30x26share.htm\n\n2. Taco Bell, \"Bid on Luxe,\" Fall 2026\n\n+ A new mini-game in the loyalty app every week. Players earn \"Paddles\" for playing and use them to bid on prizes.\n+ Extra Paddles for signing up for SMS: the game grows the SMS list at the same time.\n+ No results are available yet, but the mechanics are worth a closer look.\n\nRead: https://www.nrn.com/quick-service/taco-bell-adds-another-gamification-element-to-its-rewards-program\n\nGuides\n\n1. Insider One: When Gamification Helps and When It Hurts\n\n+ Reward results, not clicks. If you pay for every action, people do it only for the reward and quit once it runs out.\n+ The same game gets boring quickly. It needs regular updates.\n\nRead: https://insiderone.com/gamification-customer-engagement\n\n2. Yu-kai Chou: 90+ Statistics and Case Studies on Gamification\n\n+ Lots of statistics in one place. A handy starting point, but verify the original sources yourself.\n\nRead: https://yukaichou.com/gamification-examples/gamification-stats-figures/\n\nTL;DR: personal progress and a clear goal work better than competition and rewards for every click.\n\nFollow me @Alex Andro for more."
+   }
   },
   {
    "id": "2026-11-17-SLOT",
