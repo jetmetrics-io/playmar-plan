@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Проверить общую версию плана в репозитории страницы."""
+import datetime
 import hashlib
 import json
 import sys
@@ -32,6 +33,9 @@ def validate(plan, data_dir):
             errors.append(f'{ident}: неизвестная площадка')
         if fmt == 'plates' and 'li' not in selected and not item.get('noLinkedIn'):
             errors.append(f'{ident}: для плашек нужен LinkedIn')
+        if date >= '2026-11-16' and len(date) == 10 and datetime.date.fromisoformat(date).weekday() == 0 \
+                and 'li' in selected + item.get('optional', []):
+            errors.append(f'{ident}: по понедельникам в LinkedIn экспертный пост, ролик туда не ставим')
         if fmt == 'pure' and 'li' in selected:
             errors.append(f'{ident}: для чистой игры LinkedIn только по желанию')
         vid = item.get('video')
