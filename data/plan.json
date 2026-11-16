@@ -75,7 +75,7 @@
  },
  "games": {
   "R": "Stick the Landing · посадка ракеты (демо-бренд Boostback)",
-  "A": "Pack Light · сборка посылки в корзине",
+  "A": "Pack Light, Fly Far · укладка чемодана на время (демо-бренд Fernhill Trunk Co.)",
   "C": "Mustangs Memory · игра на память, ретро-карточки американского футбола (бренд Tailgate Supply Co.)",
   "D": "Новая игра · тема и механика не выбраны",
   "E": "Январь и Новый год · новая игра, задумана Catch & Collect (ловить и собирать)",
@@ -153,7 +153,10 @@
   "A-PURE": {
    "title": "Pack Light · Чистая игра",
    "game": "A",
-   "type": "Чистая игра, без текста на экране"
+   "type": "Чистая игра · укладка чемодана",
+   "file": "videos/A-PURE.mp4?v=25650f23",
+   "poster": "posters/A-PURE.jpg?v=25650f23",
+   "sec": 17.42
   },
   "B-PURE": {
    "title": "Dandiya Beat · Чистая игра",
@@ -650,13 +653,14 @@
    "optional": [
     "li"
    ],
-   "shortsTitle": "How tight can you pack a suitcase in a minute?",
-   "hook": "The fuller the cart, the bigger the prize: a packing game for bigger baskets.",
-   "body": "",
+   "shortsTitle": "Pack a suitcase in one minute: the tighter you pack, the bigger the discount",
+   "hook": "A one-minute packing game where not everything fits, and a tighter case means a bigger discount.",
+   "body": "Every player gets at least 10% off plus free shipping, so nobody leaves empty-handed and the next email has a reason to land.",
    "tag": "#ecommerce",
    "notes": [
     "Чистая игра: прохождение без плашек, бирки и призыва. С плашками эта игра выйдет пт 20.11.",
-    "Подпись — черновик: сверить с тем, что делает игра (сейчас скидка растёт от плотности укладки, а не от суммы корзины)."
+    "Подпись — черновик: сверить с тем, что делает игра (сейчас скидка растёт от плотности укладки, а не от суммы корзины).",
+    "16.11: добавлены файл (Shorts 17, чистое прохождение Pack Light, Fly Far: укладка 26 из 26, 20 %, PACKPRO20) и финальные подписи с его страницы превью. Подписи описывают то, что делает игра: скидка растёт от плотности укладки, у каждого игрока минимум 10 % и бесплатная доставка. Черновик про «полную корзину» заменён."
    ]
   },
   {
