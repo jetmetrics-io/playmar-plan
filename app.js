@@ -66,7 +66,7 @@ const isSlot = (it) => it.kind === 'slot';
 /* platforms of the day: required ones, then optional ones (LinkedIn for a pure-game reel) */
 const plats = (it) => it.platforms.concat((it.optional || []).filter((p) => !it.platforms.includes(p)));
 const isOpt = (it, pid) => (it.optional || []).includes(pid) && !it.platforms.includes(pid);
-const FORMAT = { pure: 'Чистая игра', plates: 'С плашками' };
+const FORMAT = { pure: 'Чистая игра', plates: 'С плашками', prompt: 'Из промпта в игру' };   /* prompt — тест нового формата с 19.11 */
 const liWriting = (it) => !it.reportedPublished && it.platforms.includes('li') && (it.linkedin || {}).status !== 'ready';
 /* what still has to be made for this day: a video for an empty slot, a video in production, a LinkedIn text */
 const needsWork = (it) => isSlot(it) || (it.video && !(videoOf(it) || {}).file) || liWriting(it);
@@ -448,7 +448,7 @@ function statsChartHTML(rows, pid, key, title, description, options = {}) {
     const hasValue = typeof v === 'number' && Number.isFinite(v);
     const barH = hasValue ? plotH * Math.max(0, v) / maxValue : 0;
     const y = bottom - barH;
-    const formatClass = it && it.format === 'plates' ? ' plates' : it && it.format === 'pure' ? ' pure' : '';
+    const formatClass = it && FORMAT[it.format] ? ' ' + it.format : '';
     const post = String(r['ролик'] || r['пост']).slice(0, 9);
     const age = r['возраст_дней'] == null ? 'возраст —' : Number(r['возраст_дней']) + ' д';
     const tip = post + ' · ' + (it ? FORMAT[it.format] : '') + ' · ' + age + ' · '
@@ -467,7 +467,7 @@ function statsChartHTML(rows, pid, key, title, description, options = {}) {
     + '<p class="chart-foot">По горизонтали — ролик и фактический возраст снимка. Наведите на столбец, чтобы увидеть формат и значения.</p></figure>';
 }
 function chartLegendHTML() {
-  return '<div class="chart-legend"><span><i class="swatch pure"></i>Чистая игра</span><span><i class="swatch plates"></i>С плашками</span></div>';
+  return '<div class="chart-legend"><span><i class="swatch pure"></i>Чистая игра</span><span><i class="swatch plates"></i>С плашками</span><span><i class="swatch prompt"></i>Из промпта в игру</span></div>';
 }
 function platformSummaryHTML(rows) {
   const platforms = S.plan.platforms.filter((p) => rows.some((r) => r['площадка'] === p.id));
@@ -530,7 +530,7 @@ function numbersHTML(rows) {
     ['гео_UK_%', 'Аудитория UK (%)', ' %'], ['гео_EU_%', 'Аудитория EU (%)', ' %'], ['гео_US_%', 'Аудитория US (%)', ' %'],
     ['комментарии_от_ЦА', 'Комментарии от целевой аудитории'], ['особое', 'Примечания']
   ];
-  const formatOptions = [['all', 'Все форматы'], ['pure', FORMAT.pure], ['plates', FORMAT.plates]];
+  const formatOptions = [['all', 'Все форматы'], ['pure', FORMAT.pure], ['plates', FORMAT.plates], ['prompt', FORMAT.prompt]];
   const platformOptions = S.plan.platforms.filter((p) => rows.some((r) => r['площадка'] === p.id));
   const ages = [...new Set(rows.map((r) => r['возраст_дней']).filter((x) => x != null))].sort((a, b) => Number(a) - Number(b));
   const opts = (xs, selected = 'all') => xs.map(([value, label]) => '<option value="' + esc(value) + '"' + (value === selected ? ' selected' : '') + '>' + esc(label) + '</option>').join('');
@@ -591,7 +591,7 @@ function maxForPlatform(data, metric) {
 function horizontalBarHTML(label, detail, value, max, format, metric) {
   if (typeof value !== 'number' || !Number.isFinite(value)) return '';
   const width = value > 0 ? Math.max(1.5, Math.min(100, value / max * 100)) : 0;
-  const tint = format === 'plates' ? ' plates' : format === 'pure' ? ' pure' : '';
+  const tint = FORMAT[format] ? ' ' + format : '';
   return `<div class="hbar-row"><div class="hbar-label"><b>${esc(label)}</b>${detail ? `<span>${esc(detail)}</span>` : ''}</div><div class="hbar-track"><i class="hbar-fill${tint}" style="width:${width.toFixed(1)}%"></i></div><b class="hbar-value">${fmtN(value, analyticsMetricUnit(metric))}</b></div>`;
 }
 function platformIconHTML(pid) {
@@ -673,7 +673,7 @@ function aggregateBarHTML(label, entries, metric, max, format = '') {
   const value = summary.total, width = value > 0 ? Math.max(1.5, Math.min(100, value / Math.max(max, 1) * 100)) : 0;
   const avg = metric === 'удержание' ? 'среднее по ролику' : `в среднем ${fmtN(summary.average, unit)} на ролик`;
   const per = `${summary.count} ${plural(summary.count, 'ролик', 'ролика', 'роликов')} · ${avg}`;
-  const tint = format === 'plates' ? ' plates' : format === 'pure' ? ' pure' : '';
+  const tint = FORMAT[format] ? ' ' + format : '';
   const tooltip = aggregateTooltip(entries, metric);
   const valueLabel = metric === 'просмотры' ? 'просмотров' : metric === 'охват' ? 'охвата' : 'в среднем';
   return `<div class="analytics-aggregate-row" title="${esc(tooltip)}" tabindex="0" aria-label="${esc(`${label}. ${fmtN(value, unit)} ${valueLabel}. ${per}. Наведите или сфокусируйтесь для состава.`)}">
@@ -700,8 +700,8 @@ function gamesSliceHTML(rows, metric) {
   return aggregateChartHTML(groups, metric);
 }
 function formatSliceHTML(rows, metric) {
-  const entries = latestAnalyticsEntries(rows), labels = { pure: 'Чистое прохождение', plates: 'С плашками' };
-  const groups = ['pure', 'plates'].map((format) => {
+  const entries = latestAnalyticsEntries(rows), labels = { pure: 'Чистое прохождение', plates: 'С плашками', prompt: 'Из промпта в игру' };
+  const groups = ['pure', 'plates', 'prompt'].map((format) => {
     const groupEntries = entries.filter((entry) => entry.item.format === format);
     return { key: format, label: labels[format], format, entries: groupEntries, summary: aggregateSummary(groupEntries, metric) };
   });

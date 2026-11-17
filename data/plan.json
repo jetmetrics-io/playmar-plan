@@ -250,6 +250,14 @@
    "file": "videos/XM-PLATES.mp4?v=1c9c796e",
    "poster": "posters/XM-PLATES.jpg?v=1c9c796e",
    "sec": 25.0
+  },
+  "XM-PROMPT": {
+   "title": "Christmas Scratch Card · Из промпта в игру",
+   "game": "XM",
+   "type": "Из промпта в игру · Альманах, чат с ИИ и готовая игра",
+   "file": "videos/XM-PROMPT.mp4?v=e34b0208",
+   "poster": "posters/XM-PROMPT.jpg?v=e34b0208",
+   "sec": 23.4
   }
  },
  "pauses": [
@@ -704,8 +712,9 @@
   {
    "id": "2026-11-19-SLOT",
    "date": "2026-11-19",
-   "kind": "slot",
-   "format": "pure",
+   "kind": "reel",
+   "format": "prompt",
+   "video": "XM-PROMPT",
    "platforms": [
     "yt",
     "ig",
@@ -716,9 +725,18 @@
    "optional": [
     "li"
    ],
+   "shortsTitle": "From a free prompt to a playable Christmas game: the AI build, sped up",
+   "hook": "We picked Christmas in our free almanac, copied the game prompt and pasted it into an AI chat.",
+   "body": "The AI wrote a short plan, then the game itself: one HTML file of 939 lines, a README and a balance simulation. The build is sped up in the video.",
+   "tag": "#aitools",
+   "linkedin": {
+    "status": "ready",
+    "text": "We gave an AI one prompt and asked for a Christmas game. What came back was something you can actually play.\n\nThe prompt came from our free almanac. Here is the whole path, step by step:\n\n1. Pick where you sell and a month. The calendar only shows occasions people there really celebrate.\n2. Pick the occasion and a mechanic. Mechanics are ranked by fit, and the ones that would feel wrong are filtered out, each with the reason.\n3. Pick a goal. \"Raise order value\" adds cart thresholds and an add-on suggestion to the brief.\n4. Copy the prompt and paste it into Claude Code or Codex, in an empty folder.\n5. The AI writes a five-line plan, then the game: one HTML file of 939 lines, a README and a balance simulation.\n\nThe brand is made up, and the video is sped up: the real build takes minutes, not seconds.\n\nThe catch: it is a draft. Nobody has reviewed the code, the codes are placeholders, and there is no server behind it. Good for showing your team an idea before you spend budget, not for a live campaign.\n\nYou can build your own with AI, free. The almanac is in my Featured section.\n\nWhich occasion would you test first: Christmas, or one your competitors ignore?"
+   },
    "notes": [
-    "Новая игра 4: тему и механику выбирает команда. Игра на действие: её должно быть интересно смотреть без текста.",
-    "Чистая игра: прохождение без плашек, бирки и призыва. С плашками эта игра выйдет чт 3.12."
+    "17.11: по просьбе Кирилла сюда поставлен ролик нового формата «Из промпта в игру» (Shorts 19, XM-PROMPT, 23,4 с): живой Альманах (декабрь → Christmas → Scratch Card → Copy prompt) → чат с ИИ, ускорено → готовая Christmas Scratch Card. Подписи и пост LinkedIn — с его страницы превью. Стран и валюты в кадре и в подписях нет.",
+    "Ролик на той же игре, что XM-PLATES во вторник 17.11, но о другом: как игра сделана из промпта.",
+    "Раньше здесь был пустой слот: Новая игра 4: тему и механику выбирает команда. Игра на действие: её должно быть интересно смотреть без текста. Чистая игра: прохождение без плашек, бирки и призыва. С плашками эта игра выйдет чт 3.12."
    ]
   },
   {
@@ -965,6 +983,7 @@
    "Публикуйте в 15:00 по Лондону в указанный день.",
    "В плане только ролики. Исключение — LinkedIn по понедельникам: там выходит экспертный пост Алекса, а не ролик (ссылка на него — в карточке дня).",
    "Два формата по очереди. Чистая игра: прохождение одной игры без текста на экране. С плашками: та же игра в задаче CRM, с плашками Playmar и призывом в конце.",
+   "Тест нового формата «Из промпта в игру» (чт 19.11): Альманах → чат с ИИ → готовая игра, с плашками и призывом. Выкладывайте на YouTube, Instagram, Facebook и в оба TikTok; в LinkedIn — по желанию, с полным текстом поста из карточки.",
    "У каждой игры два ролика: сначала чистая игра, через одну публикацию — с плашками. Одна игра не выходит два раза подряд.",
    "Ролик с плашками выходит на всех пяти площадках, обязательно и в LinkedIn. Чистая игра — на YouTube, Instagram, Facebook и TikTok; в LinkedIn по желанию.",
    "По понедельникам видео в LinkedIn не выкладываем никогда, даже с плашками: этот день в LinkedIn отдан экспертному посту.",
@@ -982,6 +1001,7 @@
     "Понедельник — экспертный пост Алекса, не ролик. Видео в LinkedIn по понедельникам не выкладываем.",
     "Ролик с плашками — обязательно. Публикуйте полный текст из плана. Он длинный нарочно: в LinkedIn длинные подписи под видео набирают больше охвата, чем короткие.",
     "Чистая игра — по желанию. Текста LinkedIn у неё нет: возьмите первую строку и описание из плана, без призыва и хэштегов.",
+    "«Из промпта в игру» — по желанию. Если выкладываете, берите полный текст поста из карточки, без ссылки и хэштегов.",
     "Крючок — первая строка. Пустой строки сверху нет: над видео видно всего около 3 строк.",
     "Ссылки в тексте нет: она режет охват на 16–36%. Ссылка на альманах — в разделе Featured профиля.",
     "Без хэштегов. Не отмечайте людей ради охвата.",

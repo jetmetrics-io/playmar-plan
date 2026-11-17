@@ -110,6 +110,7 @@ main { max-width: 1080px; margin: 0 auto; padding: 20px 24px 80px; }
 .badge { font-family: var(--mono); font-weight: 700; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; padding: 2px 6px; border: 1px solid var(--line-2); color: var(--ink-2); background: #fff; }
 .badge.plates { border-color: var(--accent); color: var(--accent); }
 .badge.pure { border-color: var(--ink); color: var(--ink); }
+.badge.prompt { border-color: var(--accent); background: var(--lilac-tint); color: var(--accent-2); }
 .badge.ready { background: var(--ok-tint); border-color: transparent; color: var(--ok); }
 .badge.notready { background: #F2F0F6; border-color: transparent; color: var(--ink-3); }
 .badge.reported { background: #F2F0F6; border-color: transparent; color: var(--ink-2); }
@@ -314,6 +315,7 @@ details.hint ul { margin-top: 8px; }
 .stat-chart .chart-bar { fill: #8A8794; }
 .stat-chart .chart-bar.pure { fill: #6144C1; }
 .stat-chart .chart-bar.plates { fill: #16141D; }
+.stat-chart .chart-bar.prompt { fill: #B79CFF; }
 .stat-chart .chart-value { fill: #16141D; font-size: 10px; font-weight: 700; }
 .stat-chart .chart-label { fill: #16141D; font-size: 10px; font-weight: 700; }
 .stat-chart .chart-age { fill: #8A8794; font-size: 9px; }
@@ -324,6 +326,7 @@ details.hint ul { margin-top: 8px; }
 .swatch { display: inline-block; width: 11px; height: 11px; background: #8A8794; }
 .swatch.pure { background: #6144C1; }
 .swatch.plates { background: #16141D; }
+.swatch.prompt { background: #B79CFF; }
 .stats-table-tools { display: flex; justify-content: space-between; align-items: end; flex-wrap: wrap; gap: 10px; }
 .stats-filters { display: flex; align-items: end; flex-wrap: wrap; gap: 8px; }
 .stats-filters label { display: grid; gap: 3px; color: var(--ink-2); font-size: 11px; }
@@ -381,6 +384,7 @@ details.hint ul { margin-top: 8px; }
 .hbar-fill { display: block; height: 100%; min-width: 0; background: #8A8794; }
 .hbar-fill.pure { background: #6144C1; }
 .hbar-fill.plates { background: #16141D; }
+.hbar-fill.prompt { background: #B79CFF; }
 .hbar-value { min-width: 42px; color: var(--ink-2); font-size: 11px; font-variant-numeric: tabular-nums; text-align: right; }
 .analytics-aggregate-card { display: grid; gap: 9px; padding: 12px; border: 1px solid var(--line); background: #fff; }
 .analytics-aggregate-row { display: grid; grid-template-columns: minmax(150px, 230px) minmax(40px, 1fr) auto; align-items: center; gap: 12px; min-width: 0; padding: 5px 0; cursor: help; }
