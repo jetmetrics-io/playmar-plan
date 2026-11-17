@@ -92,7 +92,8 @@
   "P": "Carve Your Pumpkin · украшение тыквы (демо-бренд Frappe)",
   "O": "Ofrenda Match · игра на память ко Дню мёртвых (демо-бренд Frappe)",
   "BN": "Light It Up · игра с фейерверками к Bonfire Night (демо-бренд Your Brand)",
-  "XM": "Christmas Scratch Card · скретч-карта к Рождеству (демо-бренд Frappe)"
+  "XM": "Christmas Scratch Card · скретч-карта к Рождеству (демо-бренд Frappe)",
+  "MB": "The Black Friday Box · Mystery Box к Чёрной пятнице: три подарка, коробка в день, серия (демо-бренд FRAPPE)"
  },
  "videos": {
   "T-PURE": {
@@ -258,15 +259,25 @@
    "file": "videos/XM-PROMPT.mp4?v=e34b0208",
    "poster": "posters/XM-PROMPT.jpg?v=e34b0208",
    "sec": 23.4
+  },
+  "MB-PURE": {
+   "title": "The Black Friday Box · Чистая игра",
+   "game": "MB",
+   "type": "Чистая игра · три подарка, главный приз 20 %",
+   "file": "videos/MB-PURE.mp4?v=35149a46",
+   "poster": "posters/MB-PURE.jpg?v=35149a46",
+   "sec": 17.52
+  },
+  "MB-PLATES": {
+   "title": "The Black Friday Box · С плашками",
+   "game": "MB",
+   "type": "С плашками · письмо, коробка, серия и напоминание на завтра",
+   "file": "videos/MB-PLATES.mp4?v=ade03e3e",
+   "poster": "posters/MB-PLATES.jpg?v=ade03e3e",
+   "sec": 25.0
   }
  },
- "pauses": [
-  {
-   "from": "2026-11-23",
-   "to": "2026-11-30",
-   "text": "23–30 ноября не публикуем: День благодарения (26.11), Чёрная пятница (27.11), Киберпонедельник (30.11)."
-  }
- ],
+ "pauses": [],
  "items": [
   {
    "id": "2026-10-21-R06",
@@ -768,6 +779,55 @@
    "shortsTitle": "Make shoppers earn the discount: the tighter the suitcase, the bigger the code"
   },
   {
+   "id": "2026-11-23-MB-PURE",
+   "date": "2026-11-23",
+   "kind": "reel",
+   "format": "pure",
+   "video": "MB-PURE",
+   "platforms": [
+    "yt",
+    "ig",
+    "fb",
+    "tt",
+    "tta"
+   ],
+   "shortsTitle": "A Black Friday mystery box: pick one of three gifts, every box holds a deal",
+   "hook": "Three gift boxes shuffle, you pick one, and the worst you can get is 10% off. One box in ten hides 20%.",
+   "body": "One box a day from Black Friday to Cyber Monday, with a streak that a single missed day won't break. The odds are shown before the first tap, and the prize is decided when you pick.",
+   "tag": "#blackfriday",
+   "notes": [
+    "17.11: по просьбе Кирилла — чистое прохождение The Black Friday Box (Shorts 20, MB-PURE, 17,5 с): лендинг → три подарка перемешиваются → средняя коробка → «The big one» 20 % → итог с серией. Подписи — с его страницы превью.",
+    "Понедельник: в LinkedIn экспертный пост Алекса, этот ролик туда не ставим. С плашками эта игра выйдет ср 25.11."
+   ]
+  },
+  {
+   "id": "2026-11-25-MB-PLATES",
+   "date": "2026-11-25",
+   "kind": "reel",
+   "format": "plates",
+   "video": "MB-PLATES",
+   "platforms": [
+    "li",
+    "yt",
+    "ig",
+    "fb",
+    "tt",
+    "tta"
+   ],
+   "shortsTitle": "A daily Black Friday box: a streak and a reminder bring shoppers back tomorrow",
+   "hook": "Shoppers get one gift box per day until Cyber Monday, plus a streak counter and a reminder for the next morning.",
+   "body": "Day one ends with a code, a 1-day streak and a countdown to the next box. People who opt in get a nudge the next day, and a missed day costs a freeze, not the streak.",
+   "tag": "#blackfriday",
+   "linkedin": {
+    "status": "ready",
+    "text": "Black Friday traffic is easy to get once. Getting the same shoppers back on Saturday is much harder.\n\nHere is a small game built for exactly that. The coffee brand in it is invented, and so is its sale: a daily gift box for the four days from Friday to Monday.\n\nHow it pulls people back:\n\n1. A single box per day. Three gifts get mixed up, the shopper taps one, and every pick wins 20, 15 or 10% off.\n2. The result screen shows a streak and a countdown to tomorrow's box, not just a code.\n3. \"Remind me tomorrow\" asks for an email right there, at the moment the shopper is happiest.\n4. The next morning the reminder brings them back, and the start screen says \"Streak: 1 day\".\n5. Miss one day and a freeze keeps the streak alive. Miss two and it starts again.\n\nWhy it can work: four short visits in four days keep your shop in mind during the noisiest week of the year, and the reminder list is made of people who actually played.\n\nThe catch: a streak is just a number unless it means something. In a four-day sale I would tie it to a reward, like better odds on day four. And in this draft the reminder is only an opt-in flag: sending it needs your email tool.\n\nYou can build your own with AI, free. The almanac is in my Featured section.\n\nWould your Black Friday shoppers come back for a second box, or is one code enough for them?"
+   },
+   "notes": [
+    "17.11: по просьбе Кирилла — The Black Friday Box с плашками (Shorts 21, MB-PLATES, 25 с), сюжет «Повод вернуться завтра»: письмо FRAPPE → коробка дня 1 (15 %, серия 1 день) → «Remind me tomorrow» → утром письмо «Box #2 is ready» → день 2, серия 2. Подписи и пост LinkedIn — с его страницы превью.",
+    "Среда — вне обычного ритма, по решению Кирилла. Чистая игра этой игры вышла пн 23.11."
+   ]
+  },
+  {
    "id": "2026-12-01-SLOT",
    "date": "2026-12-01",
    "kind": "slot",
@@ -989,7 +1049,6 @@
    "По понедельникам видео в LinkedIn не выкладываем никогда, даже с плашками: этот день в LinkedIn отдан экспертному посту.",
    "Каждый файл — один раз на площадку. Ролик не зашёл — не удаляйте его и не выкладывайте заново: YouTube считает это спамом, Instagram режет повторы.",
    "Звук уже в файле. Не добавляйте музыку площадки, стикеры и эффекты.",
-   "С 23 по 30 ноября не публикуем: День благодарения, Чёрная пятница, Киберпонедельник.",
    "Ролик не готов к своей дате — пропустите слот и напишите Дмитрию. Другой ролик вместо него не ставьте.",
    "Пустой слот — ролика под этот день пока нет. Появится — он встанет в план с подписью. Не появится — день пропускаем.",
    "Пост вышел — сразу отметьте площадку и вставьте ссылку на пост. Галочки хранятся только в этом браузере.",
