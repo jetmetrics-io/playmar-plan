@@ -184,6 +184,15 @@ function nextHTML() {
     <span class="what">${fmtDate(up.date)}, ${esc(S.plan.time)} по Лондону${loc ? ` (${esc(loc)})` : ''} · ${esc(itemTitle(up))}</span>
     <span class="muted">${todo.map((p) => esc(lab(p))).join(', ')}</span></div>`;
 }
+/* past weeks: one collapsed line above the current week; open state kept while the page is open */
+function pastHTML(past, items, curWeek) {
+  if (!past.length) return '';
+  const old = items.filter((x) => mondayOf(x.date) < curWeek), weeks = new Set(old.map((x) => mondayOf(x.date))).size;
+  const cnt = (x) => (S.filter === 'all' ? x.platforms.length : +x.platforms.includes(S.filter));
+  const n = old.filter((x) => !isSlot(x)).reduce((a, x) => a + cnt(x), 0);
+  return `<details class="past-weeks" id="pastWeeks"${S.pastOpen ? ' open' : ''}><summary><h2>Прошлые недели</h2>
+    <span>${fmtDay(old[0].date)} – ${fmtDay(old[old.length - 1].date)} · ${weeks} ${plural(weeks, 'неделя', 'недели', 'недель')} · ${n} ${plural(n, 'пост', 'поста', 'постов')}</span></summary>${past.join('')}</details>`;
+}
 function renderPlan() {
   const P = S.plan;
   let total = 0, done = 0; const per = {};
@@ -197,10 +206,12 @@ function renderPlan() {
   const inProd = new Set(P.items.filter((it) => it.video && !(videoOf(it) || {}).file && !(videoOf(it) || {}).awaitingFile).map((it) => it.video)).size;
   const liTexts = P.items.filter(liWriting).length;
   const work = `<p class="work"><b>Нужно подготовить: ${slots + inProd + missing} ${plural(slots + inProd + missing, 'ролик', 'ролика', 'роликов')}</b> — ${slots} ${plural(slots, 'пустой слот', 'пустых слота', 'пустых слотов')}, ${inProd} ${plural(inProd, 'ролик', 'ролика', 'роликов')} в работе, для ${missing} нет файла в плане; ${liTexts} ${plural(liTexts, 'текст', 'текста', 'текстов')} для LinkedIn.</p>`;
-  const out = [];
+  /* weeks before the current one go under a collapsed «past weeks» block, so the page opens on this week */
+  const curWeek = mondayOf(ukToday()), past = [], out = [];
   let week = null; const pausesShown = new Set(); let prev = null;
   for (const it of items) {
-    for (const pz of P.pauses || []) if (!pausesShown.has(pz.from) && it.date > pz.to && prev && prev.date < pz.from) { pausesShown.add(pz.from); out.push(`<div class="pause"><i data-lucide="pause-circle"></i>${esc(pz.text)}</div>`); }
+    const sink = mondayOf(it.date) < curWeek ? past : out;
+    for (const pz of P.pauses || []) if (!pausesShown.has(pz.from) && it.date > pz.to && prev && prev.date < pz.from) { pausesShown.add(pz.from); sink.push(`<div class="pause"><i data-lucide="pause-circle"></i>${esc(pz.text)}</div>`); }
     const w = mondayOf(it.date);
     if (w !== week) {
       week = w;
@@ -209,9 +220,9 @@ function renderPlan() {
       const cnt = (x) => (S.filter === 'all' ? x.platforms.length : +x.platforms.includes(S.filter));
       const n = inWeek.filter((x) => !isSlot(x)).reduce((a, x) => a + cnt(x), 0);
       const e = inWeek.filter((x) => isSlot(x) && cnt(x)).length;
-      out.push(`<div class="week"><h2>${esc(name)}</h2><span>${fmtDay(w)} – ${fmtDay(addDays(w, 6))} · ${n} ${plural(n, 'пост', 'поста', 'постов')}${e ? ` · ${e} ${plural(e, 'пустой слот', 'пустых слота', 'пустых слотов')}` : ''}</span></div>`);
+      sink.push(`<div class="week"><h2>${esc(name)}</h2><span>${fmtDay(w)} – ${fmtDay(addDays(w, 6))} · ${n} ${plural(n, 'пост', 'поста', 'постов')}${e ? ` · ${e} ${plural(e, 'пустой слот', 'пустых слота', 'пустых слотов')}` : ''}</span></div>`);
     }
-    out.push(cardHTML(it)); prev = it;
+    sink.push(cardHTML(it)); prev = it;
   }
   $('#main').innerHTML = `<section class="summary">
       <p class="intro">${esc(P.summary)} Откройте день — там видео, подпись и хэштеги для каждой площадки. Пост вышел — отметьте площадку. Галочки хранятся только в этом браузере, поэтому открывайте план всегда в одном и том же.</p>
@@ -219,7 +230,8 @@ function renderPlan() {
       ${work}
       <div class="filters">${chips.join('')}<label class="toggle"><input type="checkbox" id="hideDone"${S.hideDone ? ' checked' : ''}> Скрыть выложенное</label><label class="toggle"><input type="checkbox" id="todoOnly"${S.todoOnly ? ' checked' : ''}> Только то, что нужно сделать</label></div>
       ${nextHTML()}
-    </section>${out.join('') || '<p class="empty">С такими фильтрами ничего нет.</p>'}`;
+    </section>${pastHTML(past, items, curWeek)}${out.join('') || (past.length ? '' : '<p class="empty">С такими фильтрами ничего нет.</p>')}`;
+  $('#pastWeeks')?.addEventListener('toggle', (e) => { S.pastOpen = e.target.open; });
 }
 
 /* ---------- statistics: screenshots per post × platform × window ---------- */

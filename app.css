@@ -84,6 +84,15 @@ main { max-width: 1080px; margin: 0 auto; padding: 20px 24px 80px; }
 .week { display: flex; align-items: baseline; gap: 10px; margin: 28px 0 10px; }
 .week h2 { margin: 0; font-size: 15px; font-family: var(--mono); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
 .week span { color: var(--ink-3); font-size: 13px; }
+/* прошлые недели свёрнуты в одну строку над текущей неделей */
+.past-weeks { margin: 24px 0 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.past-weeks > summary { display: flex; align-items: baseline; gap: 10px; padding: 12px 0; cursor: pointer; list-style: none; }
+.past-weeks > summary::-webkit-details-marker { display: none; }
+.past-weeks > summary::before { content: "▸"; color: var(--ink-3); width: 12px; }
+.past-weeks[open] > summary::before { content: "▾"; }
+.past-weeks > summary h2 { margin: 0; font-size: 15px; font-family: var(--mono); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
+.past-weeks > summary span { color: var(--ink-3); font-size: 13px; }
+.past-weeks[open] { padding-bottom: 12px; }
 .pause { margin: 22px 0 6px; padding: 10px 14px; border: 1.5px dashed var(--line-2); color: var(--ink-2); display: flex; gap: 8px; align-items: center; background: repeating-linear-gradient(-45deg, transparent 0 8px, #EFEDF5 8px 16px); }
 
 .card { background: var(--panel); border: 1px solid var(--line); display: grid; grid-template-columns: 118px 1fr auto; gap: 16px; padding: 14px 16px; margin-bottom: 8px; cursor: pointer; align-items: center; }

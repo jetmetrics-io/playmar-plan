@@ -182,7 +182,10 @@
   "A-PLATES": {
    "title": "Pack Light · С плашками",
    "game": "A",
-   "type": "С плашками · корзина и средний чек"
+   "type": "С плашками · витрина, игра и скидка за мастерство",
+   "file": "videos/A-PLATES.mp4?v=5c6be7b4",
+   "poster": "posters/A-PLATES.jpg?v=5c6be7b4",
+   "sec": 25.0
   },
   "P-PURE": {
    "title": "Carve Your Pumpkin · Чистая игра",
@@ -733,15 +736,18 @@
     "tta"
    ],
    "linkedin": {
-    "status": "writing"
+    "status": "ready",
+    "text": "Most discount popups give the same 10% to everyone who closes them. Nobody remembers that code a day later.\n\nThis one makes people work for it, a little.\n\nThe brand is invented: a luggage company with a packing game for World Tourism Day. You get one minute to fit travel gear into a suitcase, and not everything fits.\n\nHow the reward works:\n\n1. The tighter the case, the bigger the code: 20% for a perfect pack, 15% for a good one, 10% for everyone else.\n2. A meter on the side shows how close you are to the next tier while you play.\n3. Every player gets a code and free shipping. A messy pack still wins something.\n4. A perfect pack is possible, so skill matters more than luck.\n5. The code goes on at checkout, like any other discount.\n\nWhy it can beat a flat 10%: a discount you earned feels different from one you were handed, and the game buys about a minute of attention before the shop.\n\nThe catch: 20% for the best players is a real cost, and good packers will share the trick. Check your margin, or cap the top tier.\n\nYou can build your own with AI, free. The almanac is in my Featured section.\n\nWould your shoppers try for a bigger discount, or grab the 10% and go?"
    },
-   "hook": "From a $40 cart to $60",
-   "body": "A packing game in the cart: the reward grows with the basket, and the minimum order sits next to the code.",
+   "hook": "A suitcase-packing game in the shop popup: a tighter case earns a bigger discount, from 10% to 20%.",
+   "body": "Every player still gets a code and free shipping, so the game rewards skill without punishing anyone.",
    "tag": "#ecommerce",
    "notes": [
     "С плашками: игра в задаче CRM. Чистая игра этой игры вышла пн 16.11.",
-    "Подпись — черновик: «награда растёт с корзиной» правда, только если игру доделают так (уровни по сумме корзины, минимум заказа рядом с кодом). Иначе подпись переписать."
-   ]
+    "Подпись — черновик: «награда растёт с корзиной» правда, только если игру доделают так (уровни по сумме корзины, минимум заказа рядом с кодом). Иначе подпись переписать.",
+    "17.11: добавлены файл (Shorts 18, Pack Light с плашками, сюжет «Скидка за мастерство»: витрина Fernhill, укладка 26 из 26, 20 % и бесплатная доставка, корзина −20 %) и финальные подписи и текст LinkedIn с его страницы превью. Черновик про корзину «$40 → $60» заменён: корзины в игре нет, скидка растёт от плотности укладки. Корзина в ролике — макет магазина, валюты нет."
+   ],
+   "shortsTitle": "Make shoppers earn the discount: the tighter the suitcase, the bigger the code"
   },
   {
    "id": "2026-12-01-SLOT",
