@@ -75,8 +75,17 @@ function relaxPlatforms(plan) {
     it.platforms = it.platforms.filter((p) => p !== pid);
     it.optional = [...new Set([...(it.optional || []), pid])];
   }
+  /* площадка на паузе (plan.json → platforms[].pausedFrom, paused — пояснение): с этой даты её нет в карточках,
+     кружок неактивный; прошлые дни и их отметки не трогаем. Instagram — с 19.11, аккаунт отключён Meta */
+  for (const p of plan.platforms) if (p.pausedFrom) for (const it of plan.items) {
+    if (it.date < p.pausedFrom || !(it.platforms.includes(p.id) || (it.optional || []).includes(p.id))) continue;
+    it.platforms = it.platforms.filter((x) => x !== p.id);
+    it.optional = (it.optional || []).filter((x) => x !== p.id);
+    it.paused = [...(it.paused || []), p.id];
+  }
   return plan;
 }
+const isPaused = (it, pid) => (it.paused || []).includes(pid);
 /* platforms of the day: required ones, then optional ones (LinkedIn for a pure-game reel) */
 const plats = (it) => it.platforms.concat((it.optional || []).filter((p) => !it.platforms.includes(p)));
 const isOpt = (it, pid) => (it.optional || []).includes(pid) && !it.platforms.includes(pid);
@@ -85,6 +94,7 @@ const liWriting = (it) => !it.reportedPublished && it.liPlanned && (it.linkedin 
 /* what still has to be made for this day: a video for an empty slot, a video in production, a LinkedIn text */
 const needsWork = (it) => isSlot(it) || (it.video && !(videoOf(it) || {}).file) || liWriting(it);
 function pState(it, pid) {
+  if (isPaused(it, pid)) return 'paused';
   if (!plats(it).includes(pid)) return 'off';
   if (isSlot(it)) return isOpt(it, pid) ? 'opt' : 'slot';
   if (isDone(it, pid)) return 'done';
@@ -133,6 +143,7 @@ function fields(it, pid) {
 const ICON = { done: 'check', skip: 'ban', today: 'clock', late: 'alert-triangle', unconfirmed: 'circle-help' };
 function pillHTML(it, p) {
   const st = pState(it, p.id);
+  if (st === 'paused') return `<span class="pill off paused" title="${esc(p.name)}: на паузе. ${esc(p.paused || '')}">${esc(p.short)}<i data-lucide="pause"></i></span>`;
   if (st === 'off') return `<span class="pill off" title="${esc(p.name)}: в этот день не выходит">${esc(p.short)}<span>—</span></span>`;
   if (st === 'slot') return `<span class="pill slot" title="${esc(p.name)}: ролика под этот день пока нет">${esc(p.short)}<i data-lucide="circle-dashed"></i></span>`;
   if (st === 'opt' && isSlot(it)) return `<span class="pill opt slot" title="${esc(p.name)}: по желанию">${esc(p.short)}<i data-lucide="plus"></i></span>`;
@@ -284,7 +295,9 @@ function dueDate(it, w) {
 const upCount = (it, pid, w) => S.up?.[it.id]?.[pid]?.[w]?.n || 0;
 const hasStats = (it) => !isSlot(it) && !!(videoOf(it) || {}).file && it.date <= ukToday();
 /* platforms to collect: the required ones, plus LinkedIn by choice once ticked here or already uploaded */
-const statPlats = (it) => it.platforms.concat((it.optional || []).filter((p) => !it.platforms.includes(p) && (isDone(it, p) || S.up?.[it.id]?.[p])));
+/* площадка на паузе (Instagram с 19.11) выпадает из сбора, если её скринов ещё нет: снять их уже негде */
+const statPlats = (it) => it.platforms.concat((it.optional || []).filter((p) => !it.platforms.includes(p) && (isDone(it, p) || S.up?.[it.id]?.[p])))
+  .filter((p) => !plat(p).pausedFrom || S.up?.[it.id]?.[p]);
 function nextMonday(s) { return addDays(s, (8 - noonUTC(s).getUTCDay()) % 7); }
 const nf = new Intl.NumberFormat('ru-RU', { maximumFractionDigits: 1 });
 const fmtN = (x, unit = '') => (x == null || x === '' ? '—' : typeof x === 'number' ? nf.format(x) + unit : esc(x));
@@ -861,10 +874,11 @@ function renderRules() {
       <span class="pill off">TT<span>—</span></span> в этот день не выходит
       <span class="pill slot">TT<i data-lucide="circle-dashed"></i></span> пустой слот: ролика пока нет
       <span class="pill opt">LI<i data-lucide="plus"></i></span> по желанию
-      <span class="pill skip">LI<i data-lucide="ban"></i></span> решили не выкладывать</div>`;
+      <span class="pill skip">LI<i data-lucide="ban"></i></span> решили не выкладывать
+      <span class="pill off paused">IG<i data-lucide="pause"></i></span> площадка на паузе</div>`;
   const cards = S.plan.platforms.map((p) => {
     const n = C.tagCount[p.id] || 0;
-    return `<section class="rcard"><h3>${esc(p.name)}</h3><p class="acc">${esc(p.account)} · метка ссылки utm_source=${esc(p.utm)}</p>
+    return `<section class="rcard"><h3>${esc(p.name)}</h3><p class="acc">${esc(p.account)} · метка ссылки utm_source=${esc(p.utm)}</p>${p.pausedFrom ? `<div class="note warn">На паузе с ${esc(fmtDay(p.pausedFrom))}. ${esc(p.paused || '')}</div>` : ''}
       <ul class="rules">${(R.platforms[p.id] || []).map((x) => `<li>${esc(x)}</li>`).join('')}</ul>
       <p class="muted" style="margin:4px 0 0;font-size:13px">Хэштеги: ${n ? `${n} · ${esc(C.baseTags.join(' '))} + один под ролик` : 'без хэштегов'}</p></section>`;
   }).join('');

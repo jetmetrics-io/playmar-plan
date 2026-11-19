@@ -213,6 +213,9 @@ ul.rules { margin: 0; padding-left: 18px; display: grid; gap: 6px; font-size: 14
 .pill.skip:hover { border-color: var(--ink-3); color: var(--ink-2); }
 .dot.skip { border-color: var(--ink-3); background: var(--line-2); }
 .status.skip { border-color: var(--line-2); background: #F2F0F6; }
+/* площадка на паузе (Instagram с 19.11): неактивный кружок со значком паузы */
+.pill.paused { color: var(--ink-3); }
+.pill.paused:hover { color: var(--ink-3); }
 .work { margin: 0; font-size: 14px; color: var(--ink-2); }
 .work b { color: var(--ink); }
 .card.slot .hook { white-space: normal; overflow: visible; text-overflow: clip; font-size: 13px; }
