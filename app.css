@@ -208,6 +208,11 @@ ul.rules { margin: 0; padding-left: 18px; display: grid; gap: 6px; font-size: 14
 .pill.opt { border-style: dashed; color: var(--ink-3); background: transparent; }
 .pill.opt.slot { cursor: default; }
 .dot.opt { border-style: dashed; }
+/* «Решил не выкладывать» (LinkedIn по желанию, 19.11): серая закрытая площадка */
+.pill.skip { border-color: var(--line-2); color: var(--ink-3); background: #F2F0F6; }
+.pill.skip:hover { border-color: var(--ink-3); color: var(--ink-2); }
+.dot.skip { border-color: var(--ink-3); background: var(--line-2); }
+.status.skip { border-color: var(--line-2); background: #F2F0F6; }
 .work { margin: 0; font-size: 14px; color: var(--ink-2); }
 .work b { color: var(--ink); }
 .card.slot .hook { white-space: normal; overflow: visible; text-overflow: clip; font-size: 13px; }

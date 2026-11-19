@@ -62,25 +62,40 @@ const base = (id) => (plat(id) || {}).like || id;
 const itemById = (id) => S.plan.items.find((i) => i.id === id);
 const videoOf = (it) => (it.video ? S.plan.videos[it.video] : null);
 const isDone = (it, pid) => !!S.status[it.id]?.[pid]?.done;
+/* «Решил не выкладывать» (LinkedIn, с 19.11): та же отметка в браузере, только { skip: true } вместо { done: true } */
+const isSkipped = (it, pid) => !!S.status[it.id]?.[pid]?.skip;
 const isSlot = (it) => it.kind === 'slot';
+/* LinkedIn по желанию у всех роликов (решение 19.11). В plan.json у роликов с плашками 'li' остаётся в platforms —
+   это значит, что для ролика готовится полный текст поста (liPlanned); на странице LinkedIn переходит в optional */
+const OPT_ALWAYS = ['li'];
+function relaxPlatforms(plan) {
+  for (const it of plan.items) for (const pid of OPT_ALWAYS) {
+    if (!it.platforms.includes(pid)) continue;
+    if (pid === 'li') it.liPlanned = true;
+    it.platforms = it.platforms.filter((p) => p !== pid);
+    it.optional = [...new Set([...(it.optional || []), pid])];
+  }
+  return plan;
+}
 /* platforms of the day: required ones, then optional ones (LinkedIn for a pure-game reel) */
 const plats = (it) => it.platforms.concat((it.optional || []).filter((p) => !it.platforms.includes(p)));
 const isOpt = (it, pid) => (it.optional || []).includes(pid) && !it.platforms.includes(pid);
 const FORMAT = { pure: 'Чистая игра', plates: 'С плашками', prompt: 'Из промпта в игру' };   /* prompt — тест нового формата с 19.11 */
-const liWriting = (it) => !it.reportedPublished && it.platforms.includes('li') && (it.linkedin || {}).status !== 'ready';
+const liWriting = (it) => !it.reportedPublished && it.liPlanned && (it.linkedin || {}).status !== 'ready' && !isSkipped(it, 'li');
 /* what still has to be made for this day: a video for an empty slot, a video in production, a LinkedIn text */
 const needsWork = (it) => isSlot(it) || (it.video && !(videoOf(it) || {}).file) || liWriting(it);
 function pState(it, pid) {
   if (!plats(it).includes(pid)) return 'off';
   if (isSlot(it)) return isOpt(it, pid) ? 'opt' : 'slot';
   if (isDone(it, pid)) return 'done';
+  if (isSkipped(it, pid)) return 'skip';
   if (isOpt(it, pid)) return 'opt';
   if (it.reportedPublished) return 'unconfirmed';
   const today = ukToday();
   if (it.date === today) return 'today';
   return it.date < today ? 'late' : 'todo';
 }
-const finished = (it) => !isSlot(it) && (S.filter === 'all' ? it.platforms.every((p) => isDone(it, p)) : isDone(it, S.filter));
+const finished = (it) => !isSlot(it) && (S.filter === 'all' ? it.platforms.every((p) => isDone(it, p)) : isDone(it, S.filter) || isSkipped(it, S.filter));
 function itemTitle(it) { const v = videoOf(it); return v ? v.title : it.video; }
 function gameLine(it) { const v = videoOf(it); return v ? `${S.plan.games[v.game] || ''} · ${v.type}` : ''; }
 function tagsFor(it, pid) {
@@ -115,7 +130,7 @@ function fields(it, pid) {
 }
 
 /* ---------- render: plan ---------- */
-const ICON = { done: 'check', today: 'clock', late: 'alert-triangle', unconfirmed: 'circle-help' };
+const ICON = { done: 'check', skip: 'ban', today: 'clock', late: 'alert-triangle', unconfirmed: 'circle-help' };
 function pillHTML(it, p) {
   const st = pState(it, p.id);
   if (st === 'off') return `<span class="pill off" title="${esc(p.name)}: в этот день не выходит">${esc(p.short)}<span>—</span></span>`;
@@ -123,7 +138,7 @@ function pillHTML(it, p) {
   if (st === 'opt' && isSlot(it)) return `<span class="pill opt slot" title="${esc(p.name)}: по желанию">${esc(p.short)}<i data-lucide="plus"></i></span>`;
   if (st === 'opt') return `<button class="pill opt" data-id="${esc(it.id)}" data-p="${p.id}" title="${esc(p.name)}: по желанию">${esc(p.short)}<i data-lucide="plus"></i></button>`;
   const dim = S.filter !== 'all' && S.filter !== p.id ? ' dim' : '';
-  const word = { done: 'выложено', today: 'сегодня', late: 'просрочено', todo: 'впереди', unconfirmed: 'ролик вышел; публикация на этой площадке не подтверждена' }[st];
+  const word = { done: 'выложено', skip: 'решили не выкладывать', today: 'сегодня', late: 'просрочено', todo: 'впереди', unconfirmed: 'ролик вышел; публикация на этой площадке не подтверждена' }[st];
   return `<button class="pill ${st}${dim}" data-id="${esc(it.id)}" data-p="${p.id}" title="${esc(p.name)}: ${word}">${esc(p.short)}${ICON[st] ? `<i data-lucide="${ICON[st]}"></i>` : '<span style="height:14px"></span>'}</button>`;
 }
 /* games of the nearest videos before and after: an empty slot needs a different game (rule: one game never twice in a row) */
@@ -188,7 +203,7 @@ function nextHTML() {
 function pastHTML(past, items, curWeek) {
   if (!past.length) return '';
   const old = items.filter((x) => mondayOf(x.date) < curWeek), weeks = new Set(old.map((x) => mondayOf(x.date))).size;
-  const cnt = (x) => (S.filter === 'all' ? x.platforms.length : +x.platforms.includes(S.filter));
+  const cnt = (x) => (S.filter === 'all' ? x.platforms.length : +plats(x).includes(S.filter));
   const n = old.filter((x) => !isSlot(x)).reduce((a, x) => a + cnt(x), 0);
   return `<details class="past-weeks" id="pastWeeks"${S.pastOpen ? ' open' : ''}><summary><h2>Прошлые недели</h2>
     <span>${fmtDay(old[0].date)} – ${fmtDay(old[old.length - 1].date)} · ${weeks} ${plural(weeks, 'неделя', 'недели', 'недель')} · ${n} ${plural(n, 'пост', 'поста', 'постов')}</span></summary>${past.join('')}</details>`;
@@ -217,7 +232,7 @@ function renderPlan() {
       week = w;
       const inWeek = P.items.filter((x) => mondayOf(x.date) === w);
       const name = `Неделя с ${fmtDay(w)}`;
-      const cnt = (x) => (S.filter === 'all' ? x.platforms.length : +x.platforms.includes(S.filter));
+      const cnt = (x) => (S.filter === 'all' ? x.platforms.length : +plats(x).includes(S.filter));
       const n = inWeek.filter((x) => !isSlot(x)).reduce((a, x) => a + cnt(x), 0);
       const e = inWeek.filter((x) => isSlot(x) && cnt(x)).length;
       sink.push(`<div class="week"><h2>${esc(name)}</h2><span>${fmtDay(w)} – ${fmtDay(addDays(w, 6))} · ${n} ${plural(n, 'пост', 'поста', 'постов')}${e ? ` · ${e} ${plural(e, 'пустой слот', 'пустых слота', 'пустых слотов')}` : ''}</span></div>`);
@@ -845,7 +860,8 @@ function renderRules() {
       <span class="pill done">TT<i data-lucide="check"></i></span> выложено
       <span class="pill off">TT<span>—</span></span> в этот день не выходит
       <span class="pill slot">TT<i data-lucide="circle-dashed"></i></span> пустой слот: ролика пока нет
-      <span class="pill opt">LI<i data-lucide="plus"></i></span> по желанию</div>`;
+      <span class="pill opt">LI<i data-lucide="plus"></i></span> по желанию
+      <span class="pill skip">LI<i data-lucide="ban"></i></span> решили не выкладывать</div>`;
   const cards = S.plan.platforms.map((p) => {
     const n = C.tagCount[p.id] || 0;
     return `<section class="rcard"><h3>${esc(p.name)}</h3><p class="acc">${esc(p.account)} · метка ссылки utm_source=${esc(p.utm)}</p>
@@ -868,7 +884,7 @@ function render() {
 /* ---------- sheet: one day × one platform ---------- */
 function openSheet(id, pid, toStats = false) {
   const it = itemById(id); if (!it) return;
-  if (!pid || !(plats(it).includes(pid) || (pid === 'xpost' && it.expertPost))) pid = (S.filter !== 'all' && it.platforms.includes(S.filter)) ? S.filter : (it.platforms.find((p) => !isDone(it, p)) || it.platforms[0]);
+  if (!pid || !(plats(it).includes(pid) || (pid === 'xpost' && it.expertPost))) pid = (S.filter !== 'all' && plats(it).includes(S.filter)) ? S.filter : (it.platforms.find((p) => !isDone(it, p)) || it.platforms[0]);
   S.sheet = { id, pid };
   $('#sheetWrap').hidden = false;
   document.body.style.overflow = 'hidden';
@@ -893,7 +909,7 @@ function renderSheet() {
           <span class="muted" style="font-size:13px">${esc(it.video)} · MP4 9:16 · звук в файле</span></div></div></div>`
       : `<div class="blk"><h4>Видео</h4><div class="note warn">${v && v.awaitingFile ? 'Файл ролика пока не добавлен в план. Перед публикацией получите оригинал команды и сверьте подписи с ним.' : 'Ролик ещё делаем. Он появится здесь, когда будет готов. Нет его в свой день — пропустите слот и напишите Дмитрию.'}</div></div>`);
   } else parts.push('<div class="blk"><h4>Картинка</h4><div class="note warn">Картинка придёт вместе с текстом.</div></div>');
-  if (isOpt(it, pid)) parts.push(`<div class="blk"><div class="note">${esc(p.name)} для этого ролика — по желанию. Выложили — отметьте ниже.</div></div>`);
+  if (isOpt(it, pid) && !(st && (st.done || st.skip))) parts.push(`<div class="blk"><div class="note">${esc(p.name)} для этого ролика — по желанию. Выложили — отметьте ниже.${pid === 'li' ? ' Решили не выкладывать — тоже отметьте: кнопка «Решил не выкладывать».' : ''}</div></div>`);
   const F = fields(it, pid);
   if (F) {
     if (it.copyStatus === 'draft') parts.push('<div class="blk"><div class="note warn">Подписи предварительные: они составлены по другой версии игры. Сверьте их с оригиналом этого ролика до публикации.</div></div>');
@@ -917,10 +933,16 @@ function renderSheet() {
     parts.push(`<div class="status done"><div class="who"><b>Выложено в ${esc(p.name)}</b> · отмечено ${esc(when)}</div>
       ${st.url ? `<a href="${esc(st.url)}" target="_blank" rel="noopener">${esc(st.url)}</a>` : '<span class="muted">Ссылку не сохранили.</span>'}
       <div><button class="btn small" id="untick">Снять отметку</button></div></div>`);
+  } else if (st && st.skip) {
+    const when = new Intl.DateTimeFormat('ru-RU', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).format(new Date(st.at));
+    parts.push(`<div class="status skip"><div class="who"><b>Решили не выкладывать в ${esc(p.name)}</b> · отмечено ${esc(when)}</div>
+      <div><button class="btn small" id="untick">Снять отметку</button></div></div>`);
   } else {
-    parts.push(`<div class="status"><label class="who" for="postUrl"><b>Пост в ${esc(p.name)} вышел?</b> Вставьте ссылку на пост (можно без неё) и отметьте.</label>
+    /* LinkedIn по желанию: кроме «Выложено» есть «Решил не выкладывать» */
+    const skipBtn = pid === 'li' ? `<button class="btn" id="skip"><i data-lucide="ban"></i>Решил не выкладывать</button>` : '';
+    parts.push(`<div class="status"><label class="who" for="postUrl"><b>Пост в ${esc(p.name)} вышел?</b> Вставьте ссылку на пост (можно без неё) и отметьте.${pid === 'li' ? ' Не будете выкладывать — отметьте и это.' : ''}</label>
       <input id="postUrl" type="url" placeholder="https://…" autocomplete="off">
-      <div><button class="btn primary" id="tick"><i data-lucide="check"></i>Выложено в ${esc(p.name)}</button></div>
+      <div class="field-row" style="flex-wrap:wrap"><button class="btn primary" id="tick"><i data-lucide="check"></i>Выложено в ${esc(p.name)}</button>${skipBtn}</div>
       <p class="muted keep">Галочки хранятся только в этом браузере.</p></div>`);
   }
   const stats = statsHTML(it, pid);
@@ -967,6 +989,14 @@ function mark(done) {
   else toast(done ? `Отмечено: ${p.name}` : `Отметка снята: ${p.name}`);
   render(); if (S.sheet) renderSheet();
 }
+/* «Решил не выкладывать»: площадка по желанию закрыта без поста; снимается той же кнопкой «Снять отметку» */
+function markSkip() {
+  const { id, pid } = S.sheet, p = plat(pid);
+  S.status = Data.save((st) => { (st[id] = st[id] || {})[pid] = { skip: true, at: new Date().toISOString() }; });
+  if (!S.kept) toast('Этот браузер не хранит галочки (приватное окно?). Они пропадут, когда закроете вкладку.', true);
+  else toast(`Отмечено: в ${p.name} не выкладываем`);
+  render(); if (S.sheet) renderSheet();
+}
 
 function preview() {
   const v = videoOf(itemById(S.sheet.id)), el = $('#poster');
@@ -985,7 +1015,7 @@ function savePrefs() { set(PREF_KEY, JSON.stringify({ view: S.view, filter: S.fi
 function loadPrefs() { try { Object.assign(S, JSON.parse(get(PREF_KEY) || '{}')); } catch (e) { /* defaults */ } }
 
 async function start() {
-  S.plan = await Data.plan(); S.status = Data.status();
+  S.plan = relaxPlatforms(await Data.plan()); S.status = Data.status();
   if (S.filter !== 'all' && !S.plan.platforms.some((p) => p.id === S.filter)) S.filter = 'all';
   render();
   const statusRequest = Stats.status();
@@ -1010,6 +1040,7 @@ document.addEventListener('click', (e) => {
   const cp = t.closest('[data-copy]'); if (cp) return copyText(S.sheetFields[+cp.dataset.copy].text);
   if (t.closest('#tick')) return mark(true);
   if (t.closest('#untick')) return mark(false);
+  if (t.closest('#skip')) return markSkip();
   if (t.closest('#pv')) return preview();
   if (t.closest('#saveCode')) return saveCode();
   if (t.closest('#forgetCode')) { forgetCode(); return renderSheet(); }
