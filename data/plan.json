@@ -303,6 +303,14 @@
    "file": "videos/NC-PURE.mp4?v=0252390e",
    "poster": "posters/NC-PURE.jpg?v=0252390e",
    "sec": 21.92
+  },
+  "NC-PLATES": {
+   "title": "Neon City Nights · С плашками",
+   "game": "NC",
+   "type": "С плашками · окно на сайте, почта за код, галочка рассылки не отмечена, корзина −20 %",
+   "file": "videos/NC-PLATES.mp4?v=b4bbfeb3",
+   "poster": "posters/NC-PLATES.jpg?v=b4bbfeb3",
+   "sec": 25.0
   }
  },
  "pauses": [],
@@ -854,11 +862,11 @@
    ]
   },
   {
-   "id": "2026-11-25-MB-PLATES",
+   "id": "2026-11-25-NC-PLATES",
    "date": "2026-11-25",
    "kind": "reel",
    "format": "plates",
-   "video": "MB-PLATES",
+   "video": "NC-PLATES",
    "platforms": [
     "li",
     "yt",
@@ -867,17 +875,17 @@
     "tt",
     "tta"
    ],
-   "shortsTitle": "A daily Black Friday box: a streak and a reminder bring shoppers back tomorrow",
-   "hook": "Shoppers get one gift box per day until Cyber Monday, plus a streak counter and a reminder for the next morning.",
-   "body": "Day one ends with a code, a 1-day streak and a countdown to the next box. People who opt in get a nudge the next day, and a missed day costs a freeze, not the streak.",
-   "tag": "#blackfriday",
+   "shortsTitle": "Release week on a merch shop: a night-drive popup game that swaps a reward for an email",
+   "hook": "Release-week traffic comes and goes fast. Here a popup game turns one short visit into a contact and a first order.",
+   "body": "The shop page opens a neon road game with three reward tiers: 10, 15 or 20% off. To see the code, the player types their email, while the box for news stays empty unless they tick it. Then the code is ready for checkout.",
+   "tag": "#gta6",
    "linkedin": {
-    "status": "ready",
-    "text": "Black Friday traffic is easy to get once. Getting the same shoppers back on Saturday is much harder.\n\nHere is a small game built for exactly that. The coffee brand in it is invented, and so is its sale: a daily gift box for the four days from Friday to Monday.\n\nHow it pulls people back:\n\n1. A single box per day. Three gifts get mixed up, the shopper taps one, and every pick wins 20, 15 or 10% off.\n2. The result screen shows a streak and a countdown to tomorrow's box, not just a code.\n3. \"Remind me tomorrow\" asks for an email right there, at the moment the shopper is happiest.\n4. The next morning the reminder brings them back, and the start screen says \"Streak: 1 day\".\n5. Miss one day and a freeze keeps the streak alive. Miss two and it starts again.\n\nWhy it can work: four short visits in four days keep your shop in mind during the noisiest week of the year, and the reminder list is made of people who actually played.\n\nThe catch: a streak is just a number unless it means something. In a four-day sale I would tie it to a reward, like better odds on day four. And in this draft the reminder is only an opt-in flag: sending it needs your email tool.\n\nYou can build your own with AI, free. The almanac is in my Featured section.\n\nWould your Black Friday shoppers come back for a second box, or is one code enough for them?"
+    "status": "draft",
+    "text": "Big release weeks bring a wave of visitors to your shop. Most of them leave, and you never hear from them again.\n\nThis is a small popup game built for that moment. The merch shop is invented for the demo: it runs a neon road game during the week of the GTA 6 launch.\n\nHere is the flow:\n\n1. A popup on the shop page offers a 45-second drive. One tap jumps, a longer press jumps higher.\n2. Before the start, the player sees the reward ladder: 20% for the finish line, 15% for most of the road, 10% for every player.\n3. After the drive, a single field asks for their email to reveal the code.\n4. The news checkbox stays empty. Only people who want updates tick it.\n5. The code is ready for checkout, so the visit can end with a first order.\n\nWhy I like it here: the popup gives visitors something to do instead of a bare form, and the contact comes with a reason to buy before the hype fades.\n\nThe limits: without consent, that email is only good for sending the code. Your list grows only with those who opt in, so the reward has to feel worth it. Also, in this version the email stays on the visitor's device: passing it to your email platform needs a proper integration.\n\nYou can build your own with AI, free. The almanac is in my Featured section.\n\nWould your visitors give a popup 45 seconds, or close it straight away?"
    },
    "notes": [
-    "17.11: по просьбе Кирилла — The Black Friday Box с плашками (Shorts 21, MB-PLATES, 25 с), сюжет «Повод вернуться завтра»: письмо FRAPPE → коробка дня 1 (15 %, серия 1 день) → «Remind me tomorrow» → утром письмо «Box #2 is ready» → день 2, серия 2. Подписи и пост LinkedIn — с его страницы превью.",
-    "Среда — вне обычного ритма, по решению Кирилла. Чистая игра этой игры вышла пн 23.11."
+    "20.11: по просьбе Кирилла — Neon City Nights с плашками (Shorts 26, NC-PLATES, 25 с), сюжет «Окно на сайте собирает почту»: витрина VOLT → окно с игрой → меню с наградами → заезд → финиш → почта, галочка рассылки не отмечена → код NEON-TOP → корзина −20 %. Подписи — с его страницы превью; пост LinkedIn — черновик, ждёт его просмотра.",
+    "Чистая игра этой игры выходит пн 23.11."
    ]
   },
   {
@@ -948,6 +956,34 @@
    "notes": [
     "Тема — январь и Новый год (была задумана Catch & Collect: ловить и собирать). Механика — на выбор команды.",
     "Чистая игра: прохождение без плашек, бирки и призыва. С плашками эта игра выйдет пн 7.12."
+   ]
+  },
+  {
+   "id": "2026-11-25-MB-PLATES",
+   "date": "2026-12-02",
+   "kind": "reel",
+   "format": "plates",
+   "video": "MB-PLATES",
+   "platforms": [
+    "li",
+    "yt",
+    "ig",
+    "fb",
+    "tt",
+    "tta"
+   ],
+   "shortsTitle": "A daily Black Friday box: a streak and a reminder bring shoppers back tomorrow",
+   "hook": "Shoppers get one gift box per day until Cyber Monday, plus a streak counter and a reminder for the next morning.",
+   "body": "Day one ends with a code, a 1-day streak and a countdown to the next box. People who opt in get a nudge the next day, and a missed day costs a freeze, not the streak.",
+   "tag": "#blackfriday",
+   "linkedin": {
+    "status": "ready",
+    "text": "Black Friday traffic is easy to get once. Getting the same shoppers back on Saturday is much harder.\n\nHere is a small game built for exactly that. The coffee brand in it is invented, and so is its sale: a daily gift box for the four days from Friday to Monday.\n\nHow it pulls people back:\n\n1. A single box per day. Three gifts get mixed up, the shopper taps one, and every pick wins 20, 15 or 10% off.\n2. The result screen shows a streak and a countdown to tomorrow's box, not just a code.\n3. \"Remind me tomorrow\" asks for an email right there, at the moment the shopper is happiest.\n4. The next morning the reminder brings them back, and the start screen says \"Streak: 1 day\".\n5. Miss one day and a freeze keeps the streak alive. Miss two and it starts again.\n\nWhy it can work: four short visits in four days keep your shop in mind during the noisiest week of the year, and the reminder list is made of people who actually played.\n\nThe catch: a streak is just a number unless it means something. In a four-day sale I would tie it to a reward, like better odds on day four. And in this draft the reminder is only an opt-in flag: sending it needs your email tool.\n\nYou can build your own with AI, free. The almanac is in my Featured section.\n\nWould your Black Friday shoppers come back for a second box, or is one code enough for them?"
+   },
+   "notes": [
+    "17.11: по просьбе Кирилла — The Black Friday Box с плашками (Shorts 21, MB-PLATES, 25 с), сюжет «Повод вернуться завтра»: письмо FRAPPE → коробка дня 1 (15 %, серия 1 день) → «Remind me tomorrow» → утром письмо «Box #2 is ready» → день 2, серия 2. Подписи и пост LinkedIn — с его страницы превью.",
+    "Среда — вне обычного ритма, по решению Кирилла. Чистая игра этой игры вышла пн 23.11.",
+    "20.11: по просьбе Кирилла перенесён со ср 25.11 на ср 02.12: на 25.11 встала Neon City Nights. Чистая игра этой игры теперь выходит пн 30.11. id карточки прежний."
    ]
   },
   {
