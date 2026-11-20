@@ -96,7 +96,8 @@
   "BN": "Light It Up · игра с фейерверками к Bonfire Night (демо-бренд Your Brand)",
   "XM": "Christmas Scratch Card · скретч-карта к Рождеству (демо-бренд Frappe)",
   "MB": "The Black Friday Box · Mystery Box к Чёрной пятнице: три подарка, коробка в день, серия (демо-бренд FRAPPE)",
-  "MM": "Collect the Market Mugs · Collect the Set к рождественским ярмаркам: шесть кружек, личная ссылка, код на 72 часа (демо-бренд Your Brand)"
+  "MM": "Collect the Market Mugs · Collect the Set к рождественским ярмаркам: шесть кружек, личная ссылка, код на 72 часа (демо-бренд Your Brand)",
+  "NC": "Neon City Nights · раннер к выходу GTA 6: ночная гонка по неоновому бульвару, три удара, финиш даёт 20 % (демо-бренд VOLT)"
  },
  "videos": {
   "T-PURE": {
@@ -294,6 +295,14 @@
    "file": "videos/MM-PLATES.mp4?v=dc6c33f7",
    "poster": "posters/MM-PLATES.jpg?v=dc6c33f7",
    "sec": 25.0
+  },
+  "NC-PURE": {
+   "title": "Neon City Nights · Чистая игра",
+   "game": "NC",
+   "type": "Чистая игра · ночная гонка, удар о конусы, финиш 20 %",
+   "file": "videos/NC-PURE.mp4?v=0252390e",
+   "poster": "posters/NC-PURE.jpg?v=0252390e",
+   "sec": 21.92
   }
  },
  "pauses": [],
@@ -798,11 +807,11 @@
    "shortsTitle": "Make shoppers earn the discount: the tighter the suitcase, the bigger the code"
   },
   {
-   "id": "2026-11-23-MB-PURE",
+   "id": "2026-11-23-NC-PURE",
    "date": "2026-11-23",
    "kind": "reel",
    "format": "pure",
-   "video": "MB-PURE",
+   "video": "NC-PURE",
    "platforms": [
     "yt",
     "ig",
@@ -810,13 +819,13 @@
     "tt",
     "tta"
    ],
-   "shortsTitle": "A Black Friday mystery box: pick one of three gifts, every box holds a deal",
-   "hook": "Three gift boxes shuffle, you pick one, and the worst you can get is 10% off. One box in ten hides 20%.",
-   "body": "One box a day from Black Friday to Cyber Monday, with a streak that a single missed day won't break. The odds are shown before the first tap, and the prize is decided when you pick.",
-   "tag": "#blackfriday",
+   "shortsTitle": "A neon night-drive runner for GTA 6 week: every driver wins, the finish line wins 20%",
+   "hook": "It's GTA 6 week, and everyone is talking about one neon city. Here's a brand game in the same mood, where every driver wins.",
+   "body": "Tap to jump, hold to jump higher. Reach the finish for 20% off, pass 60% of the road for 15%, and every other driver gets 10%. Bolts on the road add to the score. The code unlocks with an email, and the news box stays empty unless you tick it.",
+   "tag": "#gta6",
    "notes": [
-    "17.11: по просьбе Кирилла — чистое прохождение The Black Friday Box (Shorts 20, MB-PURE, 17,5 с): лендинг → три подарка перемешиваются → средняя коробка → «The big one» 20 % → итог с серией. Подписи — с его страницы превью.",
-    "Понедельник: в LinkedIn экспертный пост Алекса, этот ролик туда не ставим. С плашками эта игра выйдет ср 25.11."
+    "20.11: по просьбе Кирилла — чистое прохождение Neon City Nights (Shorts 25, NC-PURE, 21,9 с), игра к выходу GTA 6: лендинг → меню с наградами → заезд, удар о вторые конусы → одна склейка → финиш, 20 % → почта → код NEON-TOP. Подписи — с его страницы превью.",
+    "Понедельник: в LinkedIn экспертный пост Алекса, этот ролик туда не ставим."
    ]
   },
   {
@@ -896,6 +905,29 @@
    "notes": [
     "18.11: по просьбе Кирилла — Collect the Market Mugs с плашками (Shorts 23, MM-PLATES, 25 с), сюжет «Возвращение по личной ссылке»: письмо «Anna, your market mug is waiting» → игра «Welcome back» → кружка → 10 %, код на 72 часа → Use it now → корзина, где код уже применён. Подписи и пост LinkedIn — с его страницы превью.",
     "Чистая игра этой игры вышла вт 24.11."
+   ]
+  },
+  {
+   "id": "2026-11-23-MB-PURE",
+   "date": "2026-11-30",
+   "kind": "reel",
+   "format": "pure",
+   "video": "MB-PURE",
+   "platforms": [
+    "yt",
+    "ig",
+    "fb",
+    "tt",
+    "tta"
+   ],
+   "shortsTitle": "A Black Friday mystery box: pick one of three gifts, every box holds a deal",
+   "hook": "Three gift boxes shuffle, you pick one, and the worst you can get is 10% off. One box in ten hides 20%.",
+   "body": "One box a day from Black Friday to Cyber Monday, with a streak that a single missed day won't break. The odds are shown before the first tap, and the prize is decided when you pick.",
+   "tag": "#blackfriday",
+   "notes": [
+    "17.11: по просьбе Кирилла — чистое прохождение The Black Friday Box (Shorts 20, MB-PURE, 17,5 с): лендинг → три подарка перемешиваются → средняя коробка → «The big one» 20 % → итог с серией. Подписи — с его страницы превью.",
+    "Понедельник: в LinkedIn экспертный пост Алекса, этот ролик туда не ставим. С плашками эта игра выйдет ср 25.11.",
+    "20.11: по просьбе Кирилла перенесён с пн 23.11 на пн 30.11 (Киберпонедельник): на 23.11 встала Neon City Nights. id карточки прежний."
    ]
   },
   {
