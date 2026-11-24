@@ -70,6 +70,7 @@ const isSlot = (it) => it.kind === 'slot';
 const OPT_ALWAYS = ['li'];
 function relaxPlatforms(plan) {
   for (const it of plan.items) for (const pid of OPT_ALWAYS) {
+    if (it.format === 'meme') continue;   /* мем выходит только в LinkedIn: там он обязателен */
     if (!it.platforms.includes(pid)) continue;
     if (pid === 'li') it.liPlanned = true;
     it.platforms = it.platforms.filter((p) => p !== pid);
@@ -89,7 +90,7 @@ const isPaused = (it, pid) => (it.paused || []).includes(pid);
 /* platforms of the day: required ones, then optional ones (LinkedIn for a pure-game reel) */
 const plats = (it) => it.platforms.concat((it.optional || []).filter((p) => !it.platforms.includes(p)));
 const isOpt = (it, pid) => (it.optional || []).includes(pid) && !it.platforms.includes(pid);
-const FORMAT = { pure: 'Чистая игра', plates: 'С плашками', prompt: 'Из промпта в игру' };   /* prompt — тест нового формата с 19.11 */
+const FORMAT = { pure: 'Чистая игра', plates: 'С плашками', prompt: 'Из промпта в игру', nongame: 'Неигровой ролик', meme: 'Мем · LinkedIn' };   /* prompt — тест нового формата с 19.11; nongame (пятница) и meme (суббота, только LinkedIn) — с 4.12 */
 const liWriting = (it) => !it.reportedPublished && it.liPlanned && (it.linkedin || {}).status !== 'ready' && !isSkipped(it, 'li');
 /* what still has to be made for this day: a video for an empty slot, a video in production, a LinkedIn text */
 const needsWork = (it) => isSlot(it) || (it.video && !(videoOf(it) || {}).file) || liWriting(it);
@@ -164,7 +165,7 @@ function slotHTML(it) {
   const nearText = (it.notes || []).length ? '' : near.length ?`Любая игра, кроме ${near.join(' и ')}: ${near.length > 1 ? 'они выходят соседними роликами' : 'она выходит соседним роликом'}.` : 'Подойдёт любая игра: соседние дни тоже пока пустые.';
   return `<article class="card slot" data-id="${esc(it.id)}">
     <div class="when"><b>${fmtDate(it.date)}</b><span class="t">${esc(S.plan.time)} Лондон</span>${loc ? `<span class="loc">${esc(loc)}</span>` : ''}</div>
-    <div class="what"><div class="badges"><span class="badge slot">Пустой слот</span>${it.format ? `<span class="badge ${it.format}">${FORMAT[it.format]}</span>` : ''}</div><p class="title">Нужен ролик</p>${nearText ? `<p class="game">${esc(nearText)}</p>` : ''}
+    <div class="what"><div class="badges"><span class="badge slot">Пустой слот</span>${it.format ? `<span class="badge ${it.format}">${FORMAT[it.format]}</span>` : ''}</div><p class="title">${it.format === 'meme' ? 'Нужен мем' : 'Нужен ролик'}</p>${nearText ? `<p class="game">${esc(nearText)}</p>` : ''}
       ${(it.notes || []).map((n) => `<p class="hook none">${esc(n)}</p>`).join('')}</div>
     <div class="pills">${S.plan.platforms.map((p) => pillHTML(it, p)).join('')}</div>
   </article>`;
@@ -495,7 +496,7 @@ function statsChartHTML(rows, pid, key, title, description, options = {}) {
     + '<p class="chart-foot">По горизонтали — ролик и фактический возраст снимка. Наведите на столбец, чтобы увидеть формат и значения.</p></figure>';
 }
 function chartLegendHTML() {
-  return '<div class="chart-legend"><span><i class="swatch pure"></i>Чистая игра</span><span><i class="swatch plates"></i>С плашками</span><span><i class="swatch prompt"></i>Из промпта в игру</span></div>';
+  return '<div class="chart-legend"><span><i class="swatch pure"></i>Чистая игра</span><span><i class="swatch plates"></i>С плашками</span><span><i class="swatch prompt"></i>Из промпта в игру</span><span><i class="swatch nongame"></i>Неигровой ролик</span><span><i class="swatch meme"></i>Мем · LinkedIn</span></div>';
 }
 function platformSummaryHTML(rows) {
   const platforms = S.plan.platforms.filter((p) => rows.some((r) => r['площадка'] === p.id));
@@ -558,7 +559,7 @@ function numbersHTML(rows) {
     ['гео_UK_%', 'Аудитория UK (%)', ' %'], ['гео_EU_%', 'Аудитория EU (%)', ' %'], ['гео_US_%', 'Аудитория US (%)', ' %'],
     ['комментарии_от_ЦА', 'Комментарии от целевой аудитории'], ['особое', 'Примечания']
   ];
-  const formatOptions = [['all', 'Все форматы'], ['pure', FORMAT.pure], ['plates', FORMAT.plates], ['prompt', FORMAT.prompt]];
+  const formatOptions = [['all', 'Все форматы'], ['pure', FORMAT.pure], ['plates', FORMAT.plates], ['prompt', FORMAT.prompt], ['nongame', FORMAT.nongame], ['meme', FORMAT.meme]];
   const platformOptions = S.plan.platforms.filter((p) => rows.some((r) => r['площадка'] === p.id));
   const ages = [...new Set(rows.map((r) => r['возраст_дней']).filter((x) => x != null))].sort((a, b) => Number(a) - Number(b));
   const opts = (xs, selected = 'all') => xs.map(([value, label]) => '<option value="' + esc(value) + '"' + (value === selected ? ' selected' : '') + '>' + esc(label) + '</option>').join('');
@@ -728,11 +729,11 @@ function gamesSliceHTML(rows, metric) {
   return aggregateChartHTML(groups, metric);
 }
 function formatSliceHTML(rows, metric) {
-  const entries = latestAnalyticsEntries(rows), labels = { pure: 'Чистое прохождение', plates: 'С плашками', prompt: 'Из промпта в игру' };
-  const groups = ['pure', 'plates', 'prompt'].map((format) => {
+  const entries = latestAnalyticsEntries(rows), labels = { pure: 'Чистое прохождение', plates: 'С плашками', prompt: 'Из промпта в игру', nongame: 'Неигровой ролик', meme: 'Мем · LinkedIn' };
+  const groups = ['pure', 'plates', 'prompt', 'nongame', 'meme'].map((format) => {
     const groupEntries = entries.filter((entry) => entry.item.format === format);
     return { key: format, label: labels[format], format, entries: groupEntries, summary: aggregateSummary(groupEntries, metric) };
-  });
+  }).filter((group) => group.entries.length || !['nongame', 'meme'].includes(group.key));   /* новые типы — только когда есть снимки */
   return aggregateChartHTML(groups, metric);
 }
 function analyticsVisualsHTML(rows) {

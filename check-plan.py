@@ -26,7 +26,7 @@ def validate(plan, data_dir):
             errors.append(f'{ident}: неверная дата или порядок дней')
         last_date = date
         kind, fmt = item.get('kind'), item.get('format')
-        if kind not in ('reel', 'slot') or fmt not in ('pure', 'plates', 'prompt'):
+        if kind not in ('reel', 'slot') or fmt not in ('pure', 'plates', 'prompt', 'nongame', 'meme'):
             errors.append(f'{ident}: неверный вид карточки или формат')
         selected = item.get('platforms', [])
         if set(selected + item.get('optional', [])) - platforms:
