@@ -78,7 +78,7 @@ function relaxPlatforms(plan) {
   }
   /* площадка на паузе (plan.json → platforms[].pausedFrom, paused — пояснение): с этой даты её нет в карточках,
      кружок неактивный; прошлые дни и их отметки не трогаем. pausedTo — последний день паузы, после него площадка снова в карточках.
-     Instagram: пауза 19–23.11 (старый аккаунт отключён Meta), с 24.11 — новый аккаунт */
+     Instagram: пауза 19–24.11 (старый аккаунт отключён Meta), с 25.11 — новый аккаунт */
   for (const p of plan.platforms) if (p.pausedFrom) for (const it of plan.items) {
     if (it.date < p.pausedFrom || (p.pausedTo && it.date > p.pausedTo) || !(it.platforms.includes(p.id) || (it.optional || []).includes(p.id))) continue;
     it.platforms = it.platforms.filter((x) => x !== p.id);
