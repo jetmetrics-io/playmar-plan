@@ -77,9 +77,10 @@ function relaxPlatforms(plan) {
     it.optional = [...new Set([...(it.optional || []), pid])];
   }
   /* площадка на паузе (plan.json → platforms[].pausedFrom, paused — пояснение): с этой даты её нет в карточках,
-     кружок неактивный; прошлые дни и их отметки не трогаем. Instagram — с 19.11, аккаунт отключён Meta */
+     кружок неактивный; прошлые дни и их отметки не трогаем. pausedTo — последний день паузы, после него площадка снова в карточках.
+     Instagram: пауза 19–23.11 (старый аккаунт отключён Meta), с 24.11 — новый аккаунт */
   for (const p of plan.platforms) if (p.pausedFrom) for (const it of plan.items) {
-    if (it.date < p.pausedFrom || !(it.platforms.includes(p.id) || (it.optional || []).includes(p.id))) continue;
+    if (it.date < p.pausedFrom || (p.pausedTo && it.date > p.pausedTo) || !(it.platforms.includes(p.id) || (it.optional || []).includes(p.id))) continue;
     it.platforms = it.platforms.filter((x) => x !== p.id);
     it.optional = (it.optional || []).filter((x) => x !== p.id);
     it.paused = [...(it.paused || []), p.id];
@@ -296,9 +297,10 @@ function dueDate(it, w) {
 const upCount = (it, pid, w) => S.up?.[it.id]?.[pid]?.[w]?.n || 0;
 const hasStats = (it) => !isSlot(it) && !!(videoOf(it) || {}).file && it.date <= ukToday();
 /* platforms to collect: the required ones, plus LinkedIn by choice once ticked here or already uploaded */
-/* площадка на паузе (Instagram с 19.11) выпадает из сбора, если её скринов ещё нет: снять их уже негде */
+/* площадка на паузе (Instagram с 19.11) выпадает из сбора, если её скринов ещё нет: снять их уже негде.
+   Посты после конца паузы (pausedTo) вышли с нового аккаунта — их собираем как обычно */
 const statPlats = (it) => it.platforms.concat((it.optional || []).filter((p) => !it.platforms.includes(p) && (isDone(it, p) || S.up?.[it.id]?.[p])))
-  .filter((p) => !plat(p).pausedFrom || S.up?.[it.id]?.[p]);
+  .filter((p) => !plat(p).pausedFrom || (plat(p).pausedTo && it.date > plat(p).pausedTo) || S.up?.[it.id]?.[p]);
 function nextMonday(s) { return addDays(s, (8 - noonUTC(s).getUTCDay()) % 7); }
 const nf = new Intl.NumberFormat('ru-RU', { maximumFractionDigits: 1 });
 const fmtN = (x, unit = '') => (x == null || x === '' ? '—' : typeof x === 'number' ? nf.format(x) + unit : esc(x));
@@ -879,7 +881,7 @@ function renderRules() {
       <span class="pill off paused">IG<i data-lucide="pause"></i></span> площадка на паузе</div>`;
   const cards = S.plan.platforms.map((p) => {
     const n = C.tagCount[p.id] || 0;
-    return `<section class="rcard"><h3>${esc(p.name)}</h3><p class="acc">${esc(p.account)} · метка ссылки utm_source=${esc(p.utm)}</p>${p.pausedFrom ? `<div class="note warn">На паузе с ${esc(fmtDay(p.pausedFrom))}. ${esc(p.paused || '')}</div>` : ''}
+    return `<section class="rcard"><h3>${esc(p.name)}</h3><p class="acc">${esc(p.account)} · метка ссылки utm_source=${esc(p.utm)}</p>${p.pausedFrom ? (p.pausedTo ? `<div class="note">Пауза ${esc(fmtDay(p.pausedFrom))} – ${esc(fmtDay(p.pausedTo))}. ${esc(p.paused || '')}</div>` : `<div class="note warn">На паузе с ${esc(fmtDay(p.pausedFrom))}. ${esc(p.paused || '')}</div>`) : ''}
       <ul class="rules">${(R.platforms[p.id] || []).map((x) => `<li>${esc(x)}</li>`).join('')}</ul>
       <p class="muted" style="margin:4px 0 0;font-size:13px">Хэштеги: ${n ? `${n} · ${esc(C.baseTags.join(' '))} + один под ролик` : 'без хэштегов'}</p></section>`;
   }).join('');
