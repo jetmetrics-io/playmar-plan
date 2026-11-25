@@ -118,7 +118,7 @@ function tagsFor(it, pid) {
 const firstSentence = (s) => { const m = String(s || '').match(/^.*?[.!?](?=\s|$)/); return m ? m[0] : String(s || ''); };
 /* the caption is put together from the plan's parts, per platform (rules in plan.json) */
 function fields(it, pid) {
-  const C = S.plan.constants;
+  const C = S.plan.constants, cta = it.cta || C.cta;   /* свой призыв карточки (item.cta) — иначе общий */
   if (pid === 'li') {
     const li = it.linkedin || {};
     if ((li.status === 'ready' || li.status === 'draft') && li.text) return [{ label: li.status === 'draft' ? 'Черновик поста' : 'Текст поста', text: li.text, limit: 3000, big: true }];
@@ -131,12 +131,12 @@ function fields(it, pid) {
     const title = it.shortsTitle || it.hook;
     return [
       { label: 'Название', text: title, limit: 100 },
-      { label: 'Описание', text: [it.shortsTitle ? it.hook : '', it.body, C.cta, tags].filter(Boolean).join('\n\n') }
+      { label: 'Описание', text: [it.shortsTitle ? it.hook : '', it.body, cta, tags].filter(Boolean).join('\n\n') }
     ];
   }
   const body = base(pid) === 'tt' ? firstSentence(it.body) : it.body;
   return [
-    { label: 'Подпись', text: [it.hook, body, C.cta, tags].filter(Boolean).join('\n\n'), first: base(pid) === 'tt' ? 0 : 125 },
+    { label: 'Подпись', text: [it.hook, body, cta, tags].filter(Boolean).join('\n\n'), first: base(pid) === 'tt' ? 0 : 125 },
     { label: 'Только хэштеги', text: tags, small: true }
   ];
 }
@@ -888,7 +888,7 @@ function renderRules() {
   $('#main').innerHTML = `<div class="rules-grid">
       <section class="rcard wide"><h3>Как устроен план</h3><p style="margin:0">${esc(S.plan.summary)}</p>
         <ul class="rules">${R.general.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>${legend}
-        <p class="muted" style="margin:0;font-size:13px">Призыв в каждой подписи, кроме LinkedIn: «${esc(C.cta)}»</p></section>
+        <p class="muted" style="margin:0;font-size:13px">Призыв в каждой подписи, кроме LinkedIn: «${esc(C.cta)}». Если в карточке указан свой призыв, подпись берёт его.</p></section>
       ${cards}</div>`;
 }
 

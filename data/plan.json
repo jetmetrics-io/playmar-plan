@@ -5,7 +5,7 @@
  "time": "15:00",
  "tz": "Europe/London",
  "statsApi": "https://functions.yandexcloud.net/d4e6fme38uk34ri74p43",
- "summary": "Ролики (чистая игра, с плашками, с 4.12 неигровые) и с 5.12 мемы в LinkedIn. С 30.11 ритм: пн чистая игра (в LinkedIn экспертный пост), вт с плашками, ср чистая, чт с плашками, пт неигровой ролик, сб мем в LinkedIn; всё в 15:00 по Лондону. Одна игра не выходит два раза подряд, а на одной неделе игры не повторяются. LinkedIn по желанию у всех роликов: выложили — отметьте, решили не выкладывать — тоже отметьте. Фактические публикации 3 и 4 ноября добавлены по сообщению Дмитрия; площадки уточняются.",
+ "summary": "Ролики (чистая игра, с плашками, неигровые — первый 27.11) и с 5.12 мемы в LinkedIn. С 30.11 ритм: пн чистая игра (в LinkedIn экспертный пост), вт с плашками, ср чистая, чт с плашками, пт неигровой ролик, сб мем в LinkedIn; всё в 15:00 по Лондону. Одна игра не выходит два раза подряд, а на одной неделе игры не повторяются. LinkedIn по желанию у всех роликов: выложили — отметьте, решили не выкладывать — тоже отметьте. Фактические публикации 3 и 4 ноября добавлены по сообщению Дмитрия; площадки уточняются.",
  "platforms": [
   {
    "id": "li",
@@ -389,6 +389,13 @@
    "title": "New Year 2 · С плашками",
    "game": "NY2",
    "type": "С плашками · игру делаем, сюжет выберем"
+  },
+  "BF60-ANIM": {
+   "title": "The 60 days after Black Friday · Неигровой ролик",
+   "type": "Неигровой ролик · оживший читшит «60 дней после Чёрной пятницы»: 5 шагов, цель, механика, «не делать»",
+   "file": "videos/BF60-ANIM.mp4?v=6111e185",
+   "poster": "posters/BF60-ANIM.jpg?v=6111e185",
+   "sec": 35.0
   }
  },
  "pauses": [],
@@ -998,6 +1005,35 @@
    ]
   },
   {
+   "id": "2026-11-27-BF60-ANIM",
+   "date": "2026-11-27",
+   "kind": "reel",
+   "format": "nongame",
+   "video": "BF60-ANIM",
+   "platforms": [
+    "li",
+    "yt",
+    "ig",
+    "fb",
+    "tt",
+    "tta"
+   ],
+   "shortsTitle": "Black Friday buyers: a 60-day plan to get their second order without a new discount",
+   "hook": "Black Friday brings you new buyers today. Don't answer with another discount on Monday: here's a 60-day plan to get their second order.",
+   "body": "Day 0: one quiz question on the thank-you page. Days 1-7: a QR card in the parcel opens a scratch card. Days 7-21: personal picks and a progress bar. Days 21-35: an advent calendar. Days 35-60: collect the set, with a badge for order #2. One number to watch: second orders by day 60.",
+   "cta": "The full plan with all 5 steps: Alex Andro's post on LinkedIn https://lnkd.in/p/eA4uJDBQ",
+   "tag": "#blackfriday",
+   "linkedin": {
+    "status": "ready",
+    "text": "It's Black Friday. By Monday you'll have a list of new buyers, and the easy move is to send them another discount.\n\nHere is the 60-day plan instead, as a 35-second animation:\n\nDay 0: tag new buyers and ask one quiz question on the thank-you page.\nDays 1-7: no new discount. A card in the parcel opens a scratch card with a reward on order #2.\nDays 7-21: personal picks and a progress bar to a member gift.\nDays 21-35: an advent calendar or a short daily game.\nDays 35-60: collect the set, with a badge for order #2.\n\nOne number to watch: second orders by day 60, compared with your usual new customers.\n\nThe full plan with the cheat sheet, by team and by stage, is in my October post: https://lnkd.in/p/eA4uJDBQ"
+   },
+   "notes": [
+    "25.11: по просьбе Кирилла — неигровой ролик на Чёрную пятницу: оживший читшит поста #92 «The 60 days after Black Friday» (Shorts 24, BF60-ANIM, 35 с). Подписи — с его страницы превью, доработаны 25.11.",
+    "Свой призыв вместо общего: полный план — в посте Alex Andro в LinkedIn, ссылка текстом. В Shorts, Instagram и TikTok ссылка в подписи не кликается, поэтому в призыве есть имя и площадка.",
+    "LinkedIn — по желанию, текст поста готов, в конце ссылка на пост #92."
+   ]
+  },
+  {
    "id": "2026-11-24-MM-PURE",
    "date": "2026-11-30",
    "kind": "reel",
@@ -1442,7 +1478,7 @@
    "Тест нового формата «Из промпта в игру» (чт 19.11): Альманах → чат с ИИ → готовая игра, с плашками и призывом. Выкладывайте на YouTube, Instagram, Facebook и в оба TikTok; в LinkedIn — по желанию, с полным текстом поста из карточки.",
    "У каждой игры два ролика: сначала чистая игра, через одну публикацию — с плашками. Одна игра не выходит два раза подряд.",
    "С 30.11 (план Кирилла и Дмитрия на 30.11–20.12): пн чистая игра, вт с плашками, ср чистая, чт с плашками, пт неигровой ролик, сб мем в LinkedIn. На одной неделе игры не повторяются: чистая и плашки одной игры выходят в разные недели. Поэтому у New Year, Christmas 2 и Movie Day Quiz версия с плашками выходит раньше чистой.",
-   "Неигровой ролик (пятница, с 4.12) — не прохождение игры, а, например, оживший читшит. Выкладывается на всех площадках; в LinkedIn по желанию, как остальные ролики.",
+   "Неигровой ролик (пятница, первый — 27.11) — не прохождение игры, а, например, оживший читшит. Выкладывается на всех площадках; в LinkedIn по желанию, как остальные ролики. У такого ролика может быть свой призыв вместо общего — он уже в подписи.",
    "Мем · LinkedIn (суббота, с 5.12) — только в LinkedIn. Мем 1 (5.12) — Change my mind из коллекции, мемы 2 и 3 (12.12 и 19.12) делает Дмитрий.",
    "Ролики выходят на YouTube, Instagram, Facebook и в TikTok (Instagram: старый аккаунт отключён Meta 19.11, с 25.11 выкладываем с нового аккаунта @alex_playmar). LinkedIn — по желанию у всех роликов (с 19.11): выложили — нажмите «Выложено в LinkedIn», решили не выкладывать — «Решил не выкладывать» во вкладке LinkedIn. У роликов с плашками для LinkedIn готов полный текст поста.",
    "По понедельникам видео в LinkedIn не выкладываем никогда, даже с плашками: этот день в LinkedIn отдан экспертному посту.",
