@@ -410,6 +410,13 @@
    "file": "videos/BUYERS-ANIM.mp4?v=ed36f8a0",
    "poster": "posters/BUYERS-ANIM.jpg?v=ed36f8a0",
    "sec": 37.5
+  },
+  "RECAP-ANIM": {
+   "title": "Year-end recap: 6 mechanics · Неигровой ролик",
+   "type": "Неигровой ролик · оживший читшит поста 14.12: рекап в формате сторис, 6 механик с мини-демками, реальный пример и бизнес-эффект",
+   "file": "videos/RECAP-ANIM.mp4?v=f60434cf",
+   "poster": "posters/RECAP-ANIM.jpg?v=f60434cf",
+   "sec": 40.0
   }
  },
  "pauses": [],
@@ -1400,8 +1407,9 @@
   {
    "id": "2026-12-18-SLOT",
    "date": "2026-12-18",
-   "kind": "slot",
+   "kind": "reel",
    "format": "nongame",
+   "video": "RECAP-ANIM",
    "platforms": [
     "li",
     "yt",
@@ -1410,9 +1418,21 @@
     "tt",
     "tta"
    ],
+   "shortsTitle": "How to make your year-end recap creative, not boring",
+   "hook": "Your year-in-numbers recap is boring. Ours got opened 2x more than the year before.",
+   "body": "6 game mechanics that turn a page of numbers into something customers play to the end: guess your stats, title of the year, share card, thank someone, mystery reveal and January challenge. In a real recap for a global ride-hailing app, a quiz with mechanics 1 and 4 got twice the opens of last year's static page, and 35% finished it where people could thank a driver, vs 18% on average.",
+   "cta": "The full breakdown: Alex Andro's post on LinkedIn",
+   "tag": "#yearinreview",
+   "linkedin": {
+    "status": "ready",
+    "text": "Most year-end recaps are a page of numbers people scroll past. Here are 6 game mechanics that fix it, as a 40-second animation.\n\n1. Guess your stats: customers guess first, then see the real numbers.\n2. Title of the year: a personal title based on behavior.\n3. Share card: the whole year on one story-size screen.\n4. Thank someone: thank the driver, courier or store they used most.\n5. Mystery reveal: a scratch card with a January reward.\n6. January challenge: a goal for January with a progress bar.\n\nWe used 1 and 4 in a recap for a global ride-hailing app. Twice as many people opened it as last year's static page, and 35% finished it where they could thank a driver (18% on average).\n\nThe full cheat sheet is in my post from Monday."
+   },
    "notes": [
-    "24.11: по плану Кирилла и Дмитрия на 30.11–20.12: неигровой ролик, оживший читшит про Новый год. Выходит на всех площадках, в LinkedIn тоже.",
-    "Раньше: слот под игру с плашками (новая игра 7)."
+    "26.11: по просьбе Кирилла — неигровой ролик: оживший читшит экспертного поста пн 14.12 «How to make your year-end recap creative, not boring» в Стиле Playmar (Shorts 29, RECAP-ANIM, 40 с): рекап в формате сторис, 6 механик с мини-демками, реальный пример (бренд не называем, цифры только относительные), бизнес-эффект. Подписи — с его страницы превью. Идентификатор слота сохранён.",
+    "Цифры на экранах-демках (1,240 km, 48 rides и т.п.) — пример интерфейса, не данные кейса.",
+    "Свой призыв вместо общего: полный разбор — в посте Alex Andro в LinkedIn. Пост 14.12 выйдет, когда Кирилл в отпуске: ссылку на него можно дописать в призыв при публикации. LinkedIn — по желанию, текст поста готов.",
+    "Раньше: слот под игру с плашками (новая игра 7).",
+    "Раньше (24.11): неигровой ролик, оживший читшит про Новый год."
    ]
   },
   {
