@@ -403,6 +403,13 @@
    "file": "videos/DEC-ANIM.mp4?v=5093f1da",
    "poster": "posters/DEC-ANIM.jpg?v=5093f1da",
    "sec": 35.0
+  },
+  "BUYERS-ANIM": {
+   "title": "Black Friday vs Christmas buyer · Неигровой ролик",
+   "type": "Неигровой ролик · оживший читшит поста 7.12: экран выбора бойца, 6 различий и награды для каждого",
+   "file": "videos/BUYERS-ANIM.mp4?v=ed36f8a0",
+   "poster": "posters/BUYERS-ANIM.jpg?v=ed36f8a0",
+   "sec": 37.5
   }
  },
  "pauses": [],
@@ -1267,8 +1274,9 @@
   {
    "id": "2026-12-11-SLOT",
    "date": "2026-12-11",
-   "kind": "slot",
+   "kind": "reel",
    "format": "nongame",
+   "video": "BUYERS-ANIM",
    "platforms": [
     "li",
     "yt",
@@ -1277,9 +1285,20 @@
     "tt",
     "tta"
    ],
+   "shortsTitle": "Black Friday buyer vs Christmas buyer: same checkout, different reward",
+   "hook": "Black Friday buyers and Christmas buyers check out on the same page. They need different rewards.",
+   "body": "The Deal Hunter waited all year for the price and buys for themselves. The Gift Giver buys for several people and cares about on-time delivery and easy returns. Reward the hunter with a personal category discount, a short-deadline code for order #2 and points for full-price orders. Reward the giver with service perks, points valid until next December and gift-date reminders.",
+   "cta": "The full breakdown: Alex Andro's post on LinkedIn",
+   "tag": "#christmasshopping",
+   "linkedin": {
+    "status": "ready",
+    "text": "Black Friday buyers and Christmas buyers go through the same checkout. Here's why one reward doesn't fit both, as a 37-second animation.\n\nThe Deal Hunter waited all year for the price, buys for themselves and compares shops.\nThe Gift Giver buys for several people, needs the gift on time and pays closer to full price for the right one.\n\nReward the Deal Hunter: a personal category discount, a short-deadline code for order #2, points for a full-price order.\nReward the Gift Giver: service perks instead of a discount, points valid until next December, gift-date reminders.\n\nWhat to skip: the same 10% for everyone, and discounts on the gift's category.\n\nThe full cheat sheet is in my post from Monday."
+   },
    "notes": [
-    "24.11: по плану Кирилла и Дмитрия на 30.11–20.12: неигровой ролик, оживший читшит про Рождество. Выходит на всех площадках, в LinkedIn тоже.",
-    "Раньше: слот под чистую игру (новая игра 6)."
+    "26.11: по просьбе Кирилла — неигровой ролик: оживший читшит экспертного поста пн 7.12 «Black Friday buyer vs Christmas buyer» в Стиле Playmar (Shorts 28, BUYERS-ANIM, 37,5 с): экран выбора бойца, 6 различий, награды каждому, Skip. Подписи — с его страницы превью. Идентификатор слота сохранён.",
+    "Свой призыв вместо общего: полный разбор — в посте Alex Andro в LinkedIn. Пост 7.12 выйдет, когда Кирилл в отпуске: ссылку на него можно дописать в призыв при публикации. LinkedIn — по желанию, текст поста готов.",
+    "Раньше: слот под чистую игру (новая игра 6).",
+    "Раньше (24.11): неигровой ролик, оживший читшит про Рождество."
    ]
   },
   {
