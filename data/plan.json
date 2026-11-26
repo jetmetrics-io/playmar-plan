@@ -396,6 +396,13 @@
    "file": "videos/BF60-ANIM.mp4?v=6111e185",
    "poster": "posters/BF60-ANIM.jpg?v=6111e185",
    "sec": 35.0
+  },
+  "DEC-ANIM": {
+   "title": "December occasions · Неигровой ролик",
+   "type": "Неигровой ролик · оживший читшит поста #99: 14 инфоповодов × 7 механик, неделя за неделей",
+   "file": "videos/DEC-ANIM.mp4?v=5093f1da",
+   "poster": "posters/DEC-ANIM.jpg?v=5093f1da",
+   "sec": 35.0
   }
  },
  "pauses": [],
@@ -1124,8 +1131,9 @@
   {
    "id": "2026-12-04-SLOT",
    "date": "2026-12-04",
-   "kind": "slot",
+   "kind": "reel",
    "format": "nongame",
+   "video": "DEC-ANIM",
    "platforms": [
     "li",
     "yt",
@@ -1134,9 +1142,20 @@
     "tt",
     "tta"
    ],
+   "shortsTitle": "14 December occasions and the game that fits each one, week by week",
+   "hook": "December has 14 reasons to launch a game. Here's which game mechanic fits each one, week by week.",
+   "body": "Giving Tuesday: a quiz fits, a prize wheel doesn't. Shopping days like Green Monday: wheel of fortune, advent calendar, daily streaks, mystery box. Tea Day and Winter Solstice: the quiz. After Christmas, skip the advent calendar. Across the month, the mystery box is a perfect fit for 7 of the 14 occasions.",
+   "cta": "The full table with all 7 mechanics: Alex Andro's post on LinkedIn",
+   "tag": "#christmasmarketing",
+   "linkedin": {
+    "status": "ready",
+    "text": "December has 14 occasions a brand can build a game around. Here they are week by week, as a 35-second animation.\n\nWhat stands out:\n- Giving Tuesday: a quiz fits, a prize wheel doesn't.\n- Shopping days like Green Monday and Super Saturday: wheel of fortune, advent calendar, daily streaks, mystery box.\n- Tea Day and Winter Solstice: the quiz is a perfect fit.\n- After Christmas, skip the advent calendar.\n\nAcross the whole month, the mystery box is a perfect fit for 7 of the 14 occasions, the quiz for 6.\n\nThe full table with all 7 mechanics is in my post from Monday."
+   },
    "notes": [
-    "24.11: по плану Кирилла и Дмитрия на 30.11–20.12: неигровой ролик, не прохождение игры. Тему выберем. Выходит на всех площадках, в LinkedIn тоже.",
-    "Раньше: пустой слот под чистую игру (новая игра 5)."
+    "26.11: по просьбе Кирилла — неигровой ролик: оживший читшит поста #99 «Best gamification occasions for December 2026» (пн 30.11), пересобранный в Стиле Playmar (Shorts 27, DEC-ANIM, 35 с). Декабрь неделя за неделей, на каждую неделю один вывод; в конце Mystery Box — perfect fit для 7 из 14. Подписи — с его страницы превью. Идентификатор слота сохранён.",
+    "Свой призыв вместо общего: полная таблица — в посте Alex Andro в LinkedIn. Когда пост #99 выйдет (пн 30.11), ссылку на него можно дописать в призыв текстом. LinkedIn — по желанию, текст поста готов.",
+    "Раньше: пустой слот под чистую игру (новая игра 5).",
+    "Раньше (24.11): неигровой ролик, тема не выбрана."
    ]
   },
   {
