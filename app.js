@@ -108,7 +108,7 @@ function pState(it, pid) {
   return it.date < today ? 'late' : 'todo';
 }
 const finished = (it) => !isSlot(it) && (S.filter === 'all' ? it.platforms.every((p) => isDone(it, p)) : isDone(it, S.filter) || isSkipped(it, S.filter));
-function itemTitle(it) { const v = videoOf(it); return v ? v.title : it.video; }
+function itemTitle(it) { const v = videoOf(it); return v ? v.title : (it.title || it.video); }   /* мем без видео: своё название (item.title) */
 function gameLine(it) { const v = videoOf(it); return v ? `${S.plan.games[v.game] || ''} · ${v.type}` : ''; }
 function tagsFor(it, pid) {
   const n = S.plan.constants.tagCount[pid] || 0, base = S.plan.constants.baseTags;
@@ -181,10 +181,11 @@ function cardHTML(it) {
   if (it.condition) badges.push('<span class="badge condition">Выпуск с условием</span>');
   if (it.video) badges.push(v && v.file ? '<span class="badge ready">Видео готово</span>' : `<span class="badge notready">${v && v.awaitingFile ? 'Файл не добавлен' : 'Видео делаем'}</span>`);
   if (it.video) badges.push(`<span class="badge">${esc(it.video)}</span>`);
+  if (it.memeReady) badges.push('<span class="badge ready">Мем готов</span>');   /* plan.json → memeReady: мем сделал Кирилл, картинка и текст у него (26.11) */
   if (it.copyStatus === 'draft') badges.push('<span class="badge notready">Подписи — черновик</span>');
   if (it.expertPost) badges.push(`<span class="badge ${it.expertPost.linkedin ? 'ready' : 'notready'}">LinkedIn · ${it.expertPost.linkedin ? 'пост вышел' : 'экспертный пост'}</span>`);
   if (liWriting(it)) badges.push(`<span class="badge notready">${it.linkedin?.status === 'draft' ? 'LinkedIn — черновик' : 'Текст LinkedIn пишем'}</span>`);
-  const hook = it.hook ? `<p class="hook">“${esc(it.shortsTitle && S.filter === 'yt' ? it.shortsTitle : it.hook)}”</p>` : '<p class="hook none">Подпись появится вместе с роликом</p>';
+  const hook = it.hook ? `<p class="hook">“${esc(it.shortsTitle && S.filter === 'yt' ? it.shortsTitle : it.hook)}”</p>` : it.memeReady ? '<p class="hook none">Картинка и текст поста у Кирилла</p>' : '<p class="hook none">Подпись появится вместе с роликом</p>';
   return `<article class="card${cls}" data-id="${esc(it.id)}" tabindex="0">
     <div class="when"><b>${fmtDate(it.date)}</b><span class="t">${esc(S.plan.time)} Лондон</span>${loc ? `<span class="loc">${esc(loc)}</span>` : ''}</div>
     <div class="what"><div class="badges">${badges.join('')}</div><p class="title">${esc(itemTitle(it))}</p><p class="game">${esc(gameLine(it))}</p>${it.expertPost ? `<p class="game">LinkedIn: ${esc(it.expertPost.title)}</p>` : ''}${hook}</div>
@@ -925,7 +926,8 @@ function renderSheet() {
           <button class="btn small" id="pv"><i data-lucide="play"></i>Посмотреть</button>
           <span class="muted" style="font-size:13px">${esc(it.video)} · MP4 9:16 · звук в файле</span></div></div></div>`
       : `<div class="blk"><h4>Видео</h4><div class="note warn">${v && v.awaitingFile ? 'Файл ролика пока не добавлен в план. Перед публикацией получите оригинал команды и сверьте подписи с ним.' : 'Ролик ещё делаем. Он появится здесь, когда будет готов. Нет его в свой день — пропустите слот и напишите Дмитрию.'}</div></div>`);
-  } else parts.push('<div class="blk"><h4>Картинка</h4><div class="note warn">Картинка придёт вместе с текстом.</div></div>');
+  } else parts.push(it.memeReady ? '<div class="blk"><h4>Картинка</h4><div class="note">Мем готов: Кирилл сделал его сам. Картинка и текст поста у него.</div></div>'
+    : '<div class="blk"><h4>Картинка</h4><div class="note warn">Картинка придёт вместе с текстом.</div></div>');
   if (isOpt(it, pid) && !(st && (st.done || st.skip))) parts.push(`<div class="blk"><div class="note">${esc(p.name)} для этого ролика — по желанию. Выложили — отметьте ниже.${pid === 'li' ? ' Решили не выкладывать — тоже отметьте: кнопка «Решил не выкладывать».' : ''}</div></div>`);
   const F = fields(it, pid);
   if (F) {
@@ -940,6 +942,7 @@ function renderSheet() {
     });
   } else {
     const why = it.reportedPublished ? 'Ролик вышел; фактическая подпись для этой площадки пока не предоставлена.'
+      : it.memeReady ? 'Текст поста вместе с картинкой у Кирилла.'
       : pid === 'li' ? 'Текст для LinkedIn пишем. Он появится здесь.' : 'Подпись появится здесь вместе с роликом.';
     parts.push(`<div class="blk"><h4>${pid === 'li' ? 'Текст поста' : 'Подпись'}</h4><div class="note warn">${why}</div></div>`);
   }

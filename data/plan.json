@@ -1175,13 +1175,16 @@
   {
    "id": "2026-12-05-MEME",
    "date": "2026-12-05",
-   "kind": "slot",
+   "kind": "reel",
    "format": "meme",
+   "title": "Мем 1 для LinkedIn",
+   "memeReady": true,
    "platforms": [
     "li"
    ],
    "notes": [
-    "24.11: по плану Кирилла и Дмитрия на 30.11–20.12: мем 1 в LinkedIn, Change my mind из коллекции."
+    "26.11: мем готов, Кирилл сделал его сам. Картинка и текст поста у него.",
+    "Раньше (24.11): по плану Кирилла и Дмитрия на 30.11–20.12: мем 1 в LinkedIn, Change my mind из коллекции."
    ]
   },
   {
@@ -1204,7 +1207,7 @@
     "Раньше: слот под игру с плашками на тему января и Нового года."
    ],
    "expertPost": {
-    "title": "Black Friday buyer vs Christmas buyer: one retention plan won't fit both"
+    "title": "Black Friday buyer vs Christmas buyer: same checkout, different reward"
    }
   },
   {
@@ -1311,13 +1314,16 @@
   {
    "id": "2026-12-12-MEME",
    "date": "2026-12-12",
-   "kind": "slot",
+   "kind": "reel",
    "format": "meme",
+   "title": "Мем 2 для LinkedIn",
+   "memeReady": true,
    "platforms": [
     "li"
    ],
    "notes": [
-    "24.11: по плану Кирилла и Дмитрия на 30.11–20.12: мем 2 в LinkedIn, делает Дмитрий."
+    "26.11: мем готов, Кирилл сделал его сам. Картинка и текст поста у него.",
+    "Раньше (24.11): по плану Кирилла и Дмитрия на 30.11–20.12: мем 2 в LinkedIn, делает Дмитрий."
    ]
   },
   {
@@ -1340,7 +1346,7 @@
     "Раньше: слот под игру с плашками к 14 февраля."
    ],
    "expertPost": {
-    "title": "«Year in review» или «January challenge»: что отправить клиентам на Новый год"
+    "title": "How to make your year-end recap creative, not boring"
    }
   },
   {
@@ -1438,13 +1444,16 @@
   {
    "id": "2026-12-19-MEME",
    "date": "2026-12-19",
-   "kind": "slot",
+   "kind": "reel",
    "format": "meme",
+   "title": "Мем 3 для LinkedIn",
+   "memeReady": true,
    "platforms": [
     "li"
    ],
    "notes": [
-    "24.11: по плану Кирилла и Дмитрия на 30.11–20.12: мем 3 в LinkedIn, делает Дмитрий."
+    "26.11: мем готов, Кирилл сделал его сам. Картинка и текст поста у него.",
+    "Раньше (24.11): по плану Кирилла и Дмитрия на 30.11–20.12: мем 3 в LinkedIn, делает Дмитрий."
    ]
   },
   {
