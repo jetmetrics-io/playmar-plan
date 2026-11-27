@@ -323,7 +323,10 @@
   "TG-PURE": {
    "title": "Thanksgiving · Чистая игра",
    "game": "TG",
-   "type": "Чистая игра · игру делаем"
+   "type": "Чистая игра · игру делаем",
+   "file": "videos/TG-PURE.mp4?v=b59152f0",
+   "poster": "posters/TG-PURE.jpg?v=b59152f0",
+   "sec": 17.72
   },
   "TG-PLATES": {
    "title": "Thanksgiving · С плашками",
@@ -1068,14 +1071,18 @@
     "tta"
    ],
    "notes": [
+    "27.11: по просьбе Кирилла — чистое прохождение Pack the Thanksgiving Table (Shorts 30, TG-PURE, 17,7 с): старт по личной ссылке «Welcome back» → 7 блюд, два поворота касанием, стол 27/27 → Serve dinner → «A perfect spread!», THANKS-TOP → Copy. Подписи — с его страницы превью.",
     "27.11: по решению Кирилла перенесён со ср 2.12 на пн 30.11: Thanksgiving ставим сразу после праздника (26.11). С плашками эта игра выйдет чт 3.12, это единственный повтор игры за неделю. id карточки прежний.",
     "Понедельник: в LinkedIn экспертный пост «Инфоповоды для игр в декабре», его делает Кирилл. Ролик туда не ставим.",
-    "Игра готова: Pack the Thanksgiving Table. Ролик записываем; файл и подписи добавим, когда он будет готов.",
     "Раньше (24.11): ср 2.12, с плашками вт 8.12."
    ],
    "expertPost": {
     "title": "Инфоповоды для игр в декабре"
-   }
+   },
+   "shortsTitle": "Pack the Thanksgiving table: fill all 27 cells in 60 seconds and win free express shipping",
+   "hook": "A Thanksgiving puzzle for lapsed customers: drag the dishes onto the table before the guests arrive.",
+   "body": "Tap a dish to turn it. 20 filled cells unlock free shipping, 25 unlock free express shipping, and everyone else still gets free shipping on the next order. The code works for 72 hours, and the personal link from the email opens the game with “Welcome back”.",
+   "tag": "#thanksgiving"
   },
   {
    "id": "2026-12-03-SLOT",
