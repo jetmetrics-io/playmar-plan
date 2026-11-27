@@ -341,7 +341,10 @@
   "XM2-PLATES": {
    "title": "Christmas 2 · С плашками",
    "game": "XM2",
-   "type": "С плашками · игру делаем, сюжет выберем"
+   "type": "С плашками · игру делаем, сюжет выберем",
+   "file": "videos/XM2-PLATES.mp4?v=8ef54c79",
+   "poster": "posters/XM2-PLATES.jpg?v=8ef54c79",
+   "sec": 25.0
   },
   "NY-PURE": {
    "title": "New Year · Чистая игра",
@@ -1099,11 +1102,20 @@
     "tta"
    ],
    "notes": [
+    "27.11: по просьбе Кирилла — Catch the Christmas Gifts с плашками (Shorts 31, XM2-PLATES, 25 с), сюжет «Порог поднимает чек» (выбран Кириллом): корзина 63 → игра из корзины нарезкой → 20% от 70 и добавка Gingerbread Syrup → корзина 71, код −20%. Подписи и пост LinkedIn — с его страницы превью.",
+    "Правда о продукте: игра не видит сумму корзины и всем предлагает одну добавку, поэтому корзина близко к порогу; рост корзины +13% (демо), после скидки к оплате 56,80 — в посте так и сказано.",
     "27.11: по решению Кирилла перенесён с чт 3.12 на вт 1.12: Рождество открывает декабрь, а чистая игра выйдет ближе к празднику, пн 14.12. Идентификатор слота сохранён.",
-    "Игра готова: Catch the Christmas Gifts (Christmas 2). Ролик записываем.",
     "Раньше: пустой слот под игру с плашками (новая игра 4).",
     "Раньше (24.11): чт 3.12."
-   ]
+   ],
+   "shortsTitle": "Catch the gifts, win 20% off, but only from 70: a Christmas game that lifts the order",
+   "hook": "A catch game inside the cart: a higher score means a bigger discount and a higher minimum order.",
+   "body": "The result shows the minimum next to the code and suggests one add-on to reach it. In this demo the cart went from 63 to 71 with the add-on, and the 20% code applied at checkout.",
+   "tag": "#christmasmarketing",
+   "linkedin": {
+    "status": "ready",
+    "text": "A 20% Christmas code doesn't have to shrink the order.\n\nImagine a made-up coffee shop. Inside its cart there is a short catch game: gifts fall from the sleigh, and you slide a stocking to catch them.\n\nHow the reward is tied to the basket:\n\n1. The score decides the discount: 20%, 15% or 10%. Every player wins something.\n2. Every discount comes with a minimum order. 20% starts at 70.\n3. Next to the code, the result shows that minimum and offers one small add-on to reach it.\n4. The add-on goes into the cart, and checkout takes the code.\n\nIn this demo the cart went from 63 to 71. With 20% off, the final total was 56.80.\n\nThat is less than 63, so be clear about what the minimum does. It doesn't make a discount free. It makes it cheaper: a flat 20% on the same 63 would leave you 50.40.\n\nThe catch: the game doesn't see the cart, so everyone gets the same add-on suggestion. And in our simulation about one player in five reaches 20%, so do the margin math first.\n\nYou can build your own with AI, free. The almanac is in my Featured section.\n\nDo your Christmas codes come with a minimum order?"
+   }
   },
   {
    "id": "2026-11-24-MM-PURE",
