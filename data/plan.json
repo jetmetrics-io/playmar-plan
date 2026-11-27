@@ -362,7 +362,10 @@
   "TEA-PURE": {
    "title": "Tea Day · Чистая игра",
    "game": "TEA",
-   "type": "Чистая игра · игру делаем"
+   "type": "Чистая игра · игру делаем",
+   "file": "videos/TEA-PURE.mp4?v=f571ef66",
+   "poster": "posters/TEA-PURE.jpg?v=f571ef66",
+   "sec": 18.5
   },
   "TEA-PLATES": {
    "title": "Tea Day · С плашками",
@@ -1234,14 +1237,16 @@
     "tta"
    ],
    "notes": [
-    "24.11: по плану Кирилла и Дмитрия на 30.11–20.12 здесь Tea Day, чистая игра к Международному дню чая (15.12). Игру делаем. Идентификатор слота сохранён.",
-    "С плашками эта игра выйдет вт 15.12, в сам День чая.",
-    "Понедельник: в LinkedIn экспертный пост Алекса (в работе), ролик туда не ставим.",
+    "27.11: по просьбе Кирилла — чистое прохождение Teacup Tower (Shorts 33, TEA-PURE, 18,5 с): старт → бот игры складывает башню → стол 1 → последний отрезок → All served, 14 предметов → «Head Waiter», TEA-TOP → Copy. Две склейки (партия 47 с). Подписи — с его страницы превью.",
     "Раньше: слот под игру с плашками на тему января и Нового года."
    ],
    "expertPost": {
     "title": "Black Friday buyer vs Christmas buyer: same checkout, different reward"
-   }
+   },
+   "shortsTitle": "Teacup Tower: stack 14 pieces and serve three tables to win 20% off on Tea Day",
+   "hook": "An International Tea Day game: tap to add a cup, drag to keep the tower straight while the waiter walks to three tables.",
+   "body": "Every table you reach keeps your height, so a fall never loses what is already banked. Twelve pieces unlock 20% off from 70, eight unlock 15% from 50, and every round earns 10% from 35, with a small add-on suggested to reach the minimum.",
+   "tag": "#internationalteaday"
   },
   {
    "id": "2026-11-26-MM-PLATES",
