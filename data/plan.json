@@ -1055,8 +1055,52 @@
    ]
   },
   {
-   "id": "2026-11-24-MM-PURE",
+   "id": "2026-12-02-TG-PURE",
    "date": "2026-11-30",
+   "kind": "reel",
+   "format": "pure",
+   "video": "TG-PURE",
+   "platforms": [
+    "yt",
+    "ig",
+    "fb",
+    "tt",
+    "tta"
+   ],
+   "notes": [
+    "27.11: по решению Кирилла перенесён со ср 2.12 на пн 30.11: Thanksgiving ставим сразу после праздника (26.11). С плашками эта игра выйдет чт 3.12, это единственный повтор игры за неделю. id карточки прежний.",
+    "Понедельник: в LinkedIn экспертный пост «Инфоповоды для игр в декабре», его делает Кирилл. Ролик туда не ставим.",
+    "Игра готова: Pack the Thanksgiving Table. Ролик записываем; файл и подписи добавим, когда он будет готов.",
+    "Раньше (24.11): ср 2.12, с плашками вт 8.12."
+   ],
+   "expertPost": {
+    "title": "Инфоповоды для игр в декабре"
+   }
+  },
+  {
+   "id": "2026-12-03-SLOT",
+   "date": "2026-12-01",
+   "kind": "reel",
+   "format": "plates",
+   "video": "XM2-PLATES",
+   "platforms": [
+    "li",
+    "yt",
+    "ig",
+    "fb",
+    "tt",
+    "tta"
+   ],
+   "notes": [
+    "27.11: по решению Кирилла перенесён с чт 3.12 на вт 1.12: Рождество открывает декабрь, а чистая игра выйдет ближе к празднику, пн 14.12. Идентификатор слота сохранён.",
+    "Игра готова: Catch the Christmas Gifts (Christmas 2). Ролик записываем.",
+    "Раньше: пустой слот под игру с плашками (новая игра 4).",
+    "Раньше (24.11): чт 3.12."
+   ]
+  },
+  {
+   "id": "2026-11-24-MM-PURE",
+   "date": "2026-12-02",
    "kind": "reel",
    "format": "pure",
    "video": "MM-PURE",
@@ -1073,61 +1117,19 @@
    "tag": "#christmasmarket",
    "notes": [
     "18.11: по просьбе Кирилла — чистое прохождение Collect the Market Mugs (Shorts 22, MM-PURE, 18,4 с): «Welcome back» по личной ссылке → набор 5 из 6 → двойник, +50 баллов, 15 % → Unwrap another → сверхредкий Щелкунчик → полный набор, 20 %. Подписи — с его страницы превью.",
-    "С плашками эта игра выйдет чт 26.11.",
-    "24.11: по просьбе Кирилла перенесён со вт 24.11 на пн 30.11: его место на неделе Чёрной пятницы заняла The Black Friday Box. Понедельник: в LinkedIn экспертный пост Алекса, этот ролик туда не ставим. С плашками эта игра выйдет ср 02.12. id карточки прежний.",
-    "24.11: по плану Кирилла и Дмитрия на 30.11–20.12 остаётся здесь. В LinkedIn в этот день экспертный пост «Инфоповоды для игр в декабре», его делает Кирилл. С плашками эта игра выйдет чт 10.12: на одной неделе игры не повторяются."
-   ],
-   "expertPost": {
-    "title": "Инфоповоды для игр в декабре"
-   }
-  },
-  {
-   "id": "2026-12-01-SLOT",
-   "date": "2026-12-01",
-   "kind": "reel",
-   "format": "plates",
-   "video": "NY-PLATES",
-   "platforms": [
-    "li",
-    "yt",
-    "ig",
-    "fb",
-    "tt",
-    "tta"
-   ],
-   "notes": [
-    "24.11: по плану Кирилла и Дмитрия на 30.11–20.12 здесь New Year с плашками: игра про Новый год. Игру делаем; файл и подписи добавим, когда ролик будет готов. Идентификатор слота сохранён.",
-    "Чистая игра этой игры выйдет ср 16.12, позже версии с плашками: на одной неделе игры не повторяются.",
-    "Раньше: пустой слот под чистую игру на тему января и Нового года."
-   ]
-  },
-  {
-   "id": "2026-12-02-TG-PURE",
-   "date": "2026-12-02",
-   "kind": "reel",
-   "format": "pure",
-   "video": "TG-PURE",
-   "platforms": [
-    "yt",
-    "ig",
-    "fb",
-    "tt",
-    "tta"
+    "27.11: по решению Кирилла перенесён с пн 30.11 на ср 2.12: в понедельник встал Thanksgiving, он актуален сразу после праздника. С плашками эта игра выйдет вт 8.12. id карточки прежний.",
+    "Раньше: вт 24.11 → пн 30.11 (24.11, неделя Чёрной пятницы), с плашками чт 10.12."
    ],
    "optional": [
     "li"
-   ],
-   "notes": [
-    "24.11: по плану Кирилла и Дмитрия на 30.11–20.12: Thanksgiving, чистая игра ко Дню Благодарения (сам праздник был 26.11). Игру делаем.",
-    "С плашками эта игра выйдет вт 8.12."
    ]
   },
   {
-   "id": "2026-12-03-SLOT",
+   "id": "2026-12-08-SLOT",
    "date": "2026-12-03",
    "kind": "reel",
    "format": "plates",
-   "video": "XM2-PLATES",
+   "video": "TG-PLATES",
    "platforms": [
     "li",
     "yt",
@@ -1137,9 +1139,10 @@
     "tta"
    ],
    "notes": [
-    "24.11: по плану Кирилла и Дмитрия на 30.11–20.12 здесь Christmas 2 с плашками: вторая рождественская игра, механика сложнее, чем у скретч-карты. Игру делаем. Идентификатор слота сохранён.",
-    "Чистая игра этой игры выйдет пн 14.12, позже версии с плашками: на одной неделе игры не повторяются.",
-    "Раньше: пустой слот под игру с плашками (новая игра 4)."
+    "27.11: по решению Кирилла перенесён со вт 8.12 на чт 3.12: Thanksgiving ставим сразу после праздника. Чистая игра этой игры выйдет пн 30.11. Идентификатор слота сохранён.",
+    "Игра готова: Pack the Thanksgiving Table. Ролик записываем.",
+    "Раньше: слот под чистую игру к 14 февраля.",
+    "Раньше (24.11): вт 8.12."
    ]
   },
   {
@@ -1211,11 +1214,11 @@
    }
   },
   {
-   "id": "2026-12-08-SLOT",
+   "id": "2026-11-26-MM-PLATES",
    "date": "2026-12-08",
    "kind": "reel",
    "format": "plates",
-   "video": "TG-PLATES",
+   "video": "MM-PLATES",
    "platforms": [
     "li",
     "yt",
@@ -1224,10 +1227,18 @@
     "tt",
     "tta"
    ],
+   "shortsTitle": "A personal link, a Christmas mug and a 72-hour code: a win-back game for customers who went quiet",
+   "hook": "Lapsed customers get a personal link: the game says welcome back, unwraps a market mug and hands over a code.",
+   "body": "The code lasts 72 hours and is already applied when they open the shop. Collecting all six mugs on later visits takes it to 20%.",
+   "tag": "#winback",
+   "linkedin": {
+    "status": "ready",
+    "text": "Win-back emails usually say the same thing: we miss you, here is 10% off. Most people delete them without opening.\n\nThis one sends a game instead. Picture a fictional shop with a Christmas market mug collection.\n\nHow it works:\n\n1. The email carries a personal link. When the customer opens it, the game says \"Welcome back\" instead of a generic hello.\n2. They unwrap a parcel at a market stall and get one of six collectible mugs. The first mug already gives 10% off.\n3. That code lasts 72 hours, with a live countdown on the screen.\n4. \"Use it now\" opens the shop with the code already applied, so there is nothing to copy or forget.\n5. Each later visit unwraps another mug: three different mugs give 15%, the full set 20%.\n\nWhat a plain discount email lacks: the customer does something before they get the code, and the short deadline turns \"someday\" into \"this week\".\n\nThe catch: this is a draft. The personal token isn't checked, every code is a placeholder, and a real launch needs your shop to issue single-use codes. Also, 15% for three mugs turned out too easy in our simulation: almost 9 in 10 players got there.\n\nYou can build your own with AI, free. The almanac is in my Featured section.\n\nWhat do your win-back emails offer right now: a discount, or something to do?"
+   },
    "notes": [
-    "24.11: по плану Кирилла и Дмитрия на 30.11–20.12 здесь Thanksgiving с плашками. Игру делаем. Идентификатор слота сохранён.",
-    "Чистая игра этой игры выйдет ср 2.12.",
-    "Раньше: слот под чистую игру к 14 февраля."
+    "18.11: по просьбе Кирилла — Collect the Market Mugs с плашками (Shorts 23, MM-PLATES, 25 с), сюжет «Возвращение по личной ссылке»: письмо «Anna, your market mug is waiting» → игра «Welcome back» → кружка → 10 %, код на 72 часа → Use it now → корзина, где код уже применён. Подписи и пост LinkedIn — с его страницы превью.",
+    "27.11: по решению Кирилла перенесён с чт 10.12 на вт 8.12. Чистая игра этой игры выходит ср 2.12. id карточки прежний.",
+    "Раньше: чт 26.11 → ср 2.12 → чт 10.12 (24.11)."
    ]
   },
   {
@@ -1253,11 +1264,11 @@
    ]
   },
   {
-   "id": "2026-11-26-MM-PLATES",
+   "id": "2026-12-01-SLOT",
    "date": "2026-12-10",
    "kind": "reel",
    "format": "plates",
-   "video": "MM-PLATES",
+   "video": "NY-PLATES",
    "platforms": [
     "li",
     "yt",
@@ -1266,19 +1277,11 @@
     "tt",
     "tta"
    ],
-   "shortsTitle": "A personal link, a Christmas mug and a 72-hour code: a win-back game for customers who went quiet",
-   "hook": "Lapsed customers get a personal link: the game says welcome back, unwraps a market mug and hands over a code.",
-   "body": "The code lasts 72 hours and is already applied when they open the shop. Collecting all six mugs on later visits takes it to 20%.",
-   "tag": "#winback",
-   "linkedin": {
-    "status": "ready",
-    "text": "Win-back emails usually say the same thing: we miss you, here is 10% off. Most people delete them without opening.\n\nThis one sends a game instead. Picture a fictional shop with a Christmas market mug collection.\n\nHow it works:\n\n1. The email carries a personal link. When the customer opens it, the game says \"Welcome back\" instead of a generic hello.\n2. They unwrap a parcel at a market stall and get one of six collectible mugs. The first mug already gives 10% off.\n3. That code lasts 72 hours, with a live countdown on the screen.\n4. \"Use it now\" opens the shop with the code already applied, so there is nothing to copy or forget.\n5. Each later visit unwraps another mug: three different mugs give 15%, the full set 20%.\n\nWhat a plain discount email lacks: the customer does something before they get the code, and the short deadline turns \"someday\" into \"this week\".\n\nThe catch: this is a draft. The personal token isn't checked, every code is a placeholder, and a real launch needs your shop to issue single-use codes. Also, 15% for three mugs turned out too easy in our simulation: almost 9 in 10 players got there.\n\nYou can build your own with AI, free. The almanac is in my Featured section.\n\nWhat do your win-back emails offer right now: a discount, or something to do?"
-   },
    "notes": [
-    "18.11: по просьбе Кирилла — Collect the Market Mugs с плашками (Shorts 23, MM-PLATES, 25 с), сюжет «Возвращение по личной ссылке»: письмо «Anna, your market mug is waiting» → игра «Welcome back» → кружка → 10 %, код на 72 часа → Use it now → корзина, где код уже применён. Подписи и пост LinkedIn — с его страницы превью.",
-    "Чистая игра этой игры вышла вт 24.11.",
-    "24.11: по просьбе Кирилла перенесён с чт 26.11 на ср 02.12. Чистая игра этой игры выходит пн 30.11. id карточки прежний.",
-    "24.11: по плану Кирилла и Дмитрия на 30.11–20.12 перенесён со ср 02.12 на чт 10.12: на одной неделе игры не повторяются. Чистая игра этой игры выходит пн 30.11. id карточки прежний."
+    "27.11: по решению Кирилла перенесён со вт 1.12 на чт 10.12: новогоднюю игру ставим ближе к Новому году. Чистая игра этой игры выйдет ср 16.12. Идентификатор слота сохранён.",
+    "Игра готова: Light Up Midnight (v2 от 27.11). Ролик записываем.",
+    "Раньше: пустой слот под чистую игру на тему января и Нового года.",
+    "Раньше (24.11): вт 1.12."
    ]
   },
   {
@@ -1341,7 +1344,7 @@
    ],
    "notes": [
     "24.11: по плану Кирилла и Дмитрия на 30.11–20.12 здесь Christmas 2, чистая игра. Игру делаем. Идентификатор слота сохранён.",
-    "Версия с плашками выходит раньше, чт 3.12: на одной неделе игры не повторяются.",
+    "Версия с плашками выходит раньше, вт 1.12 (раскладка от 27.11).",
     "Понедельник: в LinkedIn экспертный пост Алекса, ролик туда не ставим.",
     "Раньше: слот под игру с плашками к 14 февраля."
    ],
@@ -1387,7 +1390,7 @@
    ],
    "notes": [
     "24.11: по плану Кирилла и Дмитрия на 30.11–20.12: New Year, чистая игра. Игру делаем.",
-    "Версия с плашками выходит раньше, вт 1.12: на одной неделе игры не повторяются."
+    "Версия с плашками выходит раньше, чт 10.12 (раскладка от 27.11)."
    ]
   },
   {
