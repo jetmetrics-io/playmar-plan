@@ -331,7 +331,10 @@
   "TG-PLATES": {
    "title": "Thanksgiving · С плашками",
    "game": "TG",
-   "type": "С плашками · игру делаем, сюжет выберем"
+   "type": "С плашками · игру делаем, сюжет выберем",
+   "file": "videos/TG-PLATES.mp4?v=fdea81f6",
+   "poster": "posters/TG-PLATES.jpg?v=fdea81f6",
+   "sec": 25.0
   },
   "XM2-PURE": {
    "title": "Christmas 2 · Чистая игра",
@@ -1158,11 +1161,19 @@
     "tta"
    ],
    "notes": [
+    "27.11: по просьбе Кирилла — Pack the Thanksgiving Table с плашками (Shorts 32, TG-PLATES, 25 с), сюжет «Письмо: доставка вместо скидки» (выбран Кириллом): письмо FRAPPE с личной ссылкой → «Welcome back» → стол 27/27 → Free express shipping → Use it now → корзина, доставка Free. Подписи и пост LinkedIn (по желанию) — с его страницы превью.",
     "27.11: по решению Кирилла перенесён со вт 8.12 на чт 3.12: Thanksgiving ставим сразу после праздника. Чистая игра этой игры выйдет пн 30.11. Идентификатор слота сохранён.",
-    "Игра готова: Pack the Thanksgiving Table. Ролик записываем.",
     "Раньше: слот под чистую игру к 14 февраля.",
     "Раньше (24.11): вт 8.12."
-   ]
+   ],
+   "shortsTitle": "Free shipping, not a price cut: a Thanksgiving table game that wins customers back",
+   "hook": "A Thanksgiving puzzle opens from a personal email link with Welcome back, and the reward is delivery rather than a lower price.",
+   "body": "Twenty-five filled cells mean free express delivery, twenty mean free standard delivery, and a weaker score still earns free delivery next time. One tap leads to a cart where delivery already costs nothing, valid for three days.",
+   "tag": "#winback",
+   "linkedin": {
+    "status": "ready",
+    "text": "Most win-back offers cut the price. This one pays for the delivery instead.\n\nA coffee brand we made up writes to people who haven't ordered in a while. Instead of 15% off, the email invites them to set a Thanksgiving table.\n\nWhat happens next:\n\n1. The email link is tied to one customer, so the game greets them: \"Welcome back\".\n2. Sixty seconds to fit the dishes on the table.\n3. Delivery is the prize: 25 cells mean free express delivery, 20 mean free standard delivery, and any lower score still earns free delivery next time.\n4. The reward stays valid for three days. One tap opens a cart where delivery already costs nothing.\n\nWhy delivery and not a discount: product prices don't move, and you know what each order costs you before the email goes out.\n\nFair warning: it's a demo. Nobody checks the link yet, the codes are just stand-ins, and free express delivery on a light order can cost more than a small discount. Check your shipping rates before you send it.\n\nYou can build your own with AI, free. The almanac is in my Featured section.\n\nSo what do you send to people who stopped ordering?"
+   }
   },
   {
    "id": "2026-12-04-SLOT",
